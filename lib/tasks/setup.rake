@@ -109,8 +109,9 @@ namespace :setup do
 			puts url
 	  		element = doc.css(".game-date-time").first
 	  		game_date = element.children[1]['data-date']
+	  		game_state = 4
 
-	  		game.update(away_team: away_team, home_team: home_team, game_type: game_type, home_abbr: home_abbr, away_abbr: away_abbr, game_date: game_date)
+	  		game.update(away_team: away_team, home_team: home_team, game_type: game_type, home_abbr: home_abbr, away_abbr: away_abbr, game_date: game_date, game_state: game_state)
 	  	end
 	end
 
