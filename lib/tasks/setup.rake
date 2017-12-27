@@ -1898,7 +1898,7 @@ namespace :setup do
 	  		home_total_point = element[11].text.to_i
 
 	  		element = doc.css('.caption-wrapper').first
-	  		puts element
+	  		puts element.inspect
 
 			export.update(
 				away_first_point: away_first_point,
