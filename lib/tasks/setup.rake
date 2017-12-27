@@ -1826,7 +1826,7 @@ namespace :setup do
 			end
 			export.update(home_team: game.home_team,
 				away_team: game.away_team,
-				game_id: game.game_type,
+				game_id: game.game_id,
 				game_date: game.game_date,
 				home_abbr: game.home_abbr,
 				away_abbr: game.away_abbr,
@@ -1872,6 +1872,51 @@ namespace :setup do
 					home_total_play: score.home_total_play,
 					home_play_yard: score.home_play_yard)
 			end
+		end
+	end
+
+	task :exportScore => :environment do
+		include Api
+		exports = Export.all
+		exports.each do |export|
+			url = "http://www.espn.com/nfl/game?gameId=#{export.game_id}"
+			if export.game_type == 'CFB'
+				url = "http://www.espn.com/college-football/game?gameId=#{export.game_id}"
+			end
+	  		doc = download_document(url)
+	  		element = doc.css('#linescore td')
+	  		away_first_point = element[1].text.to_i
+	  		away_second_point = element[2].text.to_i
+	  		away_third_point = element[3].text.to_i
+	  		away_forth_point = element[4].text.to_i
+	  		away_total_point = element[5].text.to_i
+
+	  		home_first_point = element[7].text.to_i
+	  		home_second_point = element[8].text.to_i
+	  		home_third_point = element[9].text.to_i
+	  		home_forth_point = element[10].text.to_i
+	  		home_total_point = element[11].text.to_i
+
+	  		element = doc.css('.caption-wrapper').first
+
+			export.update(
+				away_first_point: away_first_point,
+				away_second_point: away_second_point,
+				away_first_half_point: away_first_point + away_second_point,
+				away_third_point: away_third_point,
+				away_forth_point: away_forth_point,
+				away_second_half_point: away_third_point + away_forth_point,
+				away_total_point: away_total_point,
+
+				home_first_point: home_first_point,
+				home_second_point: home_second_point,
+				home_first_half_point: home_first_point + home_second_point,
+				home_third_point: home_third_point,
+				home_forth_point: home_forth_point,
+				home_second_half_point: home_third_point + home_forth_point,
+				home_total_point: home_total_point,
+
+				stadium: element.text)
 		end
 	end
 	@nicknames = {
