@@ -1900,27 +1900,8 @@ namespace :setup do
 	  		element = doc.css('.caption-wrapper').first
 	  		stadium = element.text
 	  		lastindex = stadium.rindex('\n')
-	  		firstindex = stadium[0..lastindex].rindex('\t')
-	  		puts stadium[firstindex+2..lastindex-1]
-
-			export.update(
-				away_first_point: away_first_point,
-				away_second_point: away_second_point,
-				away_first_half_point: away_first_point + away_second_point,
-				away_third_point: away_third_point,
-				away_forth_point: away_forth_point,
-				away_second_half_point: away_third_point + away_forth_point,
-				away_total_point: away_total_point,
-
-				home_first_point: home_first_point,
-				home_second_point: home_second_point,
-				home_first_half_point: home_first_point + home_second_point,
-				home_third_point: home_third_point,
-				home_forth_point: home_forth_point,
-				home_second_half_point: home_third_point + home_forth_point,
-				home_total_point: home_total_point,
-
-				stadium: element.text)
+	  		puts lastindex
+	  		
 		end
 	end
 	@nicknames = {
