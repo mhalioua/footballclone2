@@ -1877,7 +1877,7 @@ namespace :setup do
 
 	task :exportScore => :environment do
 		include Api
-		exports = Export.all
+		exports = Export.where('stadium is null')
 		exports.each do |export|
 			url = "http://www.espn.com/nfl/game?gameId=#{export.game_id}"
 			if export.game_type == 'CFB'
