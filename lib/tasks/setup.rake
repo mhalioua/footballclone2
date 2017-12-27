@@ -1900,7 +1900,7 @@ namespace :setup do
 
 	  		element = doc.css('.caption-wrapper').first
 	  		stadium = ''
-	  		if element.text
+	  		if element
 	  			stadium = element.text.squish
 	  		end
 
