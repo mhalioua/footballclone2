@@ -1877,7 +1877,7 @@ namespace :setup do
 
 	task :exportScore => :environment do
 		include Api
-		exports = Export.where('stadium is null')
+		exports = Export.where("stadium = ''")
 		exports.each do |export|
 			url = "http://www.espn.com/nfl/game?gameId=#{export.game_id}"
 			if export.game_type == 'CFB'
@@ -1897,7 +1897,11 @@ namespace :setup do
 	  		home_forth_point = element[10].text.to_i
 	  		home_total_point = element[11].text.to_i
 
-	  		element = doc.css('.caption-wrapper').first
+	  		element = doc.css('.game-field .caption-wrapper').first
+	  		unless element
+	  			element = doc.css('.location-details').first
+	  			element = element.children[0].text
+	  		end
 	  		stadium = ''
 	  		if element
 	  			stadium = element.text.squish
