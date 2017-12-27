@@ -1898,7 +1898,10 @@ namespace :setup do
 	  		home_total_point = element[11].text.to_i
 
 	  		element = doc.css('.caption-wrapper').first
-	  		puts element.inspect
+	  		stadium = element.text
+	  		lastindex = stadium.rindex('\n')
+	  		firstindex = stadium[0..lastindex].rindex('\t')
+	  		puts stadium[firstindex+2..lastindex-1]
 
 			export.update(
 				away_first_point: away_first_point,
