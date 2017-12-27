@@ -70,17 +70,17 @@ namespace :setup do
 	  		href = slice.children[index[:result]].child['href']
 	  		game_id = href[-9..-1]
 	  		unless game = Game.find_by(game_id: game_id)
-              	game = Game.create(game_id: game_id)
-            end
+			  	game = Game.create(game_id: game_id)
+			end
 
-            if slice.children[index[:home_team]].text == "TBD TBD"
-            	result 		= "TBD"
-            	home_team 	= "TBD"
-            	home_abbr 	= "TBD"
-            	away_abbr 	= "TBD"
-            	away_team 	= "TBD"
-            else
-	            if slice.children[index[:home_team]].children[0].children.size == 2
+			if slice.children[index[:home_team]].text == "TBD TBD"
+				result 		= "TBD"
+				home_team 	= "TBD"
+				home_abbr 	= "TBD"
+				away_abbr 	= "TBD"
+				away_team 	= "TBD"
+			else
+				if slice.children[index[:home_team]].children[0].children.size == 2
 		  			home_team = slice.children[index[:home_team]].children[0].children[1].children[0].text
 		  			home_abbr = slice.children[index[:home_team]].children[0].children[1].children[2].text
 		  		elsif slice.children[index[:home_team]].children[0].children.size == 3
@@ -101,7 +101,7 @@ namespace :setup do
 	  				away_abbr = slice.children[index[:away_team]].children[0].children[2].text
 		  			away_team = slice.children[index[:away_team]].children[0].children[0].text
 	  			end
-            	result = slice.children[index[:result]].text
+				result = slice.children[index[:result]].text
 	  		end
 
 	  		url = "http://www.espn.com/#{game_link}/game?gameId=#{game_id}"
@@ -128,7 +128,7 @@ namespace :setup do
 			end
 			game_id = game.game_id
 
-            url = "http://www.espn.com/#{game_link}/matchup?gameId=#{game_id}"
+			url = "http://www.espn.com/#{game_link}/matchup?gameId=#{game_id}"
   			doc = download_document(url)
 			puts url
   			element = doc.css(".game-time").first
@@ -154,24 +154,24 @@ namespace :setup do
   				away_result = scores[0].text
   				home_result = scores[1].text
 
-	            td_elements = doc.css("#gamepackage-matchup td")
-	            home_team_total 	= ""
-	            away_team_total 	= ""
-	            home_team_rushing 	= ""
-	            away_team_rushing 	= ""
-	            td_elements.each_slice(3) do |slice|
-	            	if slice[0].text.include?("Total Yards")
-	            		away_team_total = slice[1].text
-	            		home_team_total = slice[2].text
-	            	end
-	            	if slice[0].text.include?("Rushing") && !slice[0].text.include?("Rushing Attempts") && !slice[0].text.include?("Rushing 1st")
-	            		away_team_rushing = slice[1].text
-	            		home_team_rushing = slice[2].text
-	            		break
-	            	end
-	            end
+				td_elements = doc.css("#gamepackage-matchup td")
+				home_team_total 	= ""
+				away_team_total 	= ""
+				home_team_rushing 	= ""
+				away_team_rushing 	= ""
+				td_elements.each_slice(3) do |slice|
+					if slice[0].text.include?("Total Yards")
+						away_team_total = slice[1].text
+						home_team_total = slice[2].text
+					end
+					if slice[0].text.include?("Rushing") && !slice[0].text.include?("Rushing Attempts") && !slice[0].text.include?("Rushing 1st")
+						away_team_rushing = slice[1].text
+						home_team_rushing = slice[2].text
+						break
+					end
+				end
 
-	            url = "http://www.espn.com/#{game_link}/boxscore?gameId=#{game_id}"
+				url = "http://www.espn.com/#{game_link}/boxscore?gameId=#{game_id}"
 		  		doc = download_document(url)
 				puts url
 		  		element = doc.css("#gamepackage-rushing .gamepackage-home-wrap .highlight td")
@@ -248,26 +248,26 @@ namespace :setup do
 				end
 
 
-	            if game_state == 5
+				if game_state == 5
 	  				unless score = game.scores.find_by(result: "Final")
-		              	score = game.scores.create(result: "Final")
-		            end
-		            score.update(game_status: game_status, home_team_total: home_team_total, away_team_total: away_team_total, home_team_rushing: home_team_rushing, away_team_rushing: away_team_rushing, home_result: home_result, away_result: away_result, home_car: home_car, home_ave_car: home_ave_car, home_rush_long: home_rush_long, home_c_att: home_c_att, home_ave_att: home_ave_att, home_total_play: home_total_play, home_play_yard: home_play_yard, home_sacks: home_sacks, away_car: away_car, away_ave_car: away_ave_car, away_rush_long: away_rush_long, away_c_att: away_c_att, away_ave_att: away_ave_att, away_total_play: away_total_play, away_play_yard: away_play_yard, away_sacks: away_sacks, home_pass_long: home_pass_long, away_pass_long: away_pass_long)
-	            elsif game_state < 3
-		            unless score = game.scores.find_by(result: "Half")
-		              	score = game.scores.create(result: "Half")
-		            end
-		            if game_state == 2
-		            	game_status = "1Q"
-		            elsif game_state == 1
-		            	game_time_index = game_status.index(" ")
-		            	game_status = game_status[0..game_time_index]
-		            	if game_status.index(":") == 1
-		            		game_status = "0" + game_status
-		            	end
-		            end
-		            score.update(game_status: game_status, home_team_total: home_team_total, away_team_total: away_team_total, home_team_rushing: home_team_rushing, away_team_rushing: away_team_rushing, home_result: home_result, away_result: away_result, home_car: home_car, home_ave_car: home_ave_car, home_rush_long: home_rush_long, home_c_att: home_c_att, home_ave_att: home_ave_att, home_total_play: home_total_play, home_play_yard: home_play_yard, home_sacks: home_sacks, away_car: away_car, away_ave_car: away_ave_car, away_rush_long: away_rush_long, away_c_att: away_c_att, away_ave_att: away_ave_att, away_total_play: away_total_play, away_play_yard: away_play_yard, away_sacks: away_sacks, home_pass_long: home_pass_long, away_pass_long: away_pass_long)
-		       	end
+					  	score = game.scores.create(result: "Final")
+					end
+					score.update(game_status: game_status, home_team_total: home_team_total, away_team_total: away_team_total, home_team_rushing: home_team_rushing, away_team_rushing: away_team_rushing, home_result: home_result, away_result: away_result, home_car: home_car, home_ave_car: home_ave_car, home_rush_long: home_rush_long, home_c_att: home_c_att, home_ave_att: home_ave_att, home_total_play: home_total_play, home_play_yard: home_play_yard, home_sacks: home_sacks, away_car: away_car, away_ave_car: away_ave_car, away_rush_long: away_rush_long, away_c_att: away_c_att, away_ave_att: away_ave_att, away_total_play: away_total_play, away_play_yard: away_play_yard, away_sacks: away_sacks, home_pass_long: home_pass_long, away_pass_long: away_pass_long)
+				elsif game_state < 3
+					unless score = game.scores.find_by(result: "Half")
+					  	score = game.scores.create(result: "Half")
+					end
+					if game_state == 2
+						game_status = "1Q"
+					elsif game_state == 1
+						game_time_index = game_status.index(" ")
+						game_status = game_status[0..game_time_index]
+						if game_status.index(":") == 1
+							game_status = "0" + game_status
+						end
+					end
+					score.update(game_status: game_status, home_team_total: home_team_total, away_team_total: away_team_total, home_team_rushing: home_team_rushing, away_team_rushing: away_team_rushing, home_result: home_result, away_result: away_result, home_car: home_car, home_ave_car: home_ave_car, home_rush_long: home_rush_long, home_c_att: home_c_att, home_ave_att: home_ave_att, home_total_play: home_total_play, home_play_yard: home_play_yard, home_sacks: home_sacks, away_car: away_car, away_ave_car: away_ave_car, away_rush_long: away_rush_long, away_c_att: away_c_att, away_ave_att: away_ave_att, away_total_play: away_total_play, away_play_yard: away_play_yard, away_sacks: away_sacks, home_pass_long: home_pass_long, away_pass_long: away_pass_long)
+			   	end
   			end
 
 	  		kicked = game.kicked
@@ -364,11 +364,11 @@ namespace :setup do
 					hour = 24
 				end
 				if @nicknames[home_name]
-			      home_name = @nicknames[home_name]
-			    end
-			    if @nicknames[away_name]
-			      away_name = @nicknames[away_name]
-			    end
+				  home_name = @nicknames[home_name]
+				end
+				if @nicknames[away_name]
+				  away_name = @nicknames[away_name]
+				end
 				date = Time.new(game_day[0..3], game_day[4..5], game_day[6..7]).change(hour: 0, min: min).in_time_zone('Eastern Time (US & Canada)') + 5.hours +  hour.hours
 				matched = games.select{|field| field.home_team.include?(home_name) && field.away_team.include?(away_name) && field.game_date == date }
 				if matched.size > 0
@@ -445,7 +445,7 @@ namespace :setup do
 			end
 			game_id = game.game_id
 
-	        url = "http://www.espn.com/#{game_link}/matchup?gameId=#{game_id}"
+			url = "http://www.espn.com/#{game_link}/matchup?gameId=#{game_id}"
 			doc = download_document(url)
 			puts url
 			element = doc.css(".game-time").first
@@ -460,24 +460,24 @@ namespace :setup do
 			away_result = scores[0].text
 			home_result = scores[1].text
 
-	        td_elements = doc.css("#gamepackage-matchup td")
-	        home_team_total 	= ""
-	        away_team_total 	= ""
-	        home_team_rushing 	= ""
-	        away_team_rushing 	= ""
-	        td_elements.each_slice(3) do |slice|
-	        	if slice[0].text.include?("Total Yards")
-	        		away_team_total = slice[1].text
-	        		home_team_total = slice[2].text
-	        	end
-	        	if slice[0].text.include?("Rushing") && !slice[0].text.include?("Rushing Attempts") && !slice[0].text.include?("Rushing 1st")
-	        		away_team_rushing = slice[1].text
-	        		home_team_rushing = slice[2].text
-	        		break
-	        	end
-	        end
+			td_elements = doc.css("#gamepackage-matchup td")
+			home_team_total 	= ""
+			away_team_total 	= ""
+			home_team_rushing 	= ""
+			away_team_rushing 	= ""
+			td_elements.each_slice(3) do |slice|
+				if slice[0].text.include?("Total Yards")
+					away_team_total = slice[1].text
+					home_team_total = slice[2].text
+				end
+				if slice[0].text.include?("Rushing") && !slice[0].text.include?("Rushing Attempts") && !slice[0].text.include?("Rushing 1st")
+					away_team_rushing = slice[1].text
+					home_team_rushing = slice[2].text
+					break
+				end
+			end
 
-	        url = "http://www.espn.com/#{game_link}/boxscore?gameId=#{game_id}"
+			url = "http://www.espn.com/#{game_link}/boxscore?gameId=#{game_id}"
 	  		doc = download_document(url)
 			puts url
 	  		element = doc.css("#gamepackage-rushing .gamepackage-home-wrap .highlight td")
@@ -552,20 +552,20 @@ namespace :setup do
 			if element.size > 3
 				away_sacks 		= element[3].text
 			end
-	       
-	        unless score = game.scores.find_by(result: "Half")
-	          	score = game.scores.create(result: "Half")
-	        end
+		   
+			unless score = game.scores.find_by(result: "Half")
+			  	score = game.scores.create(result: "Half")
+			end
 
-	        if game_state == 1
-	        	game_time_index = game_status.index(" ")
-	        	game_status = game_status[0..game_time_index]
-	        	if game_status.index(":") == 1
-	        		game_status = "0" + game_status
-	        	end
-	        end
-	        score.update(game_status: game_status, home_team_total: home_team_total, away_team_total: away_team_total, home_team_rushing: home_team_rushing, away_team_rushing: away_team_rushing, home_result: home_result, away_result: away_result, home_car: home_car, home_ave_car: home_ave_car, home_rush_long: home_rush_long, home_c_att: home_c_att, home_ave_att: home_ave_att, home_total_play: home_total_play, home_play_yard: home_play_yard, home_sacks: home_sacks, away_car: away_car, away_ave_car: away_ave_car, away_rush_long: away_rush_long, away_c_att: away_c_att, away_ave_att: away_ave_att, away_total_play: away_total_play, away_play_yard: away_play_yard, away_sacks: away_sacks, home_pass_long: home_pass_long, away_pass_long: away_pass_long)
-		    
+			if game_state == 1
+				game_time_index = game_status.index(" ")
+				game_status = game_status[0..game_time_index]
+				if game_status.index(":") == 1
+					game_status = "0" + game_status
+				end
+			end
+			score.update(game_status: game_status, home_team_total: home_team_total, away_team_total: away_team_total, home_team_rushing: home_team_rushing, away_team_rushing: away_team_rushing, home_result: home_result, away_result: away_result, home_car: home_car, home_ave_car: home_ave_car, home_rush_long: home_rush_long, home_c_att: home_c_att, home_ave_att: home_ave_att, home_total_play: home_total_play, home_play_yard: home_play_yard, home_sacks: home_sacks, away_car: away_car, away_ave_car: away_ave_car, away_rush_long: away_rush_long, away_c_att: away_c_att, away_ave_att: away_ave_att, away_total_play: away_total_play, away_play_yard: away_play_yard, away_sacks: away_sacks, home_pass_long: home_pass_long, away_pass_long: away_pass_long)
+			
 			url = "http://www.espn.com/#{game_link}/playbyplay?gameId=#{game_id}"
 	  		doc = download_document(url)
 	  		check_img = doc.css(".accordion-header img")
@@ -635,7 +635,7 @@ namespace :setup do
   		second_drive = 0
 
 
-        url = "http://www.espn.com/#{game_link}/playbyplay?gameId=#{game_id}"
+		url = "http://www.espn.com/#{game_link}/playbyplay?gameId=#{game_id}"
 		puts url
   		doc = download_document(url)
 
@@ -822,16 +822,16 @@ namespace :setup do
   		home_team_total = home_team_rushing + home_team_passing
   		away_team_total = away_team_rushing + away_team_passing
 
-        home_ave_car = (home_team_rushing.to_f / home_car).round(2)
-        away_ave_car = (away_team_rushing.to_f / away_car).round(2)
+		home_ave_car = (home_team_rushing.to_f / home_car).round(2)
+		away_ave_car = (away_team_rushing.to_f / away_car).round(2)
 
-        home_c_att = home_c.to_s + "/" + home_attr.to_s
-        away_c_att = away_c.to_s + "/" + away_attr.to_s
+		home_c_att = home_c.to_s + "/" + home_attr.to_s
+		away_c_att = away_c.to_s + "/" + away_attr.to_s
 
-        home_ave_att = (home_team_passing.to_f / home_attr).round(2)
-        away_ave_att = (away_team_passing.to_f / away_attr).round(2)
+		home_ave_att = (home_team_passing.to_f / home_attr).round(2)
+		away_ave_att = (away_team_passing.to_f / away_attr).round(2)
 
-        home_total_play = home_car + home_attr
+		home_total_play = home_car + home_attr
 		home_play_yard 	= home_team_total.to_f / home_total_play
 
 		away_total_play = away_car + away_attr
@@ -884,7 +884,7 @@ namespace :setup do
   		second_drive = 0
 
 
-        url = "http://www.espn.com/#{game_link}/playbyplay?gameId=#{game_id}"
+		url = "http://www.espn.com/#{game_link}/playbyplay?gameId=#{game_id}"
 		puts url
   		doc = download_document(url)
 
@@ -1165,16 +1165,16 @@ namespace :setup do
   		home_team_total = home_team_rushing + home_team_passing
   		away_team_total = away_team_rushing + away_team_passing
 
-        home_ave_car = (home_team_rushing.to_f / home_car).round(2)
-        away_ave_car = (away_team_rushing.to_f / away_car).round(2)
+		home_ave_car = (home_team_rushing.to_f / home_car).round(2)
+		away_ave_car = (away_team_rushing.to_f / away_car).round(2)
 
-        home_c_att = home_c.to_s + "/" + home_attr.to_s
-        away_c_att = away_c.to_s + "/" + away_attr.to_s
+		home_c_att = home_c.to_s + "/" + home_attr.to_s
+		away_c_att = away_c.to_s + "/" + away_attr.to_s
 
-        home_ave_att = (home_team_passing.to_f / home_attr).round(2)
-        away_ave_att = (away_team_passing.to_f / away_attr).round(2)
+		home_ave_att = (home_team_passing.to_f / home_attr).round(2)
+		away_ave_att = (away_team_passing.to_f / away_attr).round(2)
 
-        home_total_play = home_car + home_attr
+		home_total_play = home_car + home_attr
 		home_play_yard 	= home_team_total.to_f / home_total_play
 
 		away_total_play = away_car + away_attr
@@ -1229,23 +1229,23 @@ namespace :setup do
 	  		href = slice.children[index[:result]].child['href']
 	  		game_id = href[-9..-1]
 	  		unless game = Game.find_by(game_id: game_id)
-              	game = Game.create(game_id: game_id)
-            end
+			  	game = Game.create(game_id: game_id)
+			end
 
-            url = "http://www.espn.com/#{game_link}/matchup?gameId=#{game_id}"
+			url = "http://www.espn.com/#{game_link}/matchup?gameId=#{game_id}"
   			doc = download_document(url)
 			puts url
   			element = doc.css(".game-time").first
   			game_status = element.text
 
-            if slice.children[index[:home_team]].text == "TBD TBD"
-            	result 		= "TBD"
-            	home_team 	= "TBD"
-            	home_abbr 	= "TBD"
-            	away_abbr 	= "TBD"
-            	away_team 	= "TBD"
-            else
-	            if slice.children[index[:home_team]].children[0].children.size == 2
+			if slice.children[index[:home_team]].text == "TBD TBD"
+				result 		= "TBD"
+				home_team 	= "TBD"
+				home_abbr 	= "TBD"
+				away_abbr 	= "TBD"
+				away_team 	= "TBD"
+			else
+				if slice.children[index[:home_team]].children[0].children.size == 2
 		  			home_team = slice.children[index[:home_team]].children[0].children[1].children[0].text
 		  			home_abbr = slice.children[index[:home_team]].children[0].children[1].children[2].text
 		  		elsif slice.children[index[:home_team]].children[0].children.size == 3
@@ -1266,7 +1266,7 @@ namespace :setup do
 	  				away_abbr = slice.children[index[:away_team]].children[0].children[2].text
 		  			away_team = slice.children[index[:away_team]].children[0].children[0].text
 	  			end
-            	result = slice.children[index[:result]].text
+				result = slice.children[index[:result]].text
 	  		end
 	  		game_state = 6
 	  		if game_status.include?("Final")
@@ -1275,24 +1275,24 @@ namespace :setup do
   				away_result = scores[0].text
   				home_result = scores[1].text
 
-	            td_elements = doc.css("#gamepackage-matchup td")
-	            home_team_total 	= ""
-	            away_team_total 	= ""
-	            home_team_rushing 	= ""
-	            away_team_rushing 	= ""
-	            td_elements.each_slice(3) do |slice|
-	            	if slice[0].text.include?("Total Yards")
-	            		away_team_total = slice[1].text
-	            		home_team_total = slice[2].text
-	            	end
-	            	if slice[0].text.include?("Rushing") && !slice[0].text.include?("Rushing Attempts") && !slice[0].text.include?("Rushing 1st")
-	            		away_team_rushing = slice[1].text
-	            		home_team_rushing = slice[2].text
-	            		break
-	            	end
-	            end
+				td_elements = doc.css("#gamepackage-matchup td")
+				home_team_total 	= ""
+				away_team_total 	= ""
+				home_team_rushing 	= ""
+				away_team_rushing 	= ""
+				td_elements.each_slice(3) do |slice|
+					if slice[0].text.include?("Total Yards")
+						away_team_total = slice[1].text
+						home_team_total = slice[2].text
+					end
+					if slice[0].text.include?("Rushing") && !slice[0].text.include?("Rushing Attempts") && !slice[0].text.include?("Rushing 1st")
+						away_team_rushing = slice[1].text
+						home_team_rushing = slice[2].text
+						break
+					end
+				end
 
-	            url = "http://www.espn.com/#{game_link}/boxscore?gameId=#{game_id}"
+				url = "http://www.espn.com/#{game_link}/boxscore?gameId=#{game_id}"
 		  		doc = download_document(url)
 				puts url
 		  		element = doc.css("#gamepackage-rushing .gamepackage-home-wrap .highlight td")
@@ -1367,21 +1367,21 @@ namespace :setup do
 				if element.size > 3
 					away_sacks 		= element[3].text
 				end
-		       
-		        unless score = game.scores.find_by(result: "Final")
-	              	score = game.scores.create(result: "Final")
-	            end
+			   
+				unless score = game.scores.find_by(result: "Final")
+				  	score = game.scores.create(result: "Final")
+				end
 
-		        if game_state == 1
-		        	game_time_index = game_status.index(" ")
-		        	game_status = game_status[0..game_time_index]
-		        	if game_status.index(":") == 1
-		        		game_status = "0" + game_status
-		        	end
-		        end
-		        score.update(game_status: game_status, home_team_total: home_team_total, away_team_total: away_team_total, home_team_rushing: home_team_rushing, away_team_rushing: away_team_rushing, home_result: home_result, away_result: away_result, home_car: home_car, home_ave_car: home_ave_car, home_rush_long: home_rush_long, home_c_att: home_c_att, home_ave_att: home_ave_att, home_total_play: home_total_play, home_play_yard: home_play_yard, home_sacks: home_sacks, away_car: away_car, away_ave_car: away_ave_car, away_rush_long: away_rush_long, away_c_att: away_c_att, away_ave_att: away_ave_att, away_total_play: away_total_play, away_play_yard: away_play_yard, away_sacks: away_sacks, home_pass_long: home_pass_long, away_pass_long: away_pass_long)
-			    
-	            home_team_passing = 0
+				if game_state == 1
+					game_time_index = game_status.index(" ")
+					game_status = game_status[0..game_time_index]
+					if game_status.index(":") == 1
+						game_status = "0" + game_status
+					end
+				end
+				score.update(game_status: game_status, home_team_total: home_team_total, away_team_total: away_team_total, home_team_rushing: home_team_rushing, away_team_rushing: away_team_rushing, home_result: home_result, away_result: away_result, home_car: home_car, home_ave_car: home_ave_car, home_rush_long: home_rush_long, home_c_att: home_c_att, home_ave_att: home_ave_att, home_total_play: home_total_play, home_play_yard: home_play_yard, home_sacks: home_sacks, away_car: away_car, away_ave_car: away_ave_car, away_rush_long: away_rush_long, away_c_att: away_c_att, away_ave_att: away_ave_att, away_total_play: away_total_play, away_play_yard: away_play_yard, away_sacks: away_sacks, home_pass_long: home_pass_long, away_pass_long: away_pass_long)
+				
+				home_team_passing = 0
 				away_team_passing = 0
 				home_team_rushing = 0
 				away_team_rushing = 0
@@ -1401,7 +1401,7 @@ namespace :setup do
 		  		second_drive = 0
 
 
-		        url = "http://www.espn.com/#{game_link}/playbyplay?gameId=#{game_id}"
+				url = "http://www.espn.com/#{game_link}/playbyplay?gameId=#{game_id}"
 				puts url
 		  		doc = download_document(url)
 
@@ -1767,30 +1767,30 @@ namespace :setup do
 		  		home_team_total = home_team_rushing + home_team_passing
 		  		away_team_total = away_team_rushing + away_team_passing
 
-	            home_ave_car = 0
-	            if home_car != 0
-	            	home_ave_car = (home_team_rushing.to_f / home_car).round(2)
-	            end
-	            away_ave_car = 0
-	            if away_car != 0
-	            	away_ave_car = (away_team_rushing.to_f / away_car).round(2)
-	            end
+				home_ave_car = 0
+				if home_car != 0
+					home_ave_car = (home_team_rushing.to_f / home_car).round(2)
+				end
+				away_ave_car = 0
+				if away_car != 0
+					away_ave_car = (away_team_rushing.to_f / away_car).round(2)
+				end
 
-	            home_c_att = home_c.to_s + "/" + home_attr.to_s
-	            away_c_att = away_c.to_s + "/" + away_attr.to_s
+				home_c_att = home_c.to_s + "/" + home_attr.to_s
+				away_c_att = away_c.to_s + "/" + away_attr.to_s
 
-	            home_ave_att = 0
-	            if home_attr != 0
-	            	home_ave_att = (home_team_passing.to_f / home_attr).round(2)
-	            end
-	            away_ave_att = 0
-	            if away_attr != 0
-	            	away_ave_att = (away_team_passing.to_f / away_attr).round(2)
-	            end
+				home_ave_att = 0
+				if home_attr != 0
+					home_ave_att = (home_team_passing.to_f / home_attr).round(2)
+				end
+				away_ave_att = 0
+				if away_attr != 0
+					away_ave_att = (away_team_passing.to_f / away_attr).round(2)
+				end
 
-	            home_total_play = home_car + home_attr
-	            home_play_yard 	= 0
-	            if home_total_play != 0
+				home_total_play = home_car + home_attr
+				home_play_yard 	= 0
+				if home_total_play != 0
 					home_play_yard 	= home_team_total.to_f / home_total_play
 				end
 
@@ -1801,10 +1801,10 @@ namespace :setup do
 				end
 
 			  	unless score = game.scores.find_by(result: "Half")
-	              	score = game.scores.create(result: "Half")
-	            end
-	            score.update(game_status: game_status, home_team_total: home_team_total, away_team_total: away_team_total, home_team_rushing: home_team_rushing, away_team_rushing: away_team_rushing, home_result: home_result, away_result: away_result, home_car: home_car, home_ave_car: home_ave_car, home_rush_long: home_rush_long, home_c_att: home_c_att, home_ave_att: home_ave_att, home_total_play: home_total_play, home_play_yard: home_play_yard, away_car: away_car, away_ave_car: away_ave_car, away_rush_long: away_rush_long, away_c_att: away_c_att, away_ave_att: away_ave_att, away_total_play: away_total_play, away_play_yard: away_play_yard, home_pass_long: home_pass_long, away_pass_long: away_pass_long)
-		        
+				  	score = game.scores.create(result: "Half")
+				end
+				score.update(game_status: game_status, home_team_total: home_team_total, away_team_total: away_team_total, home_team_rushing: home_team_rushing, away_team_rushing: away_team_rushing, home_result: home_result, away_result: away_result, home_car: home_car, home_ave_car: home_ave_car, home_rush_long: home_rush_long, home_c_att: home_c_att, home_ave_att: home_ave_att, home_total_play: home_total_play, home_play_yard: home_play_yard, away_car: away_car, away_ave_car: away_ave_car, away_rush_long: away_rush_long, away_c_att: away_c_att, away_ave_att: away_ave_att, away_total_play: away_total_play, away_play_yard: away_play_yard, home_pass_long: home_pass_long, away_pass_long: away_pass_long)
+				
 			end
 
 			url = "http://www.espn.com/#{game_link}/game?gameId=#{game_id}"
@@ -1818,12 +1818,68 @@ namespace :setup do
 	  	end
 	end
 
+	task :export => :environment do
+		games = Game.where("game_state = 5")
+		games.each do |game|
+			unless export = Export.find_by(game_id: game_id)
+				export = Export.create(game_id: game_id)
+			end
+			export.update(home_team: game.home_team,
+				away_team: game.away_team,
+				game_id: game.game_type,
+				game_date: game.game_date,
+				home_abbr: game.home_abbr,
+				away_abbr: game.away_abbr,
+				game_type: game.game_type)
+			if score = game.scores.find_by(result: "Half")
+				away_c = 0
+				away_att = 0
+				if away_c_att = score.away_c_att
+					if away_index = away_c_att.index('/')
+						away_c = away_c_att[0..away_index-1]
+						away_att = away_c_att[away_index+1..-1]
+					end
+				end
+				home_c = 0
+				home_att = 0
+				if home_c_att = score.home_c_att
+					if home_index = home_c_att.index('/')
+						home_c = home_c_att[0..home_index-1]
+						home_att = home_c_att[home_index+1..-1]
+					end
+				end
+				export.update(away_team_total: score.away_team_total,
+					away_team_rushing: score.away_team_rushing,
+					away_car: score.away_car,
+					away_ave_car: score.away_ave_car,
+					away_pass_long: score.away_pass_long,
+					away_rush_long: score.away_rush_long,
+					away_c: away_c,
+					away_att: away_att,
+					away_ave_att: score.away_ave_att,
+					away_total_play: score.away_total_play,
+					away_play_yard: score.away_play_yard,
+
+					home_team_total: score.home_team_total,
+					home_team_rushing: score.home_team_rushing,
+					home_car: score.home_car,
+					home_ave_car: score.home_ave_car,
+					home_pass_long: score.home_pass_long,
+					home_rush_long: score.home_rush_long,
+					home_c: home_c,
+					home_att: home_att,
+					home_ave_att: score.home_ave_att,
+					home_total_play: score.home_total_play,
+					home_play_yard: score.home_play_yard)
+			end
+		end
+	end
 	@nicknames = {
-    	"Hawaii" => "Hawai'i",
-    	"San Jose State" => "San José State",
-    	"Brigham Young" => "BYU",
-    	"Massachusetts" => "UMass",
-    	"Florida International" => "Florida Intl",
+		"Hawaii" => "Hawai'i",
+		"San Jose State" => "San José State",
+		"Brigham Young" => "BYU",
+		"Massachusetts" => "UMass",
+		"Florida International" => "Florida Intl",
 		"Louisiana-Monroe" => "Louisiana Monroe",
 		"Central Connecticut State" => "Central Connecticu",
 		"Virginia Military Institute" => "VMI",
