@@ -1,4 +1,4 @@
-class CreateExport < ActiveRecord::Migration[5.1]
+class CreateExports < ActiveRecord::Migration[5.1]
   def change
     create_table :exports do |t|
 		t.string :home_team
