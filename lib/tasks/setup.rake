@@ -1821,8 +1821,8 @@ namespace :setup do
 	task :export => :environment do
 		games = Game.where("game_state = 5")
 		games.each do |game|
-			unless export = Export.find_by(game_id: game_id)
-				export = Export.create(game_id: game_id)
+			unless export = Export.find_by(game_id: game.game_id)
+				export = Export.create(game_id: game.game_id)
 			end
 			export.update(home_team: game.home_team,
 				away_team: game.away_team,
