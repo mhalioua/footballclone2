@@ -1883,6 +1883,7 @@ namespace :setup do
 			if export.game_type == 'CFB'
 				url = "http://www.espn.com/college-football/game?gameId=#{export.game_id}"
 			end
+			puts url
 	  		doc = download_document(url)
 	  		element = doc.css('#linescore td')
 	  		away_first_point = element[1].text.to_i
@@ -1900,7 +1901,7 @@ namespace :setup do
 	  		element = doc.css('.game-field .caption-wrapper').first
 	  		unless element
 	  			element = doc.css('.location-details').first
-	  			element = element.children[0].text
+	  			element = element.children[1].text
 	  		end
 	  		stadium = ''
 	  		if element
