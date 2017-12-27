@@ -1901,7 +1901,7 @@ namespace :setup do
 	  		element = doc.css('.game-field .caption-wrapper').first
 	  		unless element
 	  			element = doc.css('.location-details').first
-	  			element = element.children[1].text
+	  			element = element.children[1]
 	  		end
 	  		stadium = ''
 	  		if element
