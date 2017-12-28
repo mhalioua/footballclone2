@@ -1911,7 +1911,8 @@ namespace :setup do
 	  		element = doc.css('.icon-location-solid-before').first
 	  		zipcode = ''
 	  		if element
-	  			zipcode = element.children[2].text.squish.to_i
+	  			puts element.children[3].text.squish.to_i
+	  			zipcode = element.children[1].text.squish.to_i
 	  		end
 
 			export.update(
