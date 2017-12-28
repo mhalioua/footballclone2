@@ -1935,6 +1935,15 @@ namespace :setup do
 				zipcode: zipcode)
 		end
 	end
+	task :creatingStadium => :environment do
+		include Api
+		exports = Export.all
+		exports.each do |export|
+			unless stadium = Stadium.find_by(stadium: export.stadium)
+				stadium = Stadium.create(stadium: export.stadium, zipcode: export.zipcode)
+			end
+		end
+	end
 	@nicknames = {
 		"Hawaii" => "Hawai'i",
 		"San Jose State" => "San José State",
