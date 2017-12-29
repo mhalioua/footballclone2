@@ -1986,7 +1986,7 @@ namespace :setup do
 		puts "----------Get First Lines----------"
 
 		index_date = Date.new(2016, 8, 26)
-		while index_date <= Date.new(2017, 1, 1)  do
+		while index_date <= Date.new(2016, 12, 11)  do
 			game_day = index_date.strftime("%Y%m%d")
 			puts game_day
 			url = "https://www.sportsbookreview.com/betting-odds/college-football/1st-half/?date=#{game_day}"
@@ -2097,7 +2097,7 @@ namespace :setup do
 		puts "----------Get #{type} Lines----------"
 
 		index_date = Date.new(2016, 8, 26)
-		while index_date <= Date.new(2017, 1, 1)  do
+		while index_date <= Date.new(2016, 12, 11)  do
 			game_day = index_date.strftime("%Y%m%d")
 			puts game_day
 			url = "#{game_link}#{game_day}"
