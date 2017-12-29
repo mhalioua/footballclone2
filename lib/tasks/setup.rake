@@ -1951,10 +1951,7 @@ namespace :setup do
 			date = DateTime.parse(export.game_date).utc
 			stadium = Stadium.find_by(stadium: export.stadium)
 			date = date + stadium.timezone.to_i.hours
-			puts date.strftime("%I:%M%p")
-			puts date.strftime("%Y")
-			puts date.strftime("%b %e")
-			puts date.strftime("%a")
+			export.update(time: date.strftime("%I:%M%p"), year: date.strftime("%Y"), date: date.strftime("%^b %e"), week: date.strftime("%^A"))
 		end
 	end
 	@nicknames = {
