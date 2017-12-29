@@ -2078,7 +2078,7 @@ namespace :setup do
 				closer_side = line_two ? closer[0..line_two] : ""
 				closer_total = line_two ? closer[line_two+2..-1] : ""
 
-				matched = games.select{|field| ((field.home_team.include?(home_name) && field.away_team.include?(away_name)) || (field.home_team.include?(away_name) && field.away_team.include?(home_name))) && (date == field.game_date) }
+				matched = games.select{|field| ((field.home_team.include?(home_name) && field.away_team.include?(away_name)) || (field.home_team.include?(away_name) && field.away_team.include?(home_name))) && (date.strftime("%^b %e") == field.date) }
 				if matched.size > 0
 					update_game = matched.first
 					if closer_side.include?('½')
@@ -2192,7 +2192,7 @@ namespace :setup do
 				closer_side = line_two ? closer[0..line_two] : ""
 				closer_total = line_two ? closer[line_two+2..-1] : ""
 
-				matched = games.select{|field| ((field.home_team.include?(home_name) && field.away_team.include?(away_name)) || (field.home_team.include?(away_name) && field.away_team.include?(home_name))) && (date == field.game_date) }
+				matched = games.select{|field| ((field.home_team.include?(home_name) && field.away_team.include?(away_name)) || (field.home_team.include?(away_name) && field.away_team.include?(home_name))) && (date.strftime("%^b %e") == field.date) }
 				if matched.size > 0
 					update_game = matched.first
 					if closer_side.include?('½')
