@@ -1948,7 +1948,7 @@ namespace :setup do
 		include Api
 		exports = Export.all
 		exports.each do |export|
-			date = DateTime.parse(export.game_date).in_time_zone
+			date = DateTime.parse(export.game_date).utc
 			addingDate = date
 			temp = addingDate.strftime("%I:%M%p")
 			puts export.game_date
