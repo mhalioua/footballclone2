@@ -1950,7 +1950,7 @@ namespace :setup do
 		exports.each do |export|
 			date = DateTime.parse(export.game_date).in_time_zone
 			addingDate = date
-			temp = addingDate.strftime("%b %e")
+			temp = addingDate.strftime("%I:%M%p")
 			puts export.game_date
 			puts temp
 		end
