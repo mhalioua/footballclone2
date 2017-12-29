@@ -1949,9 +1949,11 @@ namespace :setup do
 		exports = Export.all
 		exports.each do |export|
 			date = DateTime.parse(export.game_date).utc
-			addingDate = date
+			stadium = Stadium.find_by(stadium: export.stadium)
+			date = date + stadium.timezone.hours
 			temp = addingDate.strftime("%I:%M%p")
 			puts export.game_date
+			puts stadium.timezone
 			puts temp
 		end
 	end
