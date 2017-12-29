@@ -1985,7 +1985,7 @@ namespace :setup do
 		games = Export.all
 		puts "----------Get First Lines----------"
 
-		index_date = Date.new(2015, 9, 3)
+		index_date = Date.new(2016, 8, 26)
 		while index_date <= Date.new(2017, 1, 1)  do
 			game_day = index_date.strftime("%Y%m%d")
 			puts game_day
@@ -2096,7 +2096,7 @@ namespace :setup do
 		type = args[:type]
 		puts "----------Get #{type} Lines----------"
 
-		index_date = Date.new(2015, 9, 3)
+		index_date = Date.new(2016, 8, 26)
 		while index_date <= Date.new(2017, 1, 1)  do
 			game_day = index_date.strftime("%Y%m%d")
 			puts game_day
