@@ -1951,7 +1951,7 @@ namespace :setup do
 			date = DateTime.parse(export.game_date).utc
 			stadium = Stadium.find_by(stadium: export.stadium)
 			date = date + stadium.timezone.to_i.hours
-			temp = addingDate.strftime("%I:%M%p")
+			temp = date.strftime("%I:%M%p")
 			puts export.game_date
 			puts stadium.timezone
 			puts temp
