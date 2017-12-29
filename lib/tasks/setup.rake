@@ -1944,6 +1944,17 @@ namespace :setup do
 			end
 		end
 	end
+	task :getLocalTime => :environment do
+		include Api
+		exports = Export.all
+		exports.each do |export|
+			date = DateTime.parse(export.game_date).in_time_zone
+			addingDate = date
+			temp = addingDate.strftime("%b %e")
+			puts export.game_date
+			puts temp
+		end
+	end
 	@nicknames = {
 		"Hawaii" => "Hawai'i",
 		"San Jose State" => "San José State",
