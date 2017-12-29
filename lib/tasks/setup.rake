@@ -1985,8 +1985,8 @@ namespace :setup do
 		games = Export.all
 		puts "----------Get First Lines----------"
 
-		index_date = Date.new(2017, 11, 25)
-		while index_date <= Date.new(2017, 11, 25)  do
+		index_date = Date.new(2017, 8, 26)
+		while index_date <= Date.new(2017, 12, 26)  do
 			game_day = index_date.strftime("%Y%m%d")
 			puts game_day
 			url = "https://www.sportsbookreview.com/betting-odds/college-football/1st-half/?date=#{game_day}"
@@ -2078,7 +2078,7 @@ namespace :setup do
 				closer_side = line_two ? closer[0..line_two] : ""
 				closer_total = line_two ? closer[line_two+2..-1] : ""
 
-				matched = games.select{|field| ((field.home_team.include?(home_name) && field.away_team.include?(away_name)) || (field.home_team.include?(away_name) && field.away_team.include?(home_name))) && (date.strftime("%^b %e") == field.date) }
+				matched = games.select{|field| ((field.home_team.include?(home_name) && field.away_team.include?(away_name)) || (field.home_team.include?(away_name) && field.away_team.include?(home_name))) && (date.strftime("%^b %e") == field.date)  && (date.strftime("%Y") == field.year) }
 				if matched.size > 0
 					update_game = matched.first
 					if closer_side.include?('½')
@@ -2104,8 +2104,8 @@ namespace :setup do
 		type = args[:type]
 		puts "----------Get #{type} Lines----------"
 
-		index_date = Date.new(2017, 11, 25)
-		while index_date <= Date.new(2017, 11, 25)  do
+		index_date = Date.new(2017, 8, 26)
+		while index_date <= Date.new(2017, 12, 26)  do
 			game_day = index_date.strftime("%Y%m%d")
 			puts game_day
 			url = "#{game_link}#{game_day}"
@@ -2192,7 +2192,7 @@ namespace :setup do
 				closer_side = line_two ? closer[0..line_two] : ""
 				closer_total = line_two ? closer[line_two+2..-1] : ""
 
-				matched = games.select{|field| ((field.home_team.include?(home_name) && field.away_team.include?(away_name)) || (field.home_team.include?(away_name) && field.away_team.include?(home_name))) && (date.strftime("%^b %e") == field.date) }
+				matched = games.select{|field| ((field.home_team.include?(home_name) && field.away_team.include?(away_name)) || (field.home_team.include?(away_name) && field.away_team.include?(home_name))) && (date.strftime("%^b %e") == field.date) && (date.strftime("%Y") == field.year) }
 				if matched.size > 0
 					update_game = matched.first
 					if closer_side.include?('½')
