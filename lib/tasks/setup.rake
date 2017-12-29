@@ -1985,8 +1985,8 @@ namespace :setup do
 		games = Export.all
 		puts "----------Get First Lines----------"
 
-		index_date = Date.new(2014, 8, 27)
-		while index_date <= Date.new(2014, 12, 6)  do
+		index_date = Date.new(2017, 9, 2)
+		while index_date <= Date.new(2017, 12, 23)  do
 			game_day = index_date.strftime("%Y%m%d")
 			puts game_day
 			url = "https://www.sportsbookreview.com/betting-odds/college-football/1st-half/?date=#{game_day}"
@@ -2045,6 +2045,14 @@ namespace :setup do
 				home_name 		= element.children[0].children[5].children[1].text
 				away_name 		= element.children[0].children[5].children[0].text
 				closer 			= score_element.children[1].text
+				ind = home_name.index(") ")
+				home_name = ind ? home_name[ind+2..-1] : home_name
+				ind = away_name.index(") ")
+				away_name = ind ? away_name[ind+2..-1] : away_name
+				ind = home_name.index(" (")
+				home_name = ind ? home_name[0..ind-1] : home_name
+				ind = away_name.index(" (")
+				away_name = ind ? away_name[0..ind-1] : away_name
 				
 				game_time = element.children[0].children[4].text
 				ind = game_time.index(":")
@@ -2096,8 +2104,8 @@ namespace :setup do
 		type = args[:type]
 		puts "----------Get #{type} Lines----------"
 
-		index_date = Date.new(2014, 8, 27)
-		while index_date <= Date.new(2014, 12, 6)  do
+		index_date = Date.new(2017, 9, 2)
+		while index_date <= Date.new(2017, 12, 23)  do
 			game_day = index_date.strftime("%Y%m%d")
 			puts game_day
 			url = "#{game_link}#{game_day}"
@@ -2151,6 +2159,14 @@ namespace :setup do
 				home_name 		= element.children[0].children[5].children[1].text
 				away_name 		= element.children[0].children[5].children[0].text
 				closer 			= score_element.children[1].text
+				ind = home_name.index(") ")
+				home_name = ind ? home_name[ind+2..-1] : home_name
+				ind = away_name.index(") ")
+				away_name = ind ? away_name[ind+2..-1] : away_name
+				ind = home_name.index(" (")
+				home_name = ind ? home_name[0..ind-1] : home_name
+				ind = away_name.index(" (")
+				away_name = ind ? away_name[0..ind-1] : away_name
 				
 				game_time = element.children[0].children[4].text
 				ind = game_time.index(":")
