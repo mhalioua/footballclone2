@@ -1985,7 +1985,7 @@ namespace :setup do
 		games = Export.all
 		puts "----------Get First Lines----------"
 
-		index_date = Date.new(2016, 1, 1)
+		index_date = Date.new(2016, 1, 10)
 		while index_date <= Date.new(2017, 1, 1)  do
 			game_day = index_date.strftime("%Y%m%d")
 			puts game_day
@@ -2096,7 +2096,7 @@ namespace :setup do
 		type = args[:type]
 		puts "----------Get #{type} Lines----------"
 
-		index_date = Date.new(2016, 1, 1)
+		index_date = Date.new(2016, 1, 10)
 		while index_date <= Date.new(2017, 1, 1)  do
 			game_day = index_date.strftime("%Y%m%d")
 			puts game_day
@@ -2226,7 +2226,6 @@ namespace :setup do
 		"L.A. Rams" => "Los Angeles",
 		"N.Y. Giants" => "New York",
 		"L.A. Chargers" => "Los Angeles",
-		"Los Angeles" => "St. Louis",
 		"SC State" => "South Carolina State",
 		"Stephen F. Austin" => "Stephen F Austin",
 		"NC Central" => "North Carolina Central",
