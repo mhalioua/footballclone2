@@ -1985,8 +1985,8 @@ namespace :setup do
 		games = Export.all
 		puts "----------Get First Lines----------"
 
-		index_date = Date.new(2017, 9, 30)
-		while index_date <= Date.new(2017, 9, 30)  do
+		index_date = Date.new(2017, 9, 2)
+		while index_date <= Date.new(2017, 9, 2)  do
 			game_day = index_date.strftime("%Y%m%d")
 			puts game_day
 			url = "https://www.sportsbookreview.com/betting-odds/college-football/1st-half/?date=#{game_day}"
