@@ -1956,24 +1956,6 @@ namespace :setup do
 	end
 
 	task :getLines => :environment do
-		Rake::Task["setup:getFirstLines"].invoke
-		Rake::Task["setup:getFirstLines"].reenable
-
-		link = "https://www.sportsbookreview.com/betting-odds/nfl-football/2nd-half/?date="
-		Rake::Task["setup:getSecondLines"].invoke("second", link)
-		Rake::Task["setup:getSecondLines"].reenable
-
-		link = "https://www.sportsbookreview.com/betting-odds/nfl-football/?date="
-		Rake::Task["setup:getSecondLines"].invoke("full", link)
-		Rake::Task["setup:getSecondLines"].reenable
-
-		link = "https://www.sportsbookreview.com/betting-odds/nfl-football/totals/1st-half/?date="
-		Rake::Task["setup:getSecondLines"].invoke("firstTotal", link)
-		Rake::Task["setup:getSecondLines"].reenable
-
-		link = "https://www.sportsbookreview.com/betting-odds/nfl-football/totals/2nd-half/?date="
-		Rake::Task["setup:getSecondLines"].invoke("secondTotal", link)
-		Rake::Task["setup:getSecondLines"].reenable
 
 		link = "https://www.sportsbookreview.com/betting-odds/nfl-football/totals/?date="
 		Rake::Task["setup:getSecondLines"].invoke("fullTotal", link)
@@ -2096,7 +2078,7 @@ namespace :setup do
 		type = args[:type]
 		puts "----------Get #{type} Lines----------"
 
-		index_date = Date.new(2008, 1, 1)
+		index_date = Date.new(2009, 10, 11)
 		while index_date <= Date.new(2010, 1, 1)  do
 			game_day = index_date.strftime("%Y%m%d")
 			puts game_day
