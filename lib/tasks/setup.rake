@@ -1985,8 +1985,8 @@ namespace :setup do
 		games = Export.all
 		puts "----------Get First Lines----------"
 
-		index_date = Date.new(2017, 9, 2)
-		while index_date <= Date.new(2017, 12, 23)  do
+		index_date = Date.new(2017, 11, 25)
+		while index_date <= Date.new(2017, 11, 25)  do
 			game_day = index_date.strftime("%Y%m%d")
 			puts game_day
 			url = "https://www.sportsbookreview.com/betting-odds/college-football/1st-half/?date=#{game_day}"
@@ -2104,8 +2104,8 @@ namespace :setup do
 		type = args[:type]
 		puts "----------Get #{type} Lines----------"
 
-		index_date = Date.new(2017, 9, 2)
-		while index_date <= Date.new(2017, 12, 23)  do
+		index_date = Date.new(2017, 11, 25)
+		while index_date <= Date.new(2017, 11, 25)  do
 			game_day = index_date.strftime("%Y%m%d")
 			puts game_day
 			url = "#{game_link}#{game_day}"
@@ -2222,7 +2222,6 @@ namespace :setup do
 	end
 	@nicknames = {
 		"Hawaii" => "Hawai'i",
-		"San Jose State" => "San José State",
 		"Brigham Young" => "BYU",
 		"Massachusetts" => "UMass",
 		"Florida International" => "Florida Intl",
@@ -2244,7 +2243,6 @@ namespace :setup do
 		"L.A. Chargers" => "Los Angeles",
 		"Los Angeles" => "St. Louis",
 		"SC State" => "South Carolina State",
-		"Stephen F. Austin" => "Stephen F Austin",
 		"NC Central" => "North Carolina Central",
 	}
 end
