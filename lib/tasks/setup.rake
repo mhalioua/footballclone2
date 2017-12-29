@@ -2044,8 +2044,6 @@ namespace :setup do
 
 				home_name 		= element.children[0].children[5].children[1].text
 				away_name 		= element.children[0].children[5].children[0].text
-				home_number 	= element.children[0].children[3].children[2].text
-				away_number 	= element.children[0].children[3].children[1].text
 				closer 			= score_element.children[1].text
 				
 				game_time = element.children[0].children[4].text
@@ -2085,11 +2083,6 @@ namespace :setup do
 						closer_side = closer_side.to_f
 					end
 					update_game.update(first_side: closer_side)
-					if update_game.home_team.include?(home_name)
-						update_game.update(home_number: home_number, away_number: away_number)
-					else
-						update_game.update(away_number: home_number, home_number: away_number)
-					end
 				end
 			end
 			index_date = index_date + 1.days
