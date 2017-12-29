@@ -1951,10 +1951,10 @@ namespace :setup do
 			date = DateTime.parse(export.game_date).utc
 			stadium = Stadium.find_by(stadium: export.stadium)
 			date = date + stadium.timezone.to_i.hours
-			temp = date.strftime("%I:%M%p")
-			puts export.game_date
-			puts stadium.timezone
-			puts temp
+			puts date.strftime("%I:%M%p")
+			puts date.strftime("%Y")
+			puts date.strftime("%b %e")
+			puts date.strftime("%a")
 		end
 	end
 	@nicknames = {
