@@ -1985,8 +1985,8 @@ namespace :setup do
 		games = Export.all
 		puts "----------Get First Lines----------"
 
-		index_date = Date.new(2016, 8, 26)
-		while index_date <= Date.new(2016, 12, 10)  do
+		index_date = Date.new(2015, 9, 3)
+		while index_date <= Date.new(2015, 12, 12) do
 			game_day = index_date.strftime("%Y%m%d")
 			puts game_day
 			url = "https://www.sportsbookreview.com/betting-odds/college-football/1st-half/?date=#{game_day}"
@@ -2045,9 +2045,9 @@ namespace :setup do
 				home_name 		= element.children[0].children[5].children[1].text
 				away_name 		= element.children[0].children[5].children[0].text
 				closer 			= score_element.children[1].text
-				ind = home_name.index(") ")
+				ind = home_name.index(") ")
 				home_name = ind ? home_name[ind+2..-1] : home_name
-				ind = away_name.index(") ")
+				ind = away_name.index(") ")
 				away_name = ind ? away_name[ind+2..-1] : away_name
 				ind = home_name.index(" (")
 				home_name = ind ? home_name[0..ind-1] : home_name
@@ -2104,8 +2104,8 @@ namespace :setup do
 		type = args[:type]
 		puts "----------Get #{type} Lines----------"
 
-		index_date = Date.new(2016, 8, 26)
-		while index_date <= Date.new(2016, 12, 10)  do
+		index_date = Date.new(2015, 9, 3)
+		while index_date <= Date.new(2015, 12, 12) do
 			game_day = index_date.strftime("%Y%m%d")
 			puts game_day
 			url = "#{game_link}#{game_day}"
@@ -2159,9 +2159,9 @@ namespace :setup do
 				home_name 		= element.children[0].children[5].children[1].text
 				away_name 		= element.children[0].children[5].children[0].text
 				closer 			= score_element.children[1].text
-				ind = home_name.index(") ")
+				ind = home_name.index(") ")
 				home_name = ind ? home_name[ind+2..-1] : home_name
-				ind = away_name.index(") ")
+				ind = away_name.index(") ")
 				away_name = ind ? away_name[ind+2..-1] : away_name
 				ind = home_name.index(" (")
 				home_name = ind ? home_name[0..ind-1] : home_name
@@ -2248,5 +2248,7 @@ namespace :setup do
 		"Prairie View A&M" => "Prairie View",
 		"McNeese State" => "McNeese",
 		"San Jose State" => "San José State",
+		"NC A&T" => "North Carolina A&T",
+
 	}
 end
