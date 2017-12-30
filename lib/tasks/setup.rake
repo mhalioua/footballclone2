@@ -1985,8 +1985,8 @@ namespace :setup do
 		games = Export.all
 		puts "----------Get First Lines----------"
 
-		index_date = Date.new(2013, 8, 29)
-		while index_date <= Date.new(2013, 12, 7) do
+		index_date = Date.new(2012, 8, 30)
+		while index_date <= Date.new(2012, 12, 8) do
 			game_day = index_date.strftime("%Y%m%d")
 			puts game_day
 			url = "https://www.sportsbookreview.com/betting-odds/college-football/1st-half/?date=#{game_day}"
@@ -2104,8 +2104,8 @@ namespace :setup do
 		type = args[:type]
 		puts "----------Get #{type} Lines----------"
 
-		index_date = Date.new(2013, 8, 29)
-		while index_date <= Date.new(2013, 12, 7) do
+		index_date = Date.new(2012, 8, 30)
+		while index_date <= Date.new(2012, 12, 8) do
 			game_day = index_date.strftime("%Y%m%d")
 			puts game_day
 			url = "#{game_link}#{game_day}"
