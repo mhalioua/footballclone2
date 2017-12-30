@@ -1980,6 +1980,13 @@ namespace :setup do
 		Rake::Task["setup:getSecondLines"].reenable
 	end
 
+	task :gettestLines => :environment do
+
+		link = "https://www.sportsbookreview.com/betting-odds/college-football/2nd-half/?date="
+		Rake::Task["setup:getSecondLines"].invoke("second", link)
+		Rake::Task["setup:getSecondLines"].reenable
+	end
+
 	task :getFirstLines => [:environment] do
 		include Api
 		games = Export.all
@@ -2197,8 +2204,13 @@ namespace :setup do
 				closer_side = line_two ? closer[0..line_two] : ""
 				closer_total = line_two ? closer[line_two+2..-1] : ""
 
+				puts home_name
+				puts away_name
+				puts date.strftime("%^b %e")
+				puts date.strftime("%Y")
 				matched = games.select{|field| ((field.home_team.include?(home_name) && field.away_team.include?(away_name)) || (field.home_team.include?(away_name) && field.away_team.include?(home_name))) && (index_date.strftime("%^b %e") == field.date)  && (index_date.strftime("%Y").to_i == field.year) }
 				if matched.size > 0
+					puts game_time
 					update_game = matched.first
 					if closer_side.include?('½')
 						if closer_side[0] == '-'
