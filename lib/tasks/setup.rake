@@ -1985,8 +1985,8 @@ namespace :setup do
 		games = Export.all
 		puts "----------Get First Lines----------"
 
-		index_date = Date.new(2015, 9, 5)
-		while index_date <= Date.new(2015, 9, 5) do
+		index_date = Date.new(2015, 9, 3)
+		while index_date <= Date.new(2015, 12, 12) do
 			game_day = index_date.strftime("%Y%m%d")
 			puts game_day
 			url = "https://www.sportsbookreview.com/betting-odds/college-football/1st-half/?date=#{game_day}"
@@ -2235,13 +2235,11 @@ namespace :setup do
 		"North Carolina State" => "NC State",
 		"Louisiana-Lafayette" => "Louisiana",
 		"Grambling State" => "Grambling",
-		"Tennessee-Martin" => "UT Martin",
 		"Southern Methodist" => "SMU",
 		"Nicholls State" => "Nicholls",
 		"Southern University" => "Southern",
 		"Southern Miss" => "Southern Mississippi",
 		"UTSA" => "UT San Antonio",
-		"USC" => "UT San Antonio",
 		"N.Y. Jets" => "New York",
 		"L.A. Rams" => "Los Angeles",
 		"N.Y. Giants" => "New York",
@@ -2253,7 +2251,5 @@ namespace :setup do
 		"McNeese State" => "McNeese",
 		"San Jose State" => "San José State",
 		"NC A&T" => "North Carolina A&T",
-		"UT San Antonio" => "USC",
-		"UT Martin" => "Tennessee-Martin",
 	}
 end
