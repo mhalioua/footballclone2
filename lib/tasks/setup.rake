@@ -2253,6 +2253,7 @@ namespace :setup do
 		"McNeese State" => "McNeese",
 		"San Jose State" => "San José State",
 		"NC A&T" => "North Carolina A&T",
+		"UT Martin" => "Tennessee-Martin",
 
 	}
 end
