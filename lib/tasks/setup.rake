@@ -2086,6 +2086,7 @@ namespace :setup do
 				matched = games.select{|field| ((field.home_team.include?(home_name) && field.away_team.include?(away_name)) || (field.home_team.include?(away_name) && field.away_team.include?(home_name))) && (index_date.strftime("%^b %e") == field.date)  && (index_date.strftime("%Y").to_i == field.year) }
 				if matched.size > 0
 					update_game = matched.first
+					puts update_game.id
 					if closer_side.include?('½')
 						if closer_side[0] == '-'
 							closer_side = closer_side[0..-1].to_f - 0.5
