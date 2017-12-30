@@ -2116,8 +2116,8 @@ namespace :setup do
 		type = args[:type]
 		puts "----------Get #{type} Lines----------"
 
-		index_date = Date.new(2010, 1, 1)
-		while index_date <= Date.new(2017, 12, 26)  do
+		index_date = Date.new(2010, 10, 14)
+		while index_date <= Date.new(2017, 10, 14)  do
 			game_day = index_date.strftime("%Y%m%d")
 			puts game_day
 			url = "#{game_link}#{game_day}"
