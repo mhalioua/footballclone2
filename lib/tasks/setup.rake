@@ -2045,9 +2045,9 @@ namespace :setup do
 				home_name 		= element.children[0].children[5].children[1].text
 				away_name 		= element.children[0].children[5].children[0].text
 				closer 			= score_element.children[1].text
-				ind = home_name.index(") ")
+				ind = home_name.index(") ")
 				home_name = ind ? home_name[ind+2..-1] : home_name
-				ind = away_name.index(") ")
+				ind = away_name.index(") ")
 				away_name = ind ? away_name[ind+2..-1] : away_name
 				ind = home_name.index(" (")
 				home_name = ind ? home_name[0..ind-1] : home_name
@@ -2163,9 +2163,9 @@ namespace :setup do
 				home_name 		= element.children[0].children[5].children[1].text
 				away_name 		= element.children[0].children[5].children[0].text
 				closer 			= score_element.children[1].text
-				ind = home_name.index(") ")
+				ind = home_name.index(") ")
 				home_name = ind ? home_name[ind+2..-1] : home_name
-				ind = away_name.index(") ")
+				ind = away_name.index(") ")
 				away_name = ind ? away_name[ind+2..-1] : away_name
 				ind = home_name.index(" (")
 				home_name = ind ? home_name[0..ind-1] : home_name
