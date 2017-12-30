@@ -1985,8 +1985,8 @@ namespace :setup do
 		games = Export.all
 		puts "----------Get First Lines----------"
 
-		index_date = Date.new(2015, 9, 3)
-		while index_date <= Date.new(2015, 12, 12) do
+		index_date = Date.new(2015, 9, 5)
+		while index_date <= Date.new(2015, 9, 5) do
 			game_day = index_date.strftime("%Y%m%d")
 			puts game_day
 			url = "https://www.sportsbookreview.com/betting-odds/college-football/1st-half/?date=#{game_day}"
@@ -2078,6 +2078,10 @@ namespace :setup do
 				closer_side = line_two ? closer[0..line_two] : ""
 				closer_total = line_two ? closer[line_two+2..-1] : ""
 
+				puts home_name
+				puts away_name
+				puts index_date.strftime("%^b %e")
+				puts index_date.strftime("%Y")
 				matched = games.select{|field| ((field.home_team.include?(home_name) && field.away_team.include?(away_name)) || (field.home_team.include?(away_name) && field.away_team.include?(home_name))) && (index_date.strftime("%^b %e") == field.date)  && (index_date.strftime("%Y").to_i == field.year) }
 				if matched.size > 0
 					update_game = matched.first
