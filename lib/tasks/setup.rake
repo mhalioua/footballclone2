@@ -2229,7 +2229,7 @@ namespace :setup do
 			puts export.time
 			puts export.id
 			export_time = DateTime.strptime(export.time, "%I:%M%p")
-			export_date = DateTime.strptime(export.date, "%^b %e")
+			export_date = DateTime.strptime(export.date, "%b %e")
 			if stadium = Stadium.find_by(zipcode: export.zipcode)
 				puts stadium.zipcode
 				puts stadium.weather_link
@@ -2249,6 +2249,11 @@ namespace :setup do
 			end
 			break
 		end
+	end
+	task :fixingtest => :environment do
+		date = 'SEP  7'
+		export_date = DateTime.strptime(date, "%b %e")
+		puts export_date.strftime("%b %e")
 	end
 
 	@nicknames = {
