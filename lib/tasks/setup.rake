@@ -2239,27 +2239,38 @@ namespace :setup do
 				elements.each_with_index do |element, index|
 					element_time = DateTime.strptime(element.children[1].text, "%I:%M %p")
 					if export_time < element_time
-						puts elements[index].children[1].text
-						puts elements[index+1].children[1].text
-						puts elements[index+2].children[1].text
-						export.update(first_temp: elements[index].children[3].text.squish,
-  							first_dp: elements[index].children[5].text.squish,
-						  	first_humidity: elements[index].children[7].text.squish,
-						  	first_pressure: elements[index].children[9].text.squish,
-						  	first_windspeed: elements[index].children[13].text.squish,
-						  	first_winddirection: elements[index].children[15].text.squish,
-						  	second_temp: elements[index+1].children[3].text.squish,
-						  	second_dp: elements[index+1].children[5].text.squish,
-						  	second_humidity: elements[index+1].children[7].text.squish,
-						  	second_pressure: elements[index+1].children[9].text.squish,
-						  	second_windspeed: elements[index+1].children[13].text.squish,
-						  	second_winddirection: elements[index+1].children[15].text.squish,
-						  	third_temp: elements[index+2].children[3].text.squish,
-						  	third_dp: elements[index+2].children[5].text.squish,
-						  	third_humidity: elements[index+2].children[7].text.squish,
-						  	third_pressure: elements[index+2].children[9].text.squish,
-						  	third_windspeed: elements[index+2].children[13].text.squish,
-						  	third_winddirection: elements[index+2].children[15].text.squish)
+						first_element = elements[index]
+						second_element = elements[index+1]
+						third_element = elements[index+2]
+						if index + 1 >= elements.size
+							second_element = first_element
+						end
+						if index + 2 >= elements.size
+							third_element = second_element
+						end
+
+						puts first_element.children[1].text
+						puts second_element.children[1].text
+						puts third_element.children[1].text
+
+						export.update(first_temp: first_element.children[3].text.squish,
+  							first_dp: first_element.children[5].text.squish,
+						  	first_humidity: first_element.children[7].text.squish,
+						  	first_pressure: first_element.children[9].text.squish,
+						  	first_windspeed: first_element.children[13].text.squish,
+						  	first_winddirection: first_element.children[15].text.squish,
+						  	second_temp: second_element.children[3].text.squish,
+						  	second_dp: second_element.children[5].text.squish,
+						  	second_humidity: second_element.children[7].text.squish,
+						  	second_pressure: second_element.children[9].text.squish,
+						  	second_windspeed: second_element.children[13].text.squish,
+						  	second_winddirection: second_element.children[15].text.squish,
+						  	third_temp: third_element.children[3].text.squish,
+						  	third_dp: third_element.children[5].text.squish,
+						  	third_humidity: third_element.children[7].text.squish,
+						  	third_pressure: third_element.children[9].text.squish,
+						  	third_windspeed: third_element.children[13].text.squish,
+						  	third_winddirection: third_element.children[15].text.squish)
 						break
 					end
 				end
