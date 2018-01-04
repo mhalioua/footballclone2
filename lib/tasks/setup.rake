@@ -2234,7 +2234,7 @@ namespace :setup do
 				elements = doc.css('#observations_details tbody tr')
 				puts elements.size
 				elements.each do |element|
-					element_time = Date.strptime(element.children[0].text, "%l:%M%p")
+					element_time = Date.strptime(element.children[0].text, "%l:%M %p")
 					puts element.children[0].text
 					puts (export_time > element_time)
 				end
