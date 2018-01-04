@@ -2221,6 +2221,28 @@ namespace :setup do
 			index_date = index_date + 1.days
 		end
 	end
+
+	task :getWeather => :environment do
+		include Api
+		exports = Export.all
+		exports.each do |export|
+			puts export.time
+			export_time = Date.strptime(export.time, "%I:%M%p")
+			if stadium = Stadium.find_by(zipcode: export.zipcode)
+				weather_link = stadium.weather_link
+				doc = download_document(weather_link)
+				elements = doc.css('#observations_details tbody tr')
+				puts elements.size
+				elements.each do |element|
+					element_time = Date.strptime(element.children[0].text, "%l:%M%p")
+					puts element.children[0].text
+					puts (export_time > element_time)
+				end
+			end
+			break
+		end
+	end
+
 	@nicknames = {
 		"Hawaii" => "Hawai'i",
 		"Brigham Young" => "BYU",
