@@ -2263,9 +2263,7 @@ namespace :setup do
 						break
 					end
 				end
-				
 			end
-			break
 		end
 	end
 	task :fixingtest => :environment do
