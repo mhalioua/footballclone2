@@ -2241,19 +2241,23 @@ namespace :setup do
 				doc = download_document(weather_link)
 				elements = doc.css('#observations_details tbody tr')
 				puts elements.size
-				elements.each do |element|
-					element_time = DateTime.strptime(element.children[0].text, "%l:%M %p")
-					puts element.children[0].text
-					puts (export_time > element_time)
+				elements.each_with_index do |element, index|
+					element_time = DateTime.strptime(element.children[0].text, "%I:%M %p")
+					if export_time > element_time
+						break
+					end
 				end
+				puts elements[index].children[0].text
+				puts elements[index+1].children[0].text
+				puts elements[index+2].children[0].text
 			end
 			break
 		end
 	end
 	task :fixingtest => :environment do
-		date = 'SEP  7'
-		export_date = DateTime.strptime(date, "%b %e")
-		puts export_date.strftime("%b %e")
+		date = '2:17 AM'
+		element_time = DateTime.strptime(date, "%I:%M %p")
+		puts element_time.strftime("%I:%M %p")
 	end
 
 	@nicknames = {
