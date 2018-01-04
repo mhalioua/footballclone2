@@ -2242,6 +2242,8 @@ namespace :setup do
 				elements = doc.css('#observations_details tbody tr')
 				puts elements.size
 				elements.each_with_index do |element, index|
+					puts element.children[0].text
+					puts element.children[1].text
 					element_time = DateTime.strptime(element.children[0].text, "%I:%M %p")
 					if export_time > element_time
 						puts elements[index].children[0].text
