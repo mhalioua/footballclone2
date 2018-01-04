@@ -2226,13 +2226,9 @@ namespace :setup do
 		include Api
 		exports = Export.all
 		exports.each do |export|
-			puts export.time
-			puts export.id
 			export_time = DateTime.strptime(export.time, "%I:%M%p")
 			export_date = DateTime.strptime(export.date, "%b %e")
 			if stadium = Stadium.find_by(zipcode: export.zipcode)
-				puts stadium.zipcode
-				puts stadium.weather_link
 				weather_link = stadium.weather_link
 				weather_link = weather_link.gsub('year', export.year.to_s)
 				weather_link = weather_link.gsub('month', export_date.strftime("%-m"))
@@ -2240,13 +2236,30 @@ namespace :setup do
 				puts weather_link
 				doc = download_document(weather_link)
 				elements = doc.css('#observations_details tbody tr')
-				puts elements.size
 				elements.each_with_index do |element, index|
 					element_time = DateTime.strptime(element.children[1].text, "%I:%M %p")
 					if export_time < element_time
 						puts elements[index].children[1].text
 						puts elements[index+1].children[1].text
 						puts elements[index+2].children[1].text
+						export.update(first_temp: elements[index].children[3].text,
+  							first_dp: elements[index].children[5].text,
+						  	first_humidity: elements[index].children[7].text,
+						  	first_pressure: elements[index].children[9].text,
+						  	first_windspeed: elements[index].children[13].text,
+						  	first_winddirection: elements[index].children[15].text,
+						  	second_temp: elements[index+1].children[3].text,
+						  	second_dp: elements[index+1].children[5].text,
+						  	second_humidity: elements[index+1].children[7].text,
+						  	second_pressure: elements[index+1].children[9].text,
+						  	second_windspeed: elements[index+1].children[13].text,
+						  	second_winddirection: elements[index+1].children[15].text,
+						  	third_temp: elements[index+2].children[3].text,
+						  	third_dp: elements[index+2].children[5].text,
+						  	third_humidity: elements[index+2].children[7].text,
+						  	third_pressure: elements[index+2].children[9].text,
+						  	third_windspeed: elements[index+2].children[13].text,
+						  	third_winddirection: elements[index+2].children[15].text)
 						break
 					end
 				end
@@ -2256,9 +2269,18 @@ namespace :setup do
 		end
 	end
 	task :fixingtest => :environment do
-		date = '2:17 AM'
-		element_time = DateTime.strptime(date, "%I:%M %p")
-		puts element_time.strftime("%I:%M %p")
+		include Api
+		url = 'https://www.wunderground.com/history/airport/KBDU/2013/9/7/DailyHistory.html?req_city=Boulder&req_state=CO&req_statename=Colorado&reqdb.zip=80309&reqdb.magic=1&reqdb.wmo=99999'
+		doc = download_document(url)
+		elements = doc.css('#observations_details tbody tr')
+		elements.each_with_index do |element, index|
+			puts elements[index].children[3].text
+			puts elements[index].children[5].text
+			puts elements[index].children[7].text
+			puts elements[index].children[9].text
+			puts elements[index].children[13].text
+			puts elements[index].children[15].text
+		end
 	end
 
 	@nicknames = {
