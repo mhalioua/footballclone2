@@ -2242,13 +2242,11 @@ namespace :setup do
 				elements = doc.css('#observations_details tbody tr')
 				puts elements.size
 				elements.each_with_index do |element, index|
-					puts element.children[0].text
-					puts element.children[1].text
-					element_time = DateTime.strptime(element.children[0].text, "%I:%M %p")
+					element_time = DateTime.strptime(element.children[1].text, "%I:%M %p")
 					if export_time > element_time
-						puts elements[index].children[0].text
-						puts elements[index+1].children[0].text
-						puts elements[index+2].children[0].text
+						puts elements[index].children[1].text
+						puts elements[index+1].children[1].text
+						puts elements[index+2].children[1].text
 						break
 					end
 				end
