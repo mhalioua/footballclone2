@@ -2227,9 +2227,17 @@ namespace :setup do
 		exports = Export.all
 		exports.each do |export|
 			puts export.time
+			puts export.id
 			export_time = DateTime.strptime(export.time, "%I:%M%p")
+			export_date = DateTime.strptime(export.date, "%^b %e")
 			if stadium = Stadium.find_by(zipcode: export.zipcode)
+				puts stadium.zipcode
+				puts stadium.weather_link
 				weather_link = stadium.weather_link
+				weather_link = weather_link.gsub('year', export.year)
+				weather_link = weather_link.gsub('month', export_date.strftime("%-m"))
+				weather_link = weather_link.gsub('day', export_date.strftime("%-d"))
+				puts weather_link
 				doc = download_document(weather_link)
 				elements = doc.css('#observations_details tbody tr')
 				puts elements.size
