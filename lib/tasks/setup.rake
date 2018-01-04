@@ -2234,7 +2234,7 @@ namespace :setup do
 				puts stadium.zipcode
 				puts stadium.weather_link
 				weather_link = stadium.weather_link
-				weather_link = weather_link.gsub('year', export.year)
+				weather_link = weather_link.gsub('year', export.year.to_s)
 				weather_link = weather_link.gsub('month', export_date.strftime("%-m"))
 				weather_link = weather_link.gsub('day', export_date.strftime("%-d"))
 				puts weather_link
