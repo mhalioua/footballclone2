@@ -2244,12 +2244,13 @@ namespace :setup do
 				elements.each_with_index do |element, index|
 					element_time = DateTime.strptime(element.children[0].text, "%I:%M %p")
 					if export_time > element_time
+						puts elements[index].children[0].text
+						puts elements[index+1].children[0].text
+						puts elements[index+2].children[0].text
 						break
 					end
 				end
-				puts elements[index].children[0].text
-				puts elements[index+1].children[0].text
-				puts elements[index+2].children[0].text
+				
 			end
 			break
 		end
