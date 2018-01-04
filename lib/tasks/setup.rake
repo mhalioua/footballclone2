@@ -1939,7 +1939,7 @@ namespace :setup do
 		include Api
 		exports = Export.all
 		exports.each do |export|
-			unless stadium = Stadium.find_by(stadium: export.stadium)
+			unless stadium = Stadium.find_by(stadium: export.stadium, zipcode: export.zipcode)
 				stadium = Stadium.create(stadium: export.stadium, zipcode: export.zipcode)
 			end
 		end
