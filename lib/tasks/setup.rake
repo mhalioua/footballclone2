@@ -2242,24 +2242,24 @@ namespace :setup do
 						puts elements[index].children[1].text
 						puts elements[index+1].children[1].text
 						puts elements[index+2].children[1].text
-						export.update(first_temp: elements[index].children[3].text,
-  							first_dp: elements[index].children[5].text,
-						  	first_humidity: elements[index].children[7].text,
-						  	first_pressure: elements[index].children[9].text,
-						  	first_windspeed: elements[index].children[13].text,
-						  	first_winddirection: elements[index].children[15].text,
-						  	second_temp: elements[index+1].children[3].text,
-						  	second_dp: elements[index+1].children[5].text,
-						  	second_humidity: elements[index+1].children[7].text,
-						  	second_pressure: elements[index+1].children[9].text,
-						  	second_windspeed: elements[index+1].children[13].text,
-						  	second_winddirection: elements[index+1].children[15].text,
-						  	third_temp: elements[index+2].children[3].text,
-						  	third_dp: elements[index+2].children[5].text,
-						  	third_humidity: elements[index+2].children[7].text,
-						  	third_pressure: elements[index+2].children[9].text,
-						  	third_windspeed: elements[index+2].children[13].text,
-						  	third_winddirection: elements[index+2].children[15].text)
+						export.update(first_temp: elements[index].children[3].text.squish,
+  							first_dp: elements[index].children[5].text.squish,
+						  	first_humidity: elements[index].children[7].text.squish,
+						  	first_pressure: elements[index].children[9].text.squish,
+						  	first_windspeed: elements[index].children[13].text.squish,
+						  	first_winddirection: elements[index].children[15].text.squish,
+						  	second_temp: elements[index+1].children[3].text.squish,
+						  	second_dp: elements[index+1].children[5].text.squish,
+						  	second_humidity: elements[index+1].children[7].text.squish,
+						  	second_pressure: elements[index+1].children[9].text.squish,
+						  	second_windspeed: elements[index+1].children[13].text.squish,
+						  	second_winddirection: elements[index+1].children[15].text.squish,
+						  	third_temp: elements[index+2].children[3].text.squish,
+						  	third_dp: elements[index+2].children[5].text.squish,
+						  	third_humidity: elements[index+2].children[7].text.squish,
+						  	third_pressure: elements[index+2].children[9].text.squish,
+						  	third_windspeed: elements[index+2].children[13].text.squish,
+						  	third_winddirection: elements[index+2].children[15].text.squish)
 						break
 					end
 				end
@@ -2274,12 +2274,12 @@ namespace :setup do
 		doc = download_document(url)
 		elements = doc.css('#observations_details tbody tr')
 		elements.each_with_index do |element, index|
-			puts elements[index].children[3].text
-			puts elements[index].children[5].text
-			puts elements[index].children[7].text
-			puts elements[index].children[9].text
-			puts elements[index].children[13].text
-			puts elements[index].children[15].text
+			puts elements[index].children[3].text.squish
+			puts elements[index].children[5].text.squish
+			puts elements[index].children[7].text.squish
+			puts elements[index].children[9].text.squish
+			puts elements[index].children[13].text.squish
+			puts elements[index].children[15].text.squish
 		end
 	end
 
