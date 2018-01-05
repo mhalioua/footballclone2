@@ -2249,10 +2249,6 @@ namespace :setup do
 							third_element = second_element
 						end
 
-						puts first_element.children[1].text
-						puts second_element.children[1].text
-						puts third_element.children[1].text
-
 						head = doc.css('#observations_details thead tr')[0]
 						head_children = head.children
 						indexObject = {
@@ -2283,7 +2279,6 @@ namespace :setup do
 								indexObject[:windspeed] = index
 							end
 						end
-						puts indexObject
 
 						export.update(first_temp: first_element.children[indexObject[:temp]].text.squish,
   							first_dp: first_element.children[indexObject[:dp]].text.squish,
