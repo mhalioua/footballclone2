@@ -2285,24 +2285,24 @@ namespace :setup do
 						end
 						puts indexObject
 
-						export.update(first_temp: first_element.children[3].text.squish,
-  							first_dp: first_element.children[7].text.squish,
-						  	first_humidity: first_element.children[9].text.squish,
-						  	first_pressure: first_element.children[11].text.squish,
-						  	first_windspeed: first_element.children[15].text.squish,
-						  	first_winddirection: first_element.children[17].text.squish,
-						  	second_temp: second_element.children[3].text.squish,
-						  	second_dp: second_element.children[7].text.squish,
-						  	second_humidity: second_element.children[9].text.squish,
-						  	second_pressure: second_element.children[11].text.squish,
-						  	second_windspeed: second_element.children[15].text.squish,
-						  	second_winddirection: second_element.children[17].text.squish,
-						  	third_temp: third_element.children[3].text.squish,
-						  	third_dp: third_element.children[7].text.squish,
-						  	third_humidity: third_element.children[9].text.squish,
-						  	third_pressure: third_element.children[11].text.squish,
-						  	third_windspeed: third_element.children[15].text.squish,
-						  	third_winddirection: third_element.children[17].text.squish)
+						export.update(first_temp: first_element.children[indexObject[:temp]].text.squish,
+  							first_dp: first_element.children[indexObject[:dp]].text.squish,
+						  	first_humidity: first_element.children[indexObject[:hum]].text.squish,
+						  	first_pressure: first_element.children[indexObject[:pressure]].text.squish,
+						  	first_windspeed: first_element.children[indexObject[:windspeed]].text.squish,
+						  	first_winddirection: first_element.children[indexObject[:winddir]].text.squish,
+						  	second_temp: second_element.children[indexObject[:temp]].text.squish,
+						  	second_dp: second_element.children[indexObject[:dp]].text.squish,
+						  	second_humidity: second_element.children[indexObject[:hum]].text.squish,
+						  	second_pressure: second_element.children[indexObject[:pressure]].text.squish,
+						  	second_windspeed: second_element.children[indexObject[:windspeed]].text.squish,
+						  	second_winddirection: second_element.children[indexObject[:winddir]].text.squish,
+						  	third_temp: third_element.children[indexObject[:temp]].text.squish,
+						  	third_dp: third_element.children[indexObject[:dp]].text.squish,
+						  	third_humidity: third_element.children[indexObject[:hum]].text.squish,
+						  	third_pressure: third_element.children[indexObject[:pressure]].text.squish,
+						  	third_windspeed: third_element.children[indexObject[:windspeed]].text.squish,
+						  	third_winddirection: third_element.children[indexObject[:winddir]].text.squish)
 						break
 					end
 				end
