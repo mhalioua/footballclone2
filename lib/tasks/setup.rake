@@ -2224,7 +2224,7 @@ namespace :setup do
 
 	task :getWeather => :environment do
 		include Api
-		exports = Export.where("first_dp = '-'")
+		exports = Export.all
 		exports.each do |export|
 			export_time = DateTime.strptime(export.time, "%I:%M%p")
 			export_date = DateTime.strptime(export.date, "%b %e")
@@ -2252,6 +2252,38 @@ namespace :setup do
 						puts first_element.children[1].text
 						puts second_element.children[1].text
 						puts third_element.children[1].text
+
+						head = doc.css('#observations_details thead tr')[0]
+						head_children = head.children
+						indexObject = {
+							temp: 0,
+							dp: 0,
+							hum: 0,
+							pressure: 0,
+							winddir: 0,
+							windspeed: 0
+						}
+						head_children.each_with_index do |head, index|
+							if head.text.squish == 'Temp.'
+								indexObject[:temp] = index
+							end
+							if head.text.squish == 'Dew Point'
+								indexObject[:dp] = index
+							end
+							if head.text.squish == 'Humidity'
+								indexObject[:hum] = index
+							end
+							if head.text.squish == 'Pressure'
+								indexObject[:pressure] = index
+							end
+							if head.text.squish == 'Wind Dir'
+								indexObject[:winddir] = index
+							end
+							if head.text.squish == 'Wind Speed'
+								indexObject[:windspeed] = index
+							end
+						end
+						puts indexObject
 
 						export.update(first_temp: first_element.children[3].text.squish,
   							first_dp: first_element.children[7].text.squish,
