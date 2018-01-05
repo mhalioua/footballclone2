@@ -2224,7 +2224,7 @@ namespace :setup do
 
 	task :getWeather => :environment do
 		include Api
-		exports = Export.all
+		exports = Export.where("first_dp = '-'")
 		exports.each do |export|
 			export_time = DateTime.strptime(export.time, "%I:%M%p")
 			export_date = DateTime.strptime(export.date, "%b %e")
@@ -2254,23 +2254,23 @@ namespace :setup do
 						puts third_element.children[1].text
 
 						export.update(first_temp: first_element.children[3].text.squish,
-  							first_dp: first_element.children[5].text.squish,
-						  	first_humidity: first_element.children[7].text.squish,
-						  	first_pressure: first_element.children[9].text.squish,
-						  	first_windspeed: first_element.children[13].text.squish,
-						  	first_winddirection: first_element.children[15].text.squish,
+  							first_dp: first_element.children[7].text.squish,
+						  	first_humidity: first_element.children[9].text.squish,
+						  	first_pressure: first_element.children[11].text.squish,
+						  	first_windspeed: first_element.children[15].text.squish,
+						  	first_winddirection: first_element.children[17].text.squish,
 						  	second_temp: second_element.children[3].text.squish,
-						  	second_dp: second_element.children[5].text.squish,
-						  	second_humidity: second_element.children[7].text.squish,
-						  	second_pressure: second_element.children[9].text.squish,
-						  	second_windspeed: second_element.children[13].text.squish,
-						  	second_winddirection: second_element.children[15].text.squish,
+						  	second_dp: second_element.children[7].text.squish,
+						  	second_humidity: second_element.children[9].text.squish,
+						  	second_pressure: second_element.children[11].text.squish,
+						  	second_windspeed: second_element.children[15].text.squish,
+						  	second_winddirection: second_element.children[17].text.squish,
 						  	third_temp: third_element.children[3].text.squish,
-						  	third_dp: third_element.children[5].text.squish,
-						  	third_humidity: third_element.children[7].text.squish,
-						  	third_pressure: third_element.children[9].text.squish,
-						  	third_windspeed: third_element.children[13].text.squish,
-						  	third_winddirection: third_element.children[15].text.squish)
+						  	third_dp: third_element.children[7].text.squish,
+						  	third_humidity: third_element.children[9].text.squish,
+						  	third_pressure: third_element.children[11].text.squish,
+						  	third_windspeed: third_element.children[15].text.squish,
+						  	third_winddirection: third_element.children[17].text.squish)
 						break
 					end
 				end
