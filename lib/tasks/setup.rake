@@ -2225,6 +2225,7 @@ namespace :setup do
 	task :getWeather => :environment do
 		include Api
 		exports = Export.where('first_windspeed is null')
+		puts exports.size
 		exports.each do |export|
 			export_time = DateTime.strptime(export.time, "%I:%M%p")
 			export_date = DateTime.strptime(export.date, "%b %e")
