@@ -1877,7 +1877,7 @@ namespace :setup do
 
 	task :exportScore => :environment do
 		include Api
-		exports = Export.where("zipcode is null")
+		exports = Export.where("away_total_point is null")
 		exports.each do |export|
 			url = "http://www.espn.com/nfl/game?gameId=#{export.game_id}"
 			if export.game_type == 'CFB'
@@ -1898,21 +1898,15 @@ namespace :setup do
 	  		home_forth_point = element[10].text.to_i
 	  		home_total_point = element[11].text.to_i
 
-	  		element = doc.css('.game-field .caption-wrapper').first
-	  		unless element
-	  			element = doc.css('.location-details').first
-	  			element = element.children[1]
-	  		end
-	  		stadium = ''
-	  		if element
-	  			stadium = element.text.squish
+	  		if element.size == 14
+	  			away_total_point = element[6].text.to_i
+		  		home_first_point = element[8].text.to_i
+		  		home_second_point = element[9].text.to_i
+		  		home_third_point = element[10].text.to_i
+		  		home_forth_point = element[11].text.to_i
+		  		home_total_point = element[13].text.to_i
 	  		end
 
-	  		element = doc.css('.icon-location-solid-before').first
-	  		zipcode = ''
-	  		if element
-	  			zipcode = element.children[1].text.squish.to_i
-	  		end
 
 			export.update(
 				away_first_point: away_first_point,
@@ -1929,10 +1923,7 @@ namespace :setup do
 				home_third_point: home_third_point,
 				home_forth_point: home_forth_point,
 				home_second_half_point: home_third_point + home_forth_point,
-				home_total_point: home_total_point,
-
-				stadium: stadium,
-				zipcode: zipcode)
+				home_total_point: home_total_point)
 		end
 	end
 	task :creatingStadium => :environment do
