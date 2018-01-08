@@ -2717,37 +2717,34 @@ namespace :setup do
 				away_play_yard 	= away_team_total.to_f / away_total_play
 			end
 			game = Game.where('game_id = ?', export.game_id).first
-			puts game
-			puts game_status
-			puts home_team_total
-			puts away_team_total
-			puts home_team_rushing
-			puts away_team_rushing
-			puts home_result
-			puts away_result
-			puts home_car
-			puts home_ave_car
-			puts home_rush_long
-			puts home_c_att
-			puts home_ave_att
-			puts home_total_play
-			puts home_play_yard
-			puts away_car
-			puts away_ave_car
-			puts away_rush_long
-			puts away_c_att
-			puts away_ave_att
-			puts away_total_play
-			puts away_play_yard
-			puts home_pass_long
-			puts away_pass_long
-
-			if false
-			  	unless score = game.scores.find_by(result: "Half")
-				  	score = game.scores.create(result: "Half")
-				end
-				score.update(game_status: game_status, home_team_total: home_team_total, away_team_total: away_team_total, home_team_rushing: home_team_rushing, away_team_rushing: away_team_rushing, home_result: home_result, away_result: away_result, home_car: home_car, home_ave_car: home_ave_car, home_rush_long: home_rush_long, home_c_att: home_c_att, home_ave_att: home_ave_att, home_total_play: home_total_play, home_play_yard: home_play_yard, away_car: away_car, away_ave_car: away_ave_car, away_rush_long: away_rush_long, away_c_att: away_c_att, away_ave_att: away_ave_att, away_total_play: away_total_play, away_play_yard: away_play_yard, home_pass_long: home_pass_long, away_pass_long: away_pass_long)
+		  	unless score = game.scores.find_by(result: "Half")
+			  	score = game.scores.create(result: "Half")
 			end
+			score.update(game_status: game_status, home_team_total: home_team_total, away_team_total: away_team_total, home_team_rushing: home_team_rushing, away_team_rushing: away_team_rushing, home_result: home_result, away_result: away_result, home_car: home_car, home_ave_car: home_ave_car, home_rush_long: home_rush_long, home_c_att: home_c_att, home_ave_att: home_ave_att, home_total_play: home_total_play, home_play_yard: home_play_yard, away_car: away_car, away_ave_car: away_ave_car, away_rush_long: away_rush_long, away_c_att: away_c_att, away_ave_att: away_ave_att, away_total_play: away_total_play, away_play_yard: away_play_yard, home_pass_long: home_pass_long, away_pass_long: away_pass_long)
+			export.update(
+				away_team_total: away_team_total,
+				away_team_rushing: away_team_rushing,
+				away_car: away_car,
+				away_ave_car: away_ave_car,
+				away_pass_long: away_pass_long,
+				away_rush_long: away_rush_long,
+				away_c: away_c,
+				away_att: away_attr,
+				away_ave_att: away_ave_att,
+				away_total_play: away_total_play,
+				away_play_yard: away_play_yard,
+
+				home_team_total: home_team_total,
+				home_team_rushing: home_team_rushing,
+				home_car: home_car,
+				home_ave_car: home_ave_car,
+				home_pass_long: home_pass_long,
+				home_rush_long: home_rush_long,
+				home_c: home_c,
+				home_att: home_attr,
+				home_ave_att: home_ave_att,
+				home_total_play: home_total_play,
+				home_play_yard: home_play_yard)
 		end
 	end
 
