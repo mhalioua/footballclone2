@@ -2328,6 +2328,7 @@ namespace :setup do
 			end
 
 			url = "http://www.espn.com/#{game_link}/playbyplay?gameId=#{game_id}"
+			puts url
 	  		doc = download_document(url)
 
 	  		element = doc.css(".game-time").first
