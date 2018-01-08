@@ -2296,18 +2296,427 @@ namespace :setup do
 			end
 		end
 	end
+
 	task :fixingtest => :environment do
 		include Api
-		url = 'https://www.wunderground.com/history/airport/KBDU/2013/9/7/DailyHistory.html?req_city=Boulder&req_state=CO&req_statename=Colorado&reqdb.zip=80309&reqdb.magic=1&reqdb.wmo=99999'
-		doc = download_document(url)
-		elements = doc.css('#observations_details tbody tr')
-		elements.each_with_index do |element, index|
-			puts elements[index].children[3].text.squish
-			puts elements[index].children[5].text.squish
-			puts elements[index].children[7].text.squish
-			puts elements[index].children[9].text.squish
-			puts elements[index].children[13].text.squish
-			puts elements[index].children[15].text.squish
+		exports = Export.where('away_team_total is null')
+		exports.each do |export|
+			game_type = export.game_type
+			home_team_passing = 0
+			away_team_passing = 0
+			home_team_rushing = 0
+			away_team_rushing = 0
+			home_car = 0
+			away_car = 0
+			home_attr = 0
+			away_attr = 0
+			home_rush_long = 0
+			away_rush_long = 0
+			home_pass_long = 0
+	  		away_pass_long = 0
+	  		home_c = 0
+	  		away_c = 0
+	  		home_result = 0
+	  		away_result = 0
+	  		first_drive = 0
+	  		second_drive = 0
+
+	  		game_id = export.game_id
+	  		game_link = "nfl"
+			if game_type = "CFB"
+				game_link == "college-football"
+			end
+
+			url = "http://www.espn.com/#{game_link}/playbyplay?gameId=#{game_id}"
+	  		doc = download_document(url)
+
+	  		element = doc.css(".game-time").first
+  			game_status = element.text
+
+	  		elements = doc.css(".css-accordion .accordion-item")
+	  		second_drive = elements.size
+	  		elements.each_with_index do |element, index|
+	  			if element.children.length == 3
+	  				first_drive = index
+	  				element = elements[index-1]
+	  				score = element.children[0].children[0].children[1]
+	  				away_result = score.children[0].children[1].text
+	  				home_result = score.children[1].children[1].text
+	  				break
+	  			end
+
+	  			lists = element.children[1].children[0].children[0]
+	  			list_length = (lists.children.length-1)/2
+	  			(1..list_length).each do |list_index|
+	  				list = lists.children[list_index*2-1]
+	  				header = list.children[1].text.downcase
+	  				string = list.children[3].children[1].children[0].text
+	  				string = string[25..-1].downcase
+	  				if game_link == "college-football"
+		  				if string.include?("pass complete") && string.exclude?("no play")
+		  					value = string[/\d+/].to_i
+		  					if string.include?(" loss ")
+		  						value = -value
+		  					end
+		  					if string.include?("no gain")
+		  						value = 0
+		  					end
+		  					if team_abbr == 1
+		  						home_attr = home_attr + 1
+		  						home_c = home_c + 1
+		  						home_team_passing = home_team_passing + value
+		  						if value > home_pass_long
+		  							home_pass_long = value
+		  						end
+		  					else
+		  						away_attr = away_attr + 1
+		  						away_c = away_c + 1
+		  						away_team_passing = away_team_passing + value
+		  						if value > away_pass_long
+		  							away_pass_long = value
+		  						end
+		  					end
+		  				end
+		  				if string.include?("pass incomplete") && string.exclude?("no play")
+		  					if team_abbr == 1
+		  						home_attr = home_attr + 1
+		  					else
+		  						away_attr = away_attr + 1
+		  					end
+		  				end
+
+		  				if string.include?("pass intercepted") && string.exclude?("no play")
+		  					if team_abbr == 1
+		  						home_attr = home_attr + 1
+		  					else
+		  						away_attr = away_attr + 1
+		  					end
+		  				end
+		  				
+		  				if string.include?(" pass ") && string.exclude?("no play") && string.exclude?("pass incomplete") && string.exclude?("pass complete") && (string.exclude?("penalty") || string.include?("declined")) && string.exclude?("pass intercepted")
+		  					value = string[/\d+/].to_i
+		  					if team_abbr == 1
+		  						home_attr = home_attr + 1
+		  						home_c = home_c + 1
+		  						home_team_passing = home_team_passing + value
+		  						if value > home_pass_long
+		  							home_pass_long = value
+		  						end
+		  					else
+		  						away_attr = away_attr + 1
+		  						away_c = away_c + 1
+		  						away_team_passing = away_team_passing + value
+		  						if value > away_pass_long
+		  							away_pass_long = value
+		  						end
+		  					end
+		  				end
+		  				if (string.include?(" run ") || string.include?(" rush ")) && string.exclude?("no play")
+		  					value = string[/\d+/].to_i
+		  					if string.include?(" loss ")
+		  						value = -value
+		  					end
+		  					if string.include?("no gain")
+		  						value = 0
+		  					end
+		  					if team_abbr == 1
+		  						home_car = home_car + 1
+		  						home_team_rushing = home_team_rushing + value
+		  						if value > home_rush_long
+		  							home_rush_long = value
+		  						end
+		  					else
+		  						away_car = away_car + 1
+		  						away_team_rushing = away_team_rushing + value
+		  						if value > away_rush_long
+		  							away_rush_long = value
+		  						end
+		  					end
+		  				end
+
+		  				
+		  				if string.include?(" sacked ") && string.include?(" loss ") && string.exclude?("no play")
+		  					value = string[/\d+/].to_i
+		  					value = -value
+		  					if team_abbr == 1
+		  						home_car = home_car + 1
+		  						home_team_rushing = home_team_rushing + value
+		  					else
+		  						away_car = away_car + 1
+		  						away_team_rushing = away_team_rushing + value
+		  					end
+		  				end
+		  			else
+		  				if (string.include?("pass complete ") || string.include?("pass short") || string.include?("pass deep")) && string.exclude?("no play") && string.exclude?("intercepted") && string.exclude?("safety") && string.exclude?("attempt")
+		  					if (string.exclude?("penalty") ||  string.exclude?("enforced"))
+			  					if string.include?("no gain") || string.include?("incomplete")
+			  						value = 0
+			  					else
+			  						value_end_index = string.index('yard')
+				  					value_start_index = string.rindex(' ', value_end_index-2)
+				  					value = string[value_start_index..value_end_index].to_i
+				  					if string.include?(" loss ")
+				  						value = -value
+				  					end
+			  					end
+			  				else
+			  					value_end_index = string.rindex(/\d+/)
+			  					value_start_index = string.rindex(' ', value_end_index-2)
+			  					value = string[value_start_index..value_end_index].to_i
+			  					abbr_end_index = value_start_index - 1
+			  					abbr_start_index = string.rindex(' ', abbr_end_index-2)
+			  					header_value = header.scan(/\d+/).last.to_i
+			  					if header.include?(string[abbr_start_index..abbr_end_index])
+			  						value = header_value - value
+			  						if value < 0
+			  							value = -value
+			  						end
+			  					else
+			  						value = 100 - value - header_value
+			  					end
+			  				end
+		  					if team_abbr == 1
+		  						home_attr = home_attr + 1
+		  						home_c = home_c + 1
+		  						home_team_passing = home_team_passing + value
+		  						if value > home_pass_long
+		  							home_pass_long = value
+		  						end
+		  					else
+		  						away_attr = away_attr + 1
+		  						away_c = away_c + 1
+		  						away_team_passing = away_team_passing + value
+		  						if value > away_pass_long
+		  							away_pass_long = value
+		  						end
+		  					end
+		  				
+
+		  				elsif string.include?("sacked at") && string.exclude?("no play") && string.exclude?("intercepted") && string.exclude?("safety") && string.exclude?("attempt")
+		  					if (string.exclude?("penalty") ||  string.exclude?("enforced"))
+			  					if string.include?("no gain")
+			  						value = 0
+			  					else
+			  						value_end_index = string.index('yard')
+				  					value_start_index = string.rindex(' ', value_end_index-2)
+				  					value = string[value_start_index..value_end_index].to_i
+				  					if string.include?(" loss ")
+				  						value = -value
+				  					end
+			  					end
+			  				else
+			  					value_end_index = string.rindex(/\d+/)
+			  					value_start_index = string.rindex(' ', value_end_index-2)
+			  					value = string[value_start_index..value_end_index].to_i
+			  					abbr_end_index = value_start_index - 1
+			  					abbr_start_index = string.rindex(' ', abbr_end_index-2)
+			  					header_value = header.scan(/\d+/).last.to_i
+			  					if header.include?(string[abbr_start_index..abbr_end_index])
+			  						value = header_value - value
+			  						if value < 0
+			  							value = -value
+			  						end
+			  					else
+			  						value = 100 - value - header_value
+			  					end
+			  				end
+		  					if team_abbr == 1
+		  						home_attr = home_attr + 1
+		  						home_c = home_c + 1
+		  						home_team_passing = home_team_passing + value
+		  						if value > home_pass_long
+		  							home_pass_long = value
+		  						end
+		  					else
+		  						away_attr = away_attr + 1
+		  						away_c = away_c + 1
+		  						away_team_passing = away_team_passing + value
+		  						if value > away_pass_long
+		  							away_pass_long = value
+		  						end
+		  					end
+		  				
+
+		  				elsif string.include?("pass incomplete") && string.exclude?("no play") && string.exclude?("intercepted") && string.exclude?("safety") && string.exclude?("attempt")
+		  					if team_abbr == 1
+		  						home_attr = home_attr + 1
+		  					else
+		  						away_attr = away_attr + 1
+		  					end
+		  				
+		  				elsif string.include?("pass from") && string.exclude?("no play") && string.exclude?("intercepted") && string.exclude?("safety") && string.exclude?("attempt")
+		  					if (string.exclude?("penalty") ||  string.exclude?("enforced"))
+			  					if string.include?("no gain")
+			  						value = 0
+			  					else
+			  						value_end_index = string.index('yrd')
+			  						if !value_end_index
+			  							value_end_index = string.index('yd')
+			  						end
+			  						if !value_end_index
+			  							value_end_index = string.index('yard')
+			  						end
+				  					value_start_index = string.rindex(' ', value_end_index-2)
+				  					value = string[value_start_index..value_end_index].to_i
+				  					if string.include?(" loss ")
+				  						value = -value
+				  					end
+			  					end
+			  				else
+			  					value_end_index = string.rindex(/\d+/)
+			  					value_start_index = string.rindex(' ', value_end_index-2)
+			  					value = string[value_start_index..value_end_index].to_i
+			  					abbr_end_index = value_start_index - 1
+			  					abbr_start_index = string.rindex(' ', abbr_end_index-2)
+			  					header_value = header.scan(/\d+/).last.to_i
+			  					if header.include?(string[abbr_start_index..abbr_end_index])
+			  						value = header_value - value
+			  						if value < 0
+			  							value = -value
+			  						end
+			  					else
+			  						value = 100 - value - header_value
+			  					end
+			  				end
+		  					if team_abbr == 1
+		  						home_attr = home_attr + 1
+		  						home_c = home_c + 1
+		  						home_team_passing = home_team_passing + value
+		  						if value > home_pass_long
+		  							home_pass_long = value
+		  						end
+		  					else
+		  						away_attr = away_attr + 1
+		  						away_c = away_c + 1
+		  						away_team_passing = away_team_passing + value
+		  						if value > away_pass_long
+		  							away_pass_long = value
+		  						end
+		  					end
+		  				
+
+		  				elsif ( string.include?("right tackle") || string.include?("right guard") || string.include?("left tackle") || string.include?("left guard") || string.include?("up the middle to") || string.include?("right end") || string.include?("left end"))&& string.exclude?("no play") && string.exclude?("safety") && string.exclude?("attempt")
+		  					if (string.exclude?("penalty") ||  string.exclude?("enforced"))
+			  					if string.include?("no gain")
+			  						value = 0
+			  					else
+			  						value_end_index = string.index('yard')
+				  					value_start_index = string.rindex(' ', value_end_index-2)
+				  					value = string[value_start_index..value_end_index].to_i
+				  					if string.include?(" loss ")
+				  						value = -value
+				  					end
+			  					end
+			  				else
+			  					value_end_index = string.rindex(/\d+/)
+			  					value_start_index = string.rindex(' ', value_end_index-2)
+			  					value = string[value_start_index..value_end_index].to_i
+			  					abbr_end_index = value_start_index - 1
+			  					abbr_start_index = string.rindex(' ', abbr_end_index-2)
+			  					header_value = header.scan(/\d+/).last.to_i
+			  					if header.include?(string[abbr_start_index..abbr_end_index])
+			  						value = header_value - value
+			  						if value < 0
+			  							value = -value
+			  						end
+			  					else
+			  						value = 100 - value - header_value
+			  					end
+			  				end
+
+		  					if team_abbr == 1
+		  						home_car = home_car + 1
+		  						home_team_rushing = home_team_rushing + value
+		  						if value > home_rush_long
+		  							home_rush_long = value
+		  						end
+		  					else
+		  						away_car = away_car + 1
+		  						away_team_rushing = away_team_rushing + value
+		  						if value > away_rush_long
+		  							away_rush_long = value
+		  						end
+		  					end
+		  				end
+		  			end
+	  			end
+
+	  			if element.children[0].text.include?("End of") && first_drive == 0
+	  				first_drive = index + 1
+	  				score = element.children[0].children[0].children[1]
+	  				away_result = score.children[0].children[1].text
+	  				home_result = score.children[1].children[1].text
+	  				break
+	  			end
+	  		end
+
+	  		home_team_total = home_team_rushing + home_team_passing
+	  		away_team_total = away_team_rushing + away_team_passing
+
+			home_ave_car = 0
+			if home_car != 0
+				home_ave_car = (home_team_rushing.to_f / home_car).round(2)
+			end
+			away_ave_car = 0
+			if away_car != 0
+				away_ave_car = (away_team_rushing.to_f / away_car).round(2)
+			end
+
+			home_c_att = home_c.to_s + "/" + home_attr.to_s
+			away_c_att = away_c.to_s + "/" + away_attr.to_s
+
+			home_ave_att = 0
+			if home_attr != 0
+				home_ave_att = (home_team_passing.to_f / home_attr).round(2)
+			end
+			away_ave_att = 0
+			if away_attr != 0
+				away_ave_att = (away_team_passing.to_f / away_attr).round(2)
+			end
+
+			home_total_play = home_car + home_attr
+			home_play_yard 	= 0
+			if home_total_play != 0
+				home_play_yard 	= home_team_total.to_f / home_total_play
+			end
+
+			away_total_play = away_car + away_attr
+			away_play_yard 	= 0
+			if away_total_play != 0
+				away_play_yard 	= away_team_total.to_f / away_total_play
+			end
+			game = Game.where('game_id = ?', export.game_id).first
+			puts game
+			puts game_status
+			puts home_team_total
+			puts away_team_total
+			puts home_team_rushing
+			puts away_team_rushing
+			puts home_result
+			puts away_result
+			puts home_car
+			puts home_ave_car
+			puts home_rush_long
+			puts home_c_att
+			puts home_ave_att
+			puts home_total_play
+			puts home_play_yard
+			puts away_car
+			puts away_ave_car
+			puts away_rush_long
+			puts away_c_att
+			puts away_ave_att
+			puts away_total_play
+			puts away_play_yard
+			puts home_pass_long
+			puts away_pass_long
+
+			if false
+			  	unless score = game.scores.find_by(result: "Half")
+				  	score = game.scores.create(result: "Half")
+				end
+				score.update(game_status: game_status, home_team_total: home_team_total, away_team_total: away_team_total, home_team_rushing: home_team_rushing, away_team_rushing: away_team_rushing, home_result: home_result, away_result: away_result, home_car: home_car, home_ave_car: home_ave_car, home_rush_long: home_rush_long, home_c_att: home_c_att, home_ave_att: home_ave_att, home_total_play: home_total_play, home_play_yard: home_play_yard, away_car: away_car, away_ave_car: away_ave_car, away_rush_long: away_rush_long, away_c_att: away_c_att, away_ave_att: away_ave_att, away_total_play: away_total_play, away_play_yard: away_play_yard, home_pass_long: home_pass_long, away_pass_long: away_pass_long)
+			end
 		end
 	end
 
