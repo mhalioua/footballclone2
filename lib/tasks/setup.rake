@@ -2484,6 +2484,7 @@ namespace :setup do
 			  						value = 0
 			  					else
 			  						value_end_index = string.index('yard')
+			  						value_end_index = value_end_index ? value_end_index : string.index('Yrd')
 				  					value_start_index = string.rindex(' ', value_end_index-2)
 				  					value = string[value_start_index..value_end_index].to_i
 				  					if string.include?(" loss ")
