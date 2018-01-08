@@ -2331,6 +2331,20 @@ namespace :setup do
 			puts url
 	  		doc = download_document(url)
 
+	  		away_img = doc.css(".away img")
+	  		if away_img.size > 0
+	  			away_img = away_img[1]['src'][-20..-1]
+	  		else
+	  			away_img = "NoImage"
+	  		end
+
+	  		home_img = doc.css(".home img")
+	  		if home_img.size > 0
+	  			home_img = home_img[1]['src'][-20..-1]
+	  		else
+	  			home_img = "NoImage"
+	  		end
+
 	  		element = doc.css(".game-time").first
   			game_status = element.text
 
@@ -2344,6 +2358,19 @@ namespace :setup do
 	  				away_result = score.children[0].children[1].text
 	  				home_result = score.children[1].children[1].text
 	  				break
+	  			end
+
+	  			team_abbr = 0
+	  			if image == home_img
+	  				team_abbr = 1
+	  			elsif image == away_img
+	  				team_abbr = 0
+	  			else
+	  				puts "Image Missing"
+	  			end
+
+	  			if kicked == 2
+	  				kicked = 1- team_abbr
 	  			end
 
 	  			lists = element.children[1].children[0].children[0]
