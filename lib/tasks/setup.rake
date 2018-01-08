@@ -2360,6 +2360,13 @@ namespace :setup do
 	  				break
 	  			end
 
+	  			image =  element.children[0].children[0].children[0].children[0]
+	  			if image.children.size == 0
+	  				image = "NoImage"
+	  			else
+	  				image = image.children[0]['src'][-20..-1]
+	  			end
+
 	  			team_abbr = 0
 	  			if image == home_img
 	  				team_abbr = 1
