@@ -2323,8 +2323,8 @@ namespace :setup do
 
 	  		game_id = export.game_id
 	  		game_link = "nfl"
-			if game_type = "CFB"
-				game_link == "college-football"
+			if game_type == "CFB"
+				game_link = "college-football"
 			end
 
 			url = "http://www.espn.com/#{game_link}/playbyplay?gameId=#{game_id}"
