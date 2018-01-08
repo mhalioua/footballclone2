@@ -2376,10 +2376,6 @@ namespace :setup do
 	  				puts "Image Missing"
 	  			end
 
-	  			if kicked == 2
-	  				kicked = 1- team_abbr
-	  			end
-
 	  			lists = element.children[1].children[0].children[0]
 	  			list_length = (lists.children.length-1)/2
 	  			(1..list_length).each do |list_index|
