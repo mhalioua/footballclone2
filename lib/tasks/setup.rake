@@ -8,7 +8,7 @@ namespace :setup do
 
 		game_link = "nfl"
 		(0..1).each do |index|
-			Rake::Task["setup:getWeekly"].invoke(2017, game_link, week_index+index)
+			Rake::Task["setup:getWeekly"].invoke(2018, game_link, week_index+index)
 			Rake::Task["setup:getWeekly"].reenable
 			game_link = "college-football"
 		end
@@ -328,7 +328,7 @@ namespace :setup do
 		game_link = "college-football"
 		(0..1).each do |index|
 			puts game_day
-			url = "https://www.sportsbookreview.com/betting-odds/#{game_link}/merged/?date=#{game_day}"
+			url = "https://classic.sportsbookreview.com/betting-odds/#{game_link}/merged/?date=#{game_day}"
 			doc = download_document(url)
 			elements = doc.css(".event-holder")
 			elements.each do |element|
@@ -393,7 +393,7 @@ namespace :setup do
 
 		game_link = "college-football"
 		(0..1).each do |index|
-			url = "https://www.sportsbookreview.com/betting-odds/#{game_link}/merged/2nd-half/?date=#{game_day}"
+			url = "https://classic.sportsbookreview.com/betting-odds/#{game_link}/merged/2nd-half/?date=#{game_day}"
 			doc = download_document(url)
 			puts url
 			elements = doc.css(".event-holder")
@@ -1950,23 +1950,23 @@ namespace :setup do
 		Rake::Task["setup:getFirstLines"].invoke
 		Rake::Task["setup:getFirstLines"].reenable
 
-		link = "https://www.sportsbookreview.com/betting-odds/college-football/2nd-half/?date="
+		link = "https://classic.sportsbookreview.com/betting-odds/college-football/2nd-half/?date="
 		Rake::Task["setup:getSecondLines"].invoke("second", link)
 		Rake::Task["setup:getSecondLines"].reenable
 
-		link = "https://www.sportsbookreview.com/betting-odds/college-football/?date="
+		link = "https://classic.sportsbookreview.com/betting-odds/college-football/?date="
 		Rake::Task["setup:getSecondLines"].invoke("full", link)
 		Rake::Task["setup:getSecondLines"].reenable
 
-		link = "https://www.sportsbookreview.com/betting-odds/college-football/totals/1st-half/?date="
+		link = "https://classic.sportsbookreview.com/betting-odds/college-football/totals/1st-half/?date="
 		Rake::Task["setup:getSecondLines"].invoke("firstTotal", link)
 		Rake::Task["setup:getSecondLines"].reenable
 
-		link = "https://www.sportsbookreview.com/betting-odds/college-football/totals/2nd-half/?date="
+		link = "https://classic.sportsbookreview.com/betting-odds/college-football/totals/2nd-half/?date="
 		Rake::Task["setup:getSecondLines"].invoke("secondTotal", link)
 		Rake::Task["setup:getSecondLines"].reenable
 
-		link = "https://www.sportsbookreview.com/betting-odds/college-football/totals/?date="
+		link = "https://classic.sportsbookreview.com/betting-odds/college-football/totals/?date="
 		Rake::Task["setup:getSecondLines"].invoke("fullTotal", link)
 		Rake::Task["setup:getSecondLines"].reenable
 	end
@@ -1980,7 +1980,7 @@ namespace :setup do
 		while index_date <= Date.new(2008, 12, 6) do
 			game_day = index_date.strftime("%Y%m%d")
 			puts game_day
-			url = "https://www.sportsbookreview.com/betting-odds/college-football/1st-half/?date=#{game_day}"
+			url = "https://classic.sportsbookreview.com/betting-odds/college-football/1st-half/?date=#{game_day}"
 			doc = download_document(url)
 			elements = doc.css(".event-holder")
 			elements.each do |element|
