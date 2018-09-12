@@ -20,12 +20,18 @@ namespace :setup do
     Rake::Task["setup:getGameState"].invoke(game_day)
     Rake::Task["setup:getGameState"].reenable
 
+    Rake::Task["setup:first"].invoke(game_day)
+    Rake::Task["setup:first"].reenable
+
     Rake::Task["setup:second"].invoke(game_day)
     Rake::Task["setup:second"].reenable
 
     game_day = (Time.now - 28.hours).to_formatted_s(:number)[0..7]
     Rake::Task["setup:getGameState"].invoke(game_day)
     Rake::Task["setup:getGameState"].reenable
+
+    Rake::Task["setup:first"].invoke(game_day)
+    Rake::Task["setup:first"].reenable
 
     Rake::Task["setup:second"].invoke(game_day)
     Rake::Task["setup:second"].reenable
@@ -36,11 +42,11 @@ namespace :setup do
     Rake::Task["setup:daily"].reenable
 
     game_day = (Time.now - 4.hours).to_formatted_s(:number)[0..7]
-    Rake::Task["setup:first"].invoke(game_day)
-    Rake::Task["setup:first"].reenable
+    Rake::Task["setup:full"].invoke(game_day)
+    Rake::Task["setup:full"].reenable
     game_day = (Time.now - 28.hours).to_formatted_s(:number)[0..7]
-    Rake::Task["setup:first"].invoke(game_day)
-    Rake::Task["setup:first"].reenable
+    Rake::Task["setup:full"].invoke(game_day)
+    Rake::Task["setup:full"].reenable
   end
 
   task :getWeekly, [:year, :game_link, :week_index] => [:environment] do |t, args|
@@ -319,7 +325,7 @@ namespace :setup do
     end
   end
 
-  task :first, [:game_day] => [:environment] do |t, args|
+  task :full, [:game_day] => [:environment] do |t, args|
 
     include Api
     game_day = args[:game_day]
@@ -344,6 +350,8 @@ namespace :setup do
         away_name = element.children[0].children[5].children[0].text
         home_full_closer = element.children[0].children[9].children[1].text
         away_full_closer = element.children[0].children[9].children[0].text
+        home_full_opener = element.children[0].children[7].children[1].text
+        away_full_opener = element.children[0].children[7].children[0].text
         ind = home_name.index(") ")
         home_name = ind ? home_name[ind + 2..-1] : home_name
         ind = away_name.index(") ")
@@ -373,12 +381,24 @@ namespace :setup do
         matched = games.select {|field| field.home_team.include?(home_name) && field.away_team.include?(away_name) && field.game_date == date}
         if matched.size > 0
           update_game = matched.first
-          update_game.update(home_number: home_number, away_number: away_number, home_full_closer: home_full_closer, away_full_closer: away_full_closer)
+          update_game.update(
+              home_number: home_number,
+              away_number: away_number,
+              home_full_closer: home_full_closer,
+              away_full_closer: away_full_closer,
+              home_full_opener: home_full_opener,
+              away_full_opener: away_full_opener)
         end
         matched = games.select {|field| field.home_team.include?(away_name) && field.away_team.include?(home_name) && field.game_date == date}
         if matched.size > 0
           update_game = matched.first
-          update_game.update(home_number: away_number, away_number: home_number, home_full_closer: away_full_closer, away_full_closer: home_full_closer)
+          update_game.update(
+              home_number: away_number,
+              away_number: home_number,
+              home_full_closer: away_full_closer,
+              away_full_closer: home_full_closer,
+              home_full_opener: away_full_opener,
+              away_full_opener: home_full_opener)
         end
       end
       game_link = "nfl-football"
@@ -405,6 +425,8 @@ namespace :setup do
         away_number = element.children[0].children[3].children[1].text.to_i
         home_second_closer = element.children[0].children[9].children[1].text
         away_second_closer = element.children[0].children[9].children[0].text
+        home_second_opener = element.children[0].children[7].children[1].text
+        away_second_opener = element.children[0].children[7].children[0].text
         game_time = element.children[0].children[4].text
         ind = game_time.index(":")
         hour = ind ? game_time[0..ind - 1].to_i : 0
@@ -420,12 +442,81 @@ namespace :setup do
         matched = games.select {|field| (field.home_number == home_number && field.away_number == away_number && field.game_date == date)}
         if matched.size > 0
           update_game = matched.first
-          update_game.update(home_second_closer: home_second_closer, away_second_closer: away_second_closer)
+          update_game.update(
+              home_second_closer: home_second_closer,
+              away_second_closer: away_second_closer,
+              home_second_opener: home_second_opener,
+              away_second_opener: away_second_opener
+          )
         end
         matched = games.select {|field| (field.home_number == away_number && field.away_number == home_number && field.game_date == date)}
         if matched.size > 0
           update_game = matched.first
-          update_game.update(home_second_closer: away_second_closer, away_second_closer: home_second_closer)
+          update_game.update(
+              home_second_closer: away_second_closer,
+              away_second_closer: home_second_closer,
+              home_second_opener: away_second_opener,
+              away_second_opener: home_second_opener
+          )
+        end
+      end
+      game_link = "nfl-football"
+    end
+  end
+
+  task :first, [:game_day] => [:environment] do |t, args|
+    include Api
+
+    game_day = args[:game_day]
+    games = Game.all
+
+    game_link = "college-football"
+    (0..1).each do |index|
+      url = "https://classic.sportsbookreview.com/betting-odds/#{game_link}/merged/1st-half/?date=#{game_day}"
+      doc = download_document(url)
+      puts url
+      elements = doc.css(".event-holder")
+      elements.each do |element|
+        if element.children[0].children[3].children.size < 3
+          next
+        end
+        home_number = element.children[0].children[3].children[2].text.to_i
+        away_number = element.children[0].children[3].children[1].text.to_i
+        home_first_closer = element.children[0].children[9].children[1].text
+        away_first_closer = element.children[0].children[9].children[0].text
+        home_first_opener = element.children[0].children[7].children[1].text
+        away_first_opener = element.children[0].children[7].children[0].text
+        game_time = element.children[0].children[4].text
+        ind = game_time.index(":")
+        hour = ind ? game_time[0..ind - 1].to_i : 0
+        min = ind ? game_time[ind + 1..ind + 3].to_i : 0
+        ap = game_time[-1]
+        if ap == "p" && hour != 12
+          hour = hour + 12
+        end
+        if ap == "a" && hour == 12
+          hour = 24
+        end
+        date = Time.new(game_day[0..3], game_day[4..5], game_day[6..7]).change(hour: 0, min: min).in_time_zone('Eastern Time (US & Canada)') + 4.hours + hour.hours
+        matched = games.select {|field| (field.home_number == home_number && field.away_number == away_number && field.game_date == date)}
+        if matched.size > 0
+          update_game = matched.first
+          update_game.update(
+              home_first_closer: home_first_closer,
+              away_first_closer: away_first_closer,
+              home_first_opener: home_first_opener,
+              away_first_opener: away_first_opener
+          )
+        end
+        matched = games.select {|field| (field.home_number == away_number && field.away_number == home_number && field.game_date == date)}
+        if matched.size > 0
+          update_game = matched.first
+          update_game.update(
+              home_first_closer: away_first_closer,
+              away_first_closer: home_first_closer,
+              home_first_opener: away_first_opener,
+              away_first_opener: home_first_opener
+          )
         end
       end
       game_link = "nfl-football"
