@@ -342,8 +342,8 @@ namespace :setup do
         away_number = element.children[0].children[3].children[1].text
         home_name = element.children[0].children[5].children[1].text
         away_name = element.children[0].children[5].children[0].text
-        home_pinnacle = element.children[0].children[9].children[1].text
-        away_pinnacle = element.children[0].children[9].children[0].text
+        home_full_closer = element.children[0].children[9].children[1].text
+        away_full_closer = element.children[0].children[9].children[0].text
         ind = home_name.index(") ")
         home_name = ind ? home_name[ind + 2..-1] : home_name
         ind = away_name.index(") ")
@@ -373,12 +373,12 @@ namespace :setup do
         matched = games.select {|field| field.home_team.include?(home_name) && field.away_team.include?(away_name) && field.game_date == date}
         if matched.size > 0
           update_game = matched.first
-          update_game.update(home_number: home_number, away_number: away_number, home_pinnacle: home_pinnacle, away_pinnacle: away_pinnacle)
+          update_game.update(home_number: home_number, away_number: away_number, home_full_closer: home_full_closer, away_full_closer: away_full_closer)
         end
         matched = games.select {|field| field.home_team.include?(away_name) && field.away_team.include?(home_name) && field.game_date == date}
         if matched.size > 0
           update_game = matched.first
-          update_game.update(home_number: away_number, away_number: home_number, home_pinnacle: away_pinnacle, away_pinnacle: home_pinnacle)
+          update_game.update(home_number: away_number, away_number: home_number, home_full_closer: away_full_closer, away_full_closer: home_full_closer)
         end
       end
       game_link = "nfl-football"
@@ -403,8 +403,8 @@ namespace :setup do
         end
         home_number = element.children[0].children[3].children[2].text.to_i
         away_number = element.children[0].children[3].children[1].text.to_i
-        home_2nd_pinnacle = element.children[0].children[9].children[1].text
-        away_2nd_pinnacle = element.children[0].children[9].children[0].text
+        home_second_closer = element.children[0].children[9].children[1].text
+        away_second_closer = element.children[0].children[9].children[0].text
         game_time = element.children[0].children[4].text
         ind = game_time.index(":")
         hour = ind ? game_time[0..ind - 1].to_i : 0
@@ -420,12 +420,12 @@ namespace :setup do
         matched = games.select {|field| (field.home_number == home_number && field.away_number == away_number && field.game_date == date)}
         if matched.size > 0
           update_game = matched.first
-          update_game.update(home_2nd_pinnacle: home_2nd_pinnacle, away_2nd_pinnacle: away_2nd_pinnacle)
+          update_game.update(home_second_closer: home_second_closer, away_second_closer: away_second_closer)
         end
         matched = games.select {|field| (field.home_number == away_number && field.away_number == home_number && field.game_date == date)}
         if matched.size > 0
           update_game = matched.first
-          update_game.update(home_2nd_pinnacle: away_2nd_pinnacle, away_2nd_pinnacle: home_2nd_pinnacle)
+          update_game.update(home_second_closer: away_second_closer, away_second_closer: home_second_closer)
         end
       end
       game_link = "nfl-football"
