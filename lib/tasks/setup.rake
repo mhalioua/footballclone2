@@ -49,6 +49,19 @@ namespace :setup do
     Rake::Task["setup:full"].reenable
   end
 
+  task :test => :environment do
+    game_day = '20180910'
+
+    Rake::Task["setup:first"].invoke(game_day)
+    Rake::Task["setup:first"].reenable
+
+    Rake::Task["setup:second"].invoke(game_day)
+    Rake::Task["setup:second"].reenable
+
+    Rake::Task["setup:full"].invoke(game_day)
+    Rake::Task["setup:full"].reenable
+  end
+
   task :getWeekly, [:year, :game_link, :week_index] => [:environment] do |t, args|
     include Api
 
