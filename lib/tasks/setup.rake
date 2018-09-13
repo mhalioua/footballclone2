@@ -3,7 +3,7 @@ namespace :setup do
   task :daily => :environment do
     day = Time.now
     day_index = day.strftime("%j").to_i
-    result = (day_index + 2) / 7 - 35
+    result = (day_index + 3) / 7 - 35
     week_index = (result < 0) ? (0) : result
 
     game_link = "nfl"
