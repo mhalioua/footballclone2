@@ -1,24 +1,25 @@
 module WelcomeHelper
-  def lineToString(home, away, home_abbr, away_abbr)
+  def lineToString(home, away, home_abbr, away_abbr, is)
     pinnacle = ""
     if home
-      home, away = away, home if home[0] != "-"
-
-      index = home.index(" ")
-      pinnacle = index ? home[0..index - 1] : ""
-
-      index = away.index(" ")
+      home_pinnacle = home
+      away_pinnacle = away
+      home_pinnacle, away_pinnacle = away, home if home_pinnacle[0] != "-"
+      index = home_pinnacle.index(" ")
+      pinnacle = index ? home_pinnacle[0..index-1] : ""
+      index = away_pinnacle.index(" ")
       if index
-        pinnacle = pinnacle + " and " if pinnacle != ""
-        pinnacle = pinnacle + away[0..index - 1]
+        if pinnacle != ""
+          pinnacle = pinnacle + " and "
+        end
+        pinnacle = pinnacle + away_pinnacle[0..index-1]
       end
-
     end
     if pinnacle != ""
-      if away == "-"
-        pinnacle = home_abbr + " was " + pinnacle
+      if home[0] == "-"
+        pinnacle = home_abbr + is + pinnacle
       else
-        pinnacle = away_abbr + " was " + pinnacle
+        pinnacle = away_abbr + is + pinnacle
       end
     end
     return pinnacle

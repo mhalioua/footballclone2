@@ -334,14 +334,14 @@
           away_result = game.game_status
         end
 
-        full_closer = lineToString(game.home_full_closer, game.away_full_closer, game.home_abbr, game.away_abbr)
-        full_opener = lineToString(game.home_full_opener, game.away_full_opener, game.home_abbr, game.away_abbr)
+        full_closer = lineToString(game.home_full_closer, game.away_full_closer, game.home_abbr, game.away_abbr, ' is ')
+        full_opener = lineToString(game.home_full_opener, game.away_full_opener, game.home_abbr, game.away_abbr, ' was ')
 
-        first_closer = lineToString(game.home_first_closer, game.away_first_closer, game.home_abbr, game.away_abbr)
-        first_opener = lineToString(game.home_first_opener, game.away_first_opener, game.home_abbr, game.away_abbr)
+        first_closer = lineToString(game.home_first_closer, game.away_first_closer, game.home_abbr, game.away_abbr, ' is ')
+        first_opener = lineToString(game.home_first_opener, game.away_first_opener, game.home_abbr, game.away_abbr, ' was ')
 
-        second_closer = lineToString(game.home_second_closer, game.away_second_closer, game.home_abbr, game.away_abbr)
-        second_opener = lineToString(game.home_second_opener, game.away_second_opener, game.home_abbr, game.away_abbr)
+        second_closer = lineToString(game.home_second_closer, game.away_second_closer, game.home_abbr, game.away_abbr, ' is ')
+        second_opener = lineToString(game.home_second_opener, game.away_second_opener, game.home_abbr, game.away_abbr, ' was ')
 
         first_drive = ""
         second_drive = ""
@@ -388,7 +388,7 @@
         %>
         <td class="borderTop"><%= full_opener %></td>
         <td class="borderTop"><%= first_opener %></td>
-        <td class="borderTop"><%= second_opener %></td>
+        <td rowspan="2" class="borderTop"><%= second_closer %></td>
         <td class="borderTop" style=<%= sep_style %>><%= away_car %></td>
         <td class="borderTop" style=<%= darkcolor %>><%= away_ave_car %></td>
         <td class="borderTop" style=<%= bluedark %>><%= away_typc %></td>
@@ -423,7 +423,6 @@
         <td><%= home_team_rushing %></td>
         <td><%= full_closer %></td>
         <td><%= first_closer %></td>
-        <td><%= second_closer %></td>
         <td style=<%= sep_style %>><%= home_car %></td>
         <td style=<%= darkcolor %>><%= home_ave_car %></td>
         <td style=<%= bluedark %>><%= home_typc %></td>
