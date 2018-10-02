@@ -13,7 +13,7 @@ namespace :data do
   end
 
   task :match_to_export => :environment do
-    games = FootballDatum.where('game_id is not null')
+    games = FootballDatum.where('game_id is null')
     games.each do |game|
       month_day = game.month_day
       date = month_day[-3..-1] + ' ' + month_day[0..-5]
