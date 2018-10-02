@@ -33,6 +33,6 @@ namespace :data do
 
   @team = {
       'Floridatl' => 'Florida Intl',
-      'San Josͩ State' => 'San JosÃ© State'
+      'San Josͩ State' => 'San José State'
   }
 end
