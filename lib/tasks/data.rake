@@ -4,6 +4,10 @@ namespace :data do
     filename = File.join Rails.root, 'csv', "football_data.csv"
     CSV.foreach(filename, headers: true) do |row|
       game = row.to_h
+      game['game_id'] = nil
+      game['game_date'] = nil
+      game['home_abbr'] = nil
+      game['away_abbr'] = nil
       FootballDatum.create(game)
     end
   end
