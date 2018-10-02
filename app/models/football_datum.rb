@@ -1,0 +1,2 @@
+class FootballDatum < ApplicationRecord
+end

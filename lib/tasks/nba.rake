@@ -1,13 +1,4 @@
 namespace :nba do
-
-	task :rest => :environment do
-		Rake::Task["nba:getSecondLines"].invoke
-		Rake::Task["nba:getSecondLines"].reenable
-
-		Rake::Task["nba:getFullLines"].invoke
-		Rake::Task["nba:getFullLines"].reenable
-	end
-
 	task :daily => :environment do
 		date = Date.new(2014, 10, 16)
 		while date < Date.new(2017, 6, 13)  do
@@ -555,15 +546,6 @@ namespace :nba do
 			end
 			date = date + 1.days
 		end
-	end
-
-	task :test => [:environment] do
-		include Api
-		url = "http://www.espn.com/nba/game?gameId=400952527"
-  		doc = download_document(url)
-		puts url
-		elements = doc.css("#linescore tbody tr")
-		puts elements[0].children.size
 	end
 
 	@nba_nicknames = {
