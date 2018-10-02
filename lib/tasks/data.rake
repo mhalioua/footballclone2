@@ -18,13 +18,9 @@ namespace :data do
       month_day = game.month_day.upcase
       home_team = game.home_team
       away_team = game.away_team
-      if @team[home_team]
-        home_team = @team[home_team]
-      end
-      if @team[away_team]
-        away_team = @team[away_team]
-      end
-      date = month_day[-3..-1] + ('  ' + month_day[0..-5])[-2..-1]
+      home_team = @team[home_team] if @team[home_team]
+      away_team = @team[away_team] if @team[away_team]
+      date = month_day[-3..-1] + ('  ' + month_day[0..-5])[-3..-1]
       export = Export.where("home_team = ? AND away_team = ? AND time = ? AND year = ? AND date = ? AND week = ?", home_team, away_team, game.local_time, game.year, date, game.day_week).first
       if export
         game.update(game_id: export.game_id,
