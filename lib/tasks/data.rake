@@ -15,7 +15,7 @@ namespace :data do
   task :match_to_export => :environment do
     games = FootballDatum.where('game_id is null')
     games.each do |game|
-      month_day = game.month_day
+      month_day = game.month_day.upcase
       date = month_day[-3..-1] + ' ' + month_day[0..-5]
       export = Export.where("home_team = ? AND away_team = ? AND time = ? AND year = ? AND date = ? AND week = ?", game.home_team, game.away_team, game.local_time, game.year, date, game.day_week).first
       if export
