@@ -21,8 +21,11 @@ namespace :data do
       if @team[home_team]
         home_team = @team[home_team]
       end
+      if @team[away_team]
+        away_team = @team[away_team]
+      end
       date = month_day[-3..-1] + ('  ' + month_day[0..-5])[-2..-1]
-      export = Export.where("home_team = ? AND away_team = ? AND time = ? AND year = ? AND date = ? AND week = ?", game.home_team, game.away_team, game.local_time, game.year, date, game.day_week).first
+      export = Export.where("home_team = ? AND away_team = ? AND time = ? AND year = ? AND date = ? AND week = ?", home_team, away_team, game.local_time, game.year, date, game.day_week).first
       if export
         game.update(game_id: export.game_id,
                     game_date: export.game_date,
@@ -32,7 +35,7 @@ namespace :data do
     end
   end
 
-  @team = [
+  @team = {
       'Floridatl' => 'Florida Intl'
-  ]
+  }
 end
