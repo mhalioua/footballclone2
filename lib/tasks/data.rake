@@ -31,6 +31,23 @@ namespace :data do
     end
   end
 
+  task :football_kicked => :environment do
+    games = FootballDatum.where('kicked is null')
+    games.each do |game|
+      site_game = Game.where("game_id = ?", game.game_id).first
+      if site_game
+        kicked = ""
+        if site_game.kicked === 'home'
+          kicked = game.home_team
+        elsif site_game.kicked === 'away'
+          kicked = game.away_team
+        end
+        game.update(kicked_home_away: site_game.kicked,
+                    kicked: kicked)
+      end
+    end
+  end
+
   @team = {
       'Floridatl' => 'Florida Intl',
       'San Josͩ State' => 'San José State'
