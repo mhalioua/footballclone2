@@ -2175,7 +2175,8 @@ namespace :setup do
           if closer_side.include?('½')
             if closer_side[0] == '-'
               closer_side = closer_side[0..-1].to_f - 0.5
-            elsif closer_side = closer_side[0..-1].to_f + 0.5
+            else
+              closer_side = closer_side[0..-1].to_f + 0.5
             end
           else
             closer_side = closer_side.to_f
@@ -2288,7 +2289,8 @@ namespace :setup do
           if closer_side.include?('½')
             if closer_side[0] == '-'
               closer_side = closer_side[0..-1].to_f - 0.5
-            elsif closer_side = closer_side[0..-1].to_f + 0.5
+            else
+              closer_side = closer_side[0..-1].to_f + 0.5
             end
           else
             closer_side = closer_side.to_f

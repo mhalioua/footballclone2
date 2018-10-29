@@ -345,14 +345,14 @@
           away_result = game.game_status
         end
 
-        full_closer = lineToString(game.home_full_closer, game.away_full_closer, game.home_abbr, game.away_abbr, ' is ')
-        full_opener = lineToString(game.home_full_opener, game.away_full_opener, game.home_abbr, game.away_abbr, ' was ')
+        full_closer = game.home_abbr + ' is ' + lineToString(game.home_full_closer, game.away_full_closer)
+        full_opener = game.home_abbr + ' was ' + lineToString(game.home_full_opener, game.away_full_opener)
 
-        first_closer = lineToString(game.home_first_closer, game.away_first_closer, game.home_abbr, game.away_abbr, ' is ')
-        first_opener = lineToString(game.home_first_opener, game.away_first_opener, game.home_abbr, game.away_abbr, ' was ')
+        first_closer = game.home_abbr + ' is ' + lineToString(game.home_first_closer, game.away_first_closer)
+        first_opener = game.home_abbr + ' was ' + lineToString(game.home_first_opener, game.away_first_opener)
 
-        second_closer = lineToString(game.home_second_closer, game.away_second_closer, game.home_abbr, game.away_abbr, ' is ')
-        second_opener = lineToString(game.home_second_opener, game.away_second_opener, game.home_abbr, game.away_abbr, ' was ')
+        second_closer = game.home_abbr + ' is ' + lineToString(game.home_second_closer, game.away_second_closer)
+        second_opener = game.home_abbr + ' was ' + lineToString(game.home_second_opener, game.away_second_opener)
 
         first_drive = ""
         second_drive = ""
