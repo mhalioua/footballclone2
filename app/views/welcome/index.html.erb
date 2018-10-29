@@ -346,14 +346,14 @@
         end
 
         full_closer_spread, full_closer_total = lineToString(game.home_full_closer, game.away_full_closer)
-        full_closer = game.home_abbr + ' is ' + full_closer_spread.to_s + ' and ' + full_closer_total.to_s if full_closer_spread
+        full_closer = game.home_abbr + ' is ' + ((full_closer_spread > 0) ? '+' : '') + full_closer_spread.to_s + ' and ' + full_closer_total.to_s if full_closer_spread
         full_opener_spread, full_opener_total = lineToString(game.home_full_opener, game.away_full_opener)
-        full_opener = game.home_abbr + ' was ' + full_opener_spread.to_s + ' and ' + full_opener_total.to_s if full_opener_spread
+        full_opener = game.home_abbr + ' was ' + ((full_opener_spread > 0) ? '+' : '') + full_opener_spread.to_s + ' and ' + full_opener_total.to_s if full_opener_spread
 
         first_closer_spread, first_closer_total = lineToString(game.home_first_closer, game.away_first_closer)
-        first_closer = game.home_abbr + ' is ' + first_closer_spread.to_s + ' and ' + first_closer_total.to_s if first_closer_spread
+        first_closer = game.home_abbr + ' is ' + ((first_closer_spread > 0) ? '+' : '') + first_closer_spread.to_s + ' and ' + first_closer_total.to_s if first_closer_spread
         first_opener_spread, first_opener_total = lineToString(game.home_first_opener, game.away_first_opener)
-        first_opener = game.home_abbr + ' was ' + first_opener_spread.to_s + ' and ' + first_opener_total.to_s if first_opener_spread
+        first_opener = game.home_abbr + ' was ' + ((first_opener_spread > 0) ? '+' : '') + first_opener_spread.to_s + ' and ' + first_opener_total.to_s if first_opener_spread
 
         second_closer_spread, second_closer_total = lineToString(game.home_second_closer, game.away_second_closer)
         if !second_closer_spread && full_closer_spread && first_closer_spread
@@ -361,7 +361,7 @@
           second_closer_total = full_closer_total - first_closer_total
           second_style = "color: red"
         end
-        second_closer = game.home_abbr + ' is ' + second_closer_spread.to_s + ' and ' + second_closer_total.to_s if second_closer_spread
+        second_closer = game.home_abbr + ' is ' + ((second_closer_spread > 0) ? '+' : '') + second_closer_spread.to_s + ' and ' + second_closer_total.to_s if second_closer_spread
 
         first_drive = ""
         second_drive = ""
