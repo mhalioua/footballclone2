@@ -23,6 +23,6 @@ module WelcomeHelper
       spread = stringTofloat(away[1..-1])
       total = stringTofloat(home)
     end
-    return spread.to_s + ' and ' + total.to_s
+    return spread, total
   end
 end
