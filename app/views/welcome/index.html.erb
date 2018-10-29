@@ -356,8 +356,11 @@
         first_opener = game.home_abbr + ' was ' + first_opener_spread.to_s + ' and ' + first_opener_total.to_s if first_opener_spread
 
         second_closer_spread, second_closer_total = lineToString(game.home_second_closer, game.away_second_closer)
-        second_closer_spread = full_closer_spread - first_closer_spread if !second_closer_spread && full_closer_spread && first_closer_spread
-        second_closer_total = full_closer_total - first_closer_total if !second_closer_total && full_closer_total && first_closer_total
+        if !second_closer_spread && full_closer_spread && first_closer_spread
+          second_closer_spread = full_closer_spread - first_closer_spread
+          second_closer_total = full_closer_total - first_closer_total
+          second_style = "color: red"
+        end
         second_closer = game.home_abbr + ' is ' + second_closer_spread.to_s + ' and ' + second_closer_total.to_s if second_closer_spread
 
         first_drive = ""
@@ -405,7 +408,7 @@
         %>
         <td class="borderTop" style="font-weight: 100;"><%= full_opener %></td>
         <td class="borderTop" style="font-weight: 100;"><%= first_opener %></td>
-        <td rowspan="2" class="borderTop"><%= second_closer %></td>
+        <td rowspan="2" class="borderTop" style="<%= second_style %>"><%= second_closer %></td>
         <td class="borderTop" style=<%= sep_style %>><%= away_car %></td>
         <td class="borderTop" style=<%= darkcolor %>><%= away_ave_car %></td>
         <td class="borderTop" style=<%= bluedark %>><%= away_typc %></td>
