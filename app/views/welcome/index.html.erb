@@ -231,7 +231,7 @@
           end
           if home_c > 1 && home_team_rushing && home_pass_long
             home_typai = ((home_team_total.to_i - home_team_rushing.to_i - home_pass_long.to_i).to_f / (home_c - 1))
-            home_typai = home_typa.round(2)
+            home_typai = home_typai.round(2)
           end
 
 
@@ -253,7 +253,7 @@
           end
           if away_c > 1 && away_team_rushing && away_pass_long
             away_typai = ((away_team_total.to_i - away_team_rushing.to_i - away_pass_long.to_i).to_f / (away_c - 1))
-            away_typai = away_c.round(2)
+            away_typai = away_typai.round(2)
           end
 
         end

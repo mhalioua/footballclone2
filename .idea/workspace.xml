@@ -43,8 +43,8 @@
       <file leaf-file-name="index.html.erb" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/welcome/index.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="226">
-              <caret line="439" column="55" lean-forward="true" selection-start-line="439" selection-start-column="55" selection-end-line="439" selection-end-column="55" />
+            <state relative-caret-position="219">
+              <caret line="257" column="0" lean-forward="true" selection-start-line="257" selection-start-column="0" selection-end-line="257" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -64,7 +64,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>https://classic.sportsbookreview.com/betting-odds</find>
       <find>getfirstlines</find>
       <find>getLinkGame</find>
       <find>getScore</find>
@@ -94,6 +93,7 @@
       <find>getGameState</find>
       <find>away_typa</find>
       <find>Home_att</find>
+      <find>home_typai</find>
     </findStrings>
     <replaceStrings>
       <replace>away_full_closer</replace>
@@ -355,12 +355,12 @@
       <workItem from="1540278171153" duration="1722000" />
       <workItem from="1540330102332" duration="1431000" />
       <workItem from="1540364082673" duration="2382000" />
-      <workItem from="1540800862903" duration="1100000" />
+      <workItem from="1540800862903" duration="1452000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34886000" />
+    <option name="totallyTimeSpent" value="35238000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="41" y="23" width="1879" height="1057" extended-state="0" />
@@ -766,8 +766,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/welcome/index.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="439" column="55" lean-forward="true" selection-start-line="439" selection-start-column="55" selection-end-line="439" selection-end-column="55" />
+        <state relative-caret-position="219">
+          <caret line="257" column="0" lean-forward="true" selection-start-line="257" selection-start-column="0" selection-end-line="257" selection-end-column="0" />
           <folding />
         </state>
       </provider>
