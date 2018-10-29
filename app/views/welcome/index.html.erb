@@ -57,7 +57,7 @@
       <th width="170"></th>
       <th width="170"></th>
       <th width="170"></th>
-      <th colspan="11">1st Half</th>
+      <th colspan="12">1st Half</th>
       <th colspan="2">Drives</th>
       <th width="30"></th>
       <th width="50"></th>
@@ -83,6 +83,7 @@
       <th>C/ATT</th>
       <th>AVE <br> ATT</th>
       <th>TYPA</th>
+      <th>TYPAI</th>
       <th>TOTAL <br> PLAYS</th>
       <th>TOTAL <br> PLAYS/ <br> YARDS</th>
       <th>TYPP</th>
@@ -223,9 +224,14 @@
 
           home_att_index = home_c_att.index("/")
           home_att = home_att_index ? home_c_att[home_att_index + 1..-1].to_i : 0
+          home_c = home_att_index ? home_c_att[0 .. home_att_index-1].to_i : 0
           if home_att > 1 && home_team_rushing && home_pass_long
             home_typa = ((home_team_total.to_i - home_team_rushing.to_i - home_pass_long.to_i).to_f / (home_att - 1))
             home_typa = home_typa.round(2)
+          end
+          if home_c > 1 && home_team_rushing && home_pass_long
+            home_typai = ((home_team_total.to_i - home_team_rushing.to_i - home_pass_long.to_i).to_f / (home_c - 1))
+            home_typai = home_typa.round(2)
           end
 
 
@@ -240,9 +246,14 @@
 
           away_att_index = away_c_att.index("/")
           away_att = away_att_index ? away_c_att[away_att_index + 1..-1].to_i : 0
+          away_c = away_att_index ? away_c_att[0 .. away_att_index - 1].to_i : 0
           if away_att > 1 && away_team_rushing && away_pass_long
             away_typa = ((away_team_total.to_i - away_team_rushing.to_i - away_pass_long.to_i).to_f / (away_att - 1))
             away_typa = away_typa.round(2)
+          end
+          if away_c > 1 && away_team_rushing && away_pass_long
+            away_typai = ((away_team_total.to_i - away_team_rushing.to_i - away_pass_long.to_i).to_f / (away_c - 1))
+            away_typai = away_c.round(2)
           end
 
         end
@@ -395,6 +406,7 @@
         <td class="borderTop" style=<%= sep_style %>><%= away_c_att %></td>
         <td class="borderTop" style=<%= darkcolor %>><%= away_ave_att %></td>
         <td class="borderTop" style=<%= bluedark %>><%= away_typa %></td>
+        <td class="borderTop" style=<%= bluedark %>><%= away_typai %></td>
         <td class="borderTop" style=<%= sep_style %>><%= away_total_play %></td>
         <td class="borderTop" style=<%= darkcolor %>><%= away_play_yard %></td>
         <td class="borderTop" style=<%= bluedark %>><%= away_sacks %></td>
@@ -429,6 +441,7 @@
         <td style=<%= sep_style %>><%= home_c_att %></td>
         <td style=<%= darkcolor %>><%= home_ave_att %></td>
         <td style=<%= bluedark %>><%= home_typa %></td>
+        <td style=<%= bluedark %>><%= home_typai %></td>
         <td style=<%= sep_style %>><%= home_total_play %></td>
         <td style=<%= darkcolor %>><%= home_play_yard %></td>
         <td style=<%= bluedark %>><%= home_sacks %></td>
