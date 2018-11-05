@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8314721c-a246-446b-b901-029810c1afe9" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/views/welcome/index.html.erb" afterPath="$PROJECT_DIR$/app/views/welcome/index.html.erb" />
-    </list>
+    <list default="true" id="8314721c-a246-446b-b901-029810c1afe9" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.bundle/" />
     <ignored path="$PROJECT_DIR$/components/" />
     <ignored path="$PROJECT_DIR$/public/system/" />
@@ -43,8 +40,8 @@
       <file leaf-file-name="index.html.erb" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/welcome/index.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="246">
-              <caret line="350" column="107" lean-forward="false" selection-start-line="350" selection-start-column="89" selection-end-line="350" selection-end-column="107" />
+            <state relative-caret-position="201">
+              <caret line="347" column="29" lean-forward="true" selection-start-line="347" selection-start-column="29" selection-end-line="347" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -356,12 +353,12 @@
       <workItem from="1540330102332" duration="1431000" />
       <workItem from="1540364082673" duration="2382000" />
       <workItem from="1540800862903" duration="8299000" />
-      <workItem from="1540848233875" duration="1033000" />
+      <workItem from="1540848233875" duration="1420000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43118000" />
+    <option name="totallyTimeSpent" value="43505000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="41" y="23" width="1879" height="1057" extended-state="0" />
@@ -767,8 +764,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/welcome/index.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="350" column="107" lean-forward="false" selection-start-line="350" selection-start-column="89" selection-end-line="350" selection-end-column="107" />
+        <state relative-caret-position="201">
+          <caret line="347" column="29" lean-forward="true" selection-start-line="347" selection-start-column="29" selection-end-line="347" selection-end-column="29" />
           <folding />
         </state>
       </provider>
