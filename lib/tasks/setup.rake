@@ -2075,8 +2075,8 @@ namespace :setup do
     games = Export.all
     puts "----------Get First Lines----------"
 
-    index_date = Date.new(2008, 8, 28)
-    while index_date <= Date.new(2008, 12, 6) do
+    index_date = Date.new(2018, 11, 1)
+    while index_date <= Date.new(2018, 11, 5) do
       game_day = index_date.strftime("%Y%m%d")
       puts game_day
       url = "https://classic.sportsbookreview.com/betting-odds/college-football/1st-half/?date=#{game_day}"
@@ -2195,8 +2195,8 @@ namespace :setup do
     type = args[:type]
     puts "----------Get #{type} Lines----------"
 
-    index_date = Date.new(2008, 8, 28)
-    while index_date <= Date.new(2008, 12, 6) do
+    index_date = Date.new(2018, 11, 1)
+    while index_date <= Date.new(2018, 11, 5) do
       game_day = index_date.strftime("%Y%m%d")
       puts game_day
       url = "#{game_link}#{game_day}"
@@ -2853,7 +2853,6 @@ namespace :setup do
       "Brigham Young" => "BYU",
       "Massachusetts" => "UMass",
       "Florida International" => "Florida Intl",
-      "Louisiana-Monroe" => "Louisiana Monroe",
       "Central Connecticut State" => "Central Connecticu",
       "Virginia Military Institute" => "VMI",
       "North Carolina State" => "NC State",
@@ -2863,7 +2862,6 @@ namespace :setup do
       "Nicholls State" => "Nicholls",
       "Southern University" => "Southern",
       "Southern Miss" => "Southern Mississippi",
-      "UTSA" => "UT San Antonio",
       "N.Y. Jets" => "New York",
       "L.A. Rams" => "Los Angeles",
       "N.Y. Giants" => "New York",
@@ -2873,8 +2871,10 @@ namespace :setup do
       "NC Central" => "North Carolina Central",
       "Prairie View A&M" => "Prairie View",
       "McNeese State" => "McNeese",
-      "San Jose State" => "San José State",
       "NC A&T" => "North Carolina A&T",
-      "Stephen F. Austin" => "Stephen F Austin"
+      "Stephen F. Austin" => "Stephen F Austin",
+      "Florida Intl." => "Florida Intl",
+      "Connecticut" => "UConn",
+      "Louisiana-Monroe" => "UL Monroe"
   }
 end

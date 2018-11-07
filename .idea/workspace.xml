@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8314721c-a246-446b-b901-029810c1afe9" name="Default" comment="" />
+    <list default="true" id="8314721c-a246-446b-b901-029810c1afe9" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/lib/tasks/setup.rake" afterPath="$PROJECT_DIR$/lib/tasks/setup.rake" />
+    </list>
     <ignored path="$PROJECT_DIR$/.bundle/" />
     <ignored path="$PROJECT_DIR$/components/" />
     <ignored path="$PROJECT_DIR$/public/system/" />
@@ -27,21 +30,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="setup.rake" pinned="false" current-in-tab="false">
+      <file leaf-file-name="setup.rake" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/tasks/setup.rake">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="32700">
-              <caret line="2180" column="14" lean-forward="false" selection-start-line="2180" selection-start-column="14" selection-end-line="2180" selection-end-column="14" />
+            <state relative-caret-position="192">
+              <caret line="2198" column="48" lean-forward="false" selection-start-line="2198" selection-start-column="48" selection-end-line="2198" selection-end-column="48" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html.erb" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.html.erb" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/welcome/index.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="201">
-              <caret line="347" column="29" lean-forward="true" selection-start-line="347" selection-start-column="29" selection-end-line="347" selection-end-column="29" />
+            <state relative-caret-position="461">
+              <caret line="509" column="9" lean-forward="true" selection-start-line="509" selection-start-column="9" selection-end-line="509" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -61,15 +64,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>kicked</find>
-      <find>http</find>
-      <find>sports</find>
-      <find>TYPC</find>
-      <find>full_home_typc</find>
-      <find>full_home_team_rushing</find>
-      <find>full_home_rush_long</find>
-      <find>full_home_car</find>
-      <find>typa</find>
       <find>full_home_ave_att</find>
       <find>teamrankings</find>
       <find>ave_att</find>
@@ -91,6 +85,15 @@
       <find>first_closer</find>
       <find>second_clo</find>
       <find>spread</find>
+      <find>4.hours</find>
+      <find>UAB</find>
+      <find>Florida Atlantic</find>
+      <find>Florida Intl.</find>
+      <find>Connecticut</find>
+      <find>Massachusetts</find>
+      <find>firstline</find>
+      <find>getFirstLines</find>
+      <find>getSecondLines</find>
     </findStrings>
     <replaceStrings>
       <replace>away_full_closer</replace>
@@ -111,9 +114,9 @@
         <option value="$PROJECT_DIR$/lib/tasks/nba.rake" />
         <option value="$PROJECT_DIR$/db/migrate/20181002115443_create_football_data.rb" />
         <option value="$PROJECT_DIR$/lib/tasks/data.rake" />
-        <option value="$PROJECT_DIR$/lib/tasks/setup.rake" />
         <option value="$PROJECT_DIR$/app/helpers/welcome_helper.rb" />
         <option value="$PROJECT_DIR$/app/views/welcome/index.html.erb" />
+        <option value="$PROJECT_DIR$/lib/tasks/setup.rake" />
       </list>
     </option>
   </component>
@@ -123,7 +126,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="41" />
     <option name="y" value="23" />
     <option name="width" value="1879" />
@@ -144,8 +147,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="RailsProjectView" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -202,6 +203,8 @@
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="RailsProjectView" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -354,24 +357,26 @@
       <workItem from="1540364082673" duration="2382000" />
       <workItem from="1540800862903" duration="8299000" />
       <workItem from="1540848233875" duration="1420000" />
+      <workItem from="1541412649389" duration="160000" />
+      <workItem from="1541596265554" duration="509000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43505000" />
+    <option name="totallyTimeSpent" value="44174000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="41" y="23" width="1879" height="1057" extended-state="0" />
+    <frame x="41" y="23" width="1879" height="1057" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2682278" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32865733" sideWeight="0.1319851" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32865733" sideWeight="0.13571048" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32865733" sideWeight="0.8680149" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32865733" sideWeight="0.8642895" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.49561402" order="7" side_tool="false" content_ui="tabs" />
@@ -746,14 +751,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/tasks/setup.rake">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="32700">
-          <caret line="2180" column="14" lean-forward="false" selection-start-line="2180" selection-start-column="14" selection-end-line="2180" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/helpers/welcome_helper.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -764,8 +761,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/welcome/index.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="347" column="29" lean-forward="true" selection-start-line="347" selection-start-column="29" selection-end-line="347" selection-end-column="29" />
+        <state relative-caret-position="461">
+          <caret line="509" column="9" lean-forward="true" selection-start-line="509" selection-start-column="9" selection-end-line="509" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/tasks/setup.rake">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="2198" column="48" lean-forward="false" selection-start-line="2198" selection-start-column="48" selection-end-line="2198" selection-end-column="48" />
           <folding />
         </state>
       </provider>
