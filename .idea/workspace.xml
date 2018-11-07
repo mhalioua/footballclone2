@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8314721c-a246-446b-b901-029810c1afe9" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/lib/tasks/setup.rake" afterPath="$PROJECT_DIR$/lib/tasks/setup.rake" />
     </list>
     <ignored path="$PROJECT_DIR$/.bundle/" />
@@ -32,8 +33,8 @@
       <file leaf-file-name="setup.rake" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/tasks/setup.rake">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="125">
-              <caret line="679" column="16" lean-forward="false" selection-start-line="679" selection-start-column="16" selection-end-line="679" selection-end-column="16" />
+            <state relative-caret-position="197">
+              <caret line="680" column="24" lean-forward="false" selection-start-line="680" selection-start-column="24" selection-end-line="680" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -63,7 +64,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Home_att</find>
       <find>home_typai</find>
       <find>away_typai</find>
       <find>getFirstlines</find>
@@ -93,6 +93,7 @@
       <find>:first</find>
       <find>:all</find>
       <find>:full</find>
+      <find>1103</find>
     </findStrings>
     <replaceStrings>
       <replace>away_full_closer</replace>
@@ -357,12 +358,12 @@
       <workItem from="1540800862903" duration="8299000" />
       <workItem from="1540848233875" duration="1420000" />
       <workItem from="1541412649389" duration="160000" />
-      <workItem from="1541596265554" duration="900000" />
+      <workItem from="1541596265554" duration="1274000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="44565000" />
+    <option name="totallyTimeSpent" value="44939000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="41" y="23" width="1879" height="1057" extended-state="6" />
@@ -768,8 +769,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/tasks/setup.rake">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="679" column="16" lean-forward="false" selection-start-line="679" selection-start-column="16" selection-end-line="679" selection-end-column="16" />
+        <state relative-caret-position="197">
+          <caret line="680" column="24" lean-forward="false" selection-start-line="680" selection-start-column="24" selection-end-line="680" selection-end-column="24" />
           <folding />
         </state>
       </provider>

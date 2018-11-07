@@ -678,7 +678,7 @@ namespace :setup do
   end
 
   task :fixLines => :environment do
-    game_day = '20181103'
+    game_day = '20181027'
 
     Rake::Task["setup:full"].invoke(game_day)
     Rake::Task["setup:full"].reenable
