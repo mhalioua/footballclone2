@@ -677,6 +677,18 @@ namespace :setup do
     end
   end
 
+  task :fixLines => :environment do
+    game_day = '20181103'
+
+    Rake::Task["setup:full"].invoke(game_day)
+    Rake::Task["setup:full"].reenable
+
+    Rake::Task["setup:first"].invoke(game_day)
+    Rake::Task["setup:first"].reenable
+
+    Rake::Task["setup:second"].invoke(game_day)
+    Rake::Task["setup:second"].reenable
+  end
 
   task :all => :environment do
     year = 2009
