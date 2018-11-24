@@ -16,10 +16,11 @@ namespace :setup do
 
 
   task :test => :environment do
-    game_day = (Time.now - 52.hours).to_formatted_s(:number)[0..7]
-
-    Rake::Task["setup:getGameState"].invoke(game_day)
-    Rake::Task["setup:getGameState"].reenable
+    game_day = (Time.now - 5.hours).to_formatted_s(:number)[0..7]
+    games = Game.where("game_date between ? and ?", Date.parse(game_day).beginning_of_day, Date.parse(game_day).end_of_day)
+    games.each do |game|
+      puts game.id
+    end
   end
 
   task :min => :environment do

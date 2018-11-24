@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8314721c-a246-446b-b901-029810c1afe9" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/lib/tasks/setup.rake" afterPath="$PROJECT_DIR$/lib/tasks/setup.rake" />
     </list>
@@ -33,9 +34,13 @@
       <file leaf-file-name="setup.rake" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/tasks/setup.rake">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="244">
-              <caret line="2210" column="41" lean-forward="false" selection-start-line="2210" selection-start-column="41" selection-end-line="2210" selection-end-column="41" />
-              <folding />
+            <state relative-caret-position="315">
+              <caret line="21" column="18" lean-forward="true" selection-start-line="21" selection-start-column="18" selection-end-line="21" selection-end-column="18" />
+              <folding>
+                <element signature="e#2066#2132#0" expanded="false" />
+                <element signature="e#2367#5060#0" expanded="false" />
+                <element signature="e#13537#16889#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -64,15 +69,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>away_typai</find>
-      <find>getFirstlines</find>
-      <find>sportsbookreview</find>
-      <find>+ 0.5</find>
-      <find>½</find>
-      <find>sportsbookr</find>
-      <find>lineToString</find>
-      <find>0.5</find>
-      <find>second_opener</find>
       <find>second_closer</find>
       <find>first_closer</find>
       <find>second_clo</find>
@@ -86,14 +82,23 @@
       <find>firstline</find>
       <find>getSecondLines</find>
       <find>getLines</find>
-      <find>getFirstLines</find>
       <find>full</find>
       <find>classic.spo</find>
-      <find>:first</find>
       <find>:all</find>
-      <find>:full</find>
       <find>1103</find>
       <find>getfirstLines</find>
+      <find>https://classic.sportsbookreview.com/betting-odds</find>
+      <find>getFirstLines</find>
+      <find>:daily</find>
+      <find>:getWeekly</find>
+      <find>:getLInes</find>
+      <find>:first</find>
+      <find>test</find>
+      <find>:hourly</find>
+      <find>getWeekly</find>
+      <find>daily</find>
+      <find>:full</find>
+      <find>getGameState</find>
     </findStrings>
     <replaceStrings>
       <replace>away_full_closer</replace>
@@ -116,6 +121,7 @@
         <option value="$PROJECT_DIR$/lib/tasks/data.rake" />
         <option value="$PROJECT_DIR$/app/helpers/welcome_helper.rb" />
         <option value="$PROJECT_DIR$/app/views/welcome/index.html.erb" />
+        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/lib/tasks/setup.rake" />
       </list>
     </option>
@@ -126,10 +132,10 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="41" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="43" />
     <option name="y" value="23" />
-    <option name="width" value="1879" />
+    <option name="width" value="1877" />
     <option name="height" value="1057" />
   </component>
   <component name="ProjectView">
@@ -147,8 +153,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -160,6 +164,12 @@
               <item name="footballclone" type="b2602c69:ProjectViewProjectNode" />
               <item name="footballclone" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="footballclone" type="b2602c69:ProjectViewProjectNode" />
+              <item name="footballclone" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="controllers" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="footballclone" type="b2602c69:ProjectViewProjectNode" />
@@ -204,7 +214,9 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="RailsProjectView" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -359,18 +371,21 @@
       <workItem from="1540848233875" duration="1420000" />
       <workItem from="1541412649389" duration="160000" />
       <workItem from="1541596265554" duration="2127000" />
-      <workItem from="1542613029475" duration="157000" />
+      <workItem from="1542613029475" duration="753000" />
+      <workItem from="1542707544499" duration="799000" />
+      <workItem from="1542842267209" duration="1234000" />
+      <workItem from="1543054080110" duration="271000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="45949000" />
+    <option name="totallyTimeSpent" value="48849000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="41" y="23" width="1879" height="1057" extended-state="6" />
+    <frame x="43" y="23" width="1877" height="1057" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2682278" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2679808" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32865733" sideWeight="0.13571048" order="7" side_tool="true" content_ui="tabs" />
@@ -399,25 +414,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="2" />
+      <option name="time" value="5" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/db/migrate/20181002115443_create_football_data.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="25" lean-forward="false" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/csv/football_data.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="16" lean-forward="false" selection-start-line="3" selection-start-column="16" selection-end-line="3" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/tasks/nba.rake">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -437,7 +438,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="29505">
           <caret line="1967" column="0" lean-forward="true" selection-start-line="1967" selection-start-column="0" selection-end-line="1967" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#2066#2132#0" expanded="false" />
+            <element signature="e#2367#5060#0" expanded="false" />
+            <element signature="e#13537#16889#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -474,7 +479,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#2066#2132#0" expanded="false" />
+            <element signature="e#2367#5060#0" expanded="false" />
+            <element signature="e#13537#16889#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -510,7 +519,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="840">
           <caret line="56" column="22" lean-forward="false" selection-start-line="56" selection-start-column="22" selection-end-line="56" selection-end-column="22" />
-          <folding />
+          <folding>
+            <element signature="e#2066#2132#0" expanded="false" />
+            <element signature="e#2367#5060#0" expanded="false" />
+            <element signature="e#13537#16889#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -546,7 +559,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#2066#2132#0" expanded="false" />
+            <element signature="e#2367#5060#0" expanded="false" />
+            <element signature="e#13537#16889#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -582,7 +599,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="435">
           <caret line="29" column="41" lean-forward="true" selection-start-line="29" selection-start-column="41" selection-end-line="29" selection-end-column="41" />
-          <folding />
+          <folding>
+            <element signature="e#2066#2132#0" expanded="false" />
+            <element signature="e#2367#5060#0" expanded="false" />
+            <element signature="e#13537#16889#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -618,7 +639,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#2066#2132#0" expanded="false" />
+            <element signature="e#2367#5060#0" expanded="false" />
+            <element signature="e#13537#16889#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -633,7 +658,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#2066#2132#0" expanded="false" />
+            <element signature="e#2367#5060#0" expanded="false" />
+            <element signature="e#13537#16889#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -648,7 +677,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#2066#2132#0" expanded="false" />
+            <element signature="e#2367#5060#0" expanded="false" />
+            <element signature="e#13537#16889#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -663,7 +696,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#2066#2132#0" expanded="false" />
+            <element signature="e#2367#5060#0" expanded="false" />
+            <element signature="e#13537#16889#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -752,6 +789,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/welcome/index.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7575">
+          <caret line="509" column="9" lean-forward="false" selection-start-line="509" selection-start-column="9" selection-end-line="509" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/welcome_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/helpers/welcome_helper.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -760,19 +812,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/tasks/setup.rake">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="2210" column="41" lean-forward="false" selection-start-line="2210" selection-start-column="41" selection-end-line="2210" selection-end-column="41" />
-          <folding />
+        <state relative-caret-position="360">
+          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/welcome/index.html.erb">
+    <entry file="file://$PROJECT_DIR$/lib/tasks/setup.rake">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7575">
-          <caret line="509" column="9" lean-forward="false" selection-start-line="509" selection-start-column="9" selection-end-line="509" selection-end-column="9" />
-          <folding />
+        <state relative-caret-position="315">
+          <caret line="21" column="18" lean-forward="true" selection-start-line="21" selection-start-column="18" selection-end-line="21" selection-end-column="18" />
+          <folding>
+            <element signature="e#2066#2132#0" expanded="false" />
+            <element signature="e#2367#5060#0" expanded="false" />
+            <element signature="e#13537#16889#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
