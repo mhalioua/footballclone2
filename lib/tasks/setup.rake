@@ -20,6 +20,7 @@ namespace :setup do
     games = Game.where("game_date between ? and ?", Date.parse(game_day).beginning_of_day, Date.parse(game_day).end_of_day)
     games.each do |game|
       puts game.id
+      puts game.game_id
     end
   end
 
