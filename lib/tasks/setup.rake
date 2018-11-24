@@ -17,7 +17,7 @@ namespace :setup do
 
   task :test => :environment do
     game_day = (Time.now - 5.hours).to_formatted_s(:number)[0..7]
-    games = Game.where("game_date between ? and ?", Date.parse(game_day).beginning_of_day, Date.parse(game_day).end_of_day).sortby(:id)
+    games = Game.where("game_date between ? and ?", Date.parse(game_day).beginning_of_day, Date.parse(game_day).end_of_day).sort(:id)
     puts games.count
     games.each do |game|
       puts game.id
