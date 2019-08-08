@@ -5,22 +5,23 @@ namespace :setup do
     day_index = day.strftime("%j").to_i
     result = (day_index + 4) / 7 - 35
 
-    return if result < -4
+    if result > -5
+      game_link = "nfl"
+      if result < 1
+        url = "http://www.espn.com/nfl/schedule/_/week/#{result + 5}"
+      else
+        url = "http://www.espn.com/nfl/schedule/_/week/#{result}/seasontype/2"
+      end
+      Rake::Task["setup:getWeekly"].invoke(url, game_link)
+      Rake::Task["setup:getWeekly"].reenable
 
-    game_link = "nfl"
-    if result < 1
-      url = "http://www.espn.com/nfl/schedule/_/week/#{result + 5}"
-    else
-      url = "http://www.espn.com/nfl/schedule/_/week/#{result}/seasontype/2"
+      if result > -1
+        game_link = "college-football"
+        url = "http://www.espn.com/college-football/schedule/_/week/#{result + 1}"
+        Rake::Task["setup:getWeekly"].invoke(url, game_link)
+        Rake::Task["setup:getWeekly"].reenable
+      end
     end
-    Rake::Task["setup:getWeekly"].invoke(url, game_link)
-    Rake::Task["setup:getWeekly"].reenable
-
-    return if result < 0
-    game_link = "college-football"
-    url = "http://www.espn.com/college-football/schedule/_/week/#{result + 1}"
-    Rake::Task["setup:getWeekly"].invoke(url, game_link)
-    Rake::Task["setup:getWeekly"].reenable
   end
 
   task :min => :environment do
