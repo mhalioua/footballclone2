@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8314721c-a246-446b-b901-029810c1afe9" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/lib/tasks/setup.rake" afterPath="$PROJECT_DIR$/lib/tasks/setup.rake" />
+      <change beforePath="$PROJECT_DIR$/app/views/welcome/index.html.erb" afterPath="$PROJECT_DIR$/app/views/welcome/index.html.erb" />
     </list>
     <ignored path="$PROJECT_DIR$/.bundle/" />
     <ignored path="$PROJECT_DIR$/components/" />
@@ -30,11 +30,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="setup.rake" pinned="false" current-in-tab="true">
+      <file leaf-file-name="setup.rake" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/tasks/setup.rake">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="23" column="7" lean-forward="false" selection-start-line="23" selection-start-column="7" selection-end-line="23" selection-end-column="7" />
+            <state relative-caret-position="164">
+              <caret line="479" column="11" lean-forward="false" selection-start-line="479" selection-start-column="11" selection-end-line="479" selection-end-column="11" />
               <folding />
             </state>
           </provider>
@@ -43,18 +43,18 @@
       <file leaf-file-name="index.html.erb" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/welcome/index.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7575">
-              <caret line="509" column="9" lean-forward="false" selection-start-line="509" selection-start-column="9" selection-end-line="509" selection-end-column="9" />
+            <state relative-caret-position="66">
+              <caret line="352" column="56" lean-forward="true" selection-start-line="352" selection-start-column="56" selection-end-line="352" selection-end-column="56" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="welcome_helper.rb" pinned="false" current-in-tab="false">
+      <file leaf-file-name="welcome_helper.rb" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/helpers/welcome_helper.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="30" lean-forward="false" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
+            <state relative-caret-position="15">
+              <caret line="1" column="2" lean-forward="true" selection-start-line="1" selection-start-column="2" selection-end-line="26" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -116,10 +116,10 @@
         <option value="$PROJECT_DIR$/db/migrate/20181002115443_create_football_data.rb" />
         <option value="$PROJECT_DIR$/lib/tasks/data.rake" />
         <option value="$PROJECT_DIR$/app/helpers/welcome_helper.rb" />
-        <option value="$PROJECT_DIR$/app/views/welcome/index.html.erb" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/log/development.log" />
         <option value="$PROJECT_DIR$/lib/tasks/setup.rake" />
+        <option value="$PROJECT_DIR$/app/views/welcome/index.html.erb" />
       </list>
     </option>
   </component>
@@ -377,12 +377,13 @@
       <workItem from="1543297659437" duration="475000" />
       <workItem from="1564386538608" duration="6753000" />
       <workItem from="1565248309624" duration="366000" />
-      <workItem from="1565252216540" duration="11000" />
+      <workItem from="1565252216540" duration="257000" />
+      <workItem from="1565252615758" duration="479000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="60619000" />
+    <option name="totallyTimeSpent" value="61344000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1005" extended-state="6" />
@@ -725,22 +726,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/welcome/index.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7575">
-          <caret line="509" column="9" lean-forward="false" selection-start-line="509" selection-start-column="9" selection-end-line="509" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/helpers/welcome_helper.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="30" lean-forward="false" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/log/development.log">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -786,8 +771,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/tasks/setup.rake">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="7" lean-forward="false" selection-start-line="23" selection-start-column="7" selection-end-line="23" selection-end-column="7" />
+        <state relative-caret-position="164">
+          <caret line="479" column="11" lean-forward="false" selection-start-line="479" selection-start-column="11" selection-end-line="479" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/welcome/index.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="66">
+          <caret line="352" column="56" lean-forward="true" selection-start-line="352" selection-start-column="56" selection-end-line="352" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/helpers/welcome_helper.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="2" lean-forward="true" selection-start-line="1" selection-start-column="2" selection-end-line="26" selection-end-column="5" />
           <folding />
         </state>
       </provider>

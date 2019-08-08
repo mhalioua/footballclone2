@@ -7,7 +7,9 @@
     var start = moment("<%= @game_start_index %>").format('MMM DD, YYYY');
     var end = moment("<%= @game_end_index %>").format('MMM DD, YYYY');
     $('.daterange').daterangepicker({
+        showCustomRangeLabel: false,
         showDropdowns: true,
+        alwaysShowCalendars: false,
         ranges: {
             'Today': [moment(), moment()],
             'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
@@ -20,7 +22,7 @@
             format: 'MMM DD, YYYY'
         },
         startDate: start,
-        endDate: end,
+        endDate: end
     }, cb);
 
     function cb(start, end) {
@@ -186,27 +188,30 @@
           if game_status.size > 0 && game_status[0] == "0"
             game_status.slice!(0)
           end
-
-          home_car = score.home_car
-          home_ave_car = score.home_ave_car
-          home_pass_long = score.home_pass_long
-          home_rush_long = score.home_rush_long
-          home_c_att = score.home_c_att
-          home_ave_att = score.home_ave_att
-          home_total_play = score.home_total_play
-          home_play_yard = score.home_play_yard
+          if score.home_car
+            home_car = score.home_car
+            home_ave_car = score.home_ave_car
+            home_pass_long = score.home_pass_long
+            home_rush_long = score.home_rush_long
+            home_c_att = score.home_c_att
+            home_ave_att = score.home_ave_att
+            home_total_play = score.home_total_play
+            home_play_yard = score.home_play_yard
+          end
           if home_play_yard != ""
             home_play_yard_index = home_play_yard.index(".")
             home_play_yard = home_play_yard_index ? home_play_yard[0..home_play_yard_index + 2] : ""
           end
-          away_car = score.away_car
-          away_ave_car = score.away_ave_car
-          away_pass_long = score.away_pass_long
-          away_rush_long = score.away_rush_long
-          away_c_att = score.away_c_att
-          away_ave_att = score.away_ave_att
-          away_total_play = score.away_total_play
-          away_play_yard = score.away_play_yard
+          if score.away_car
+            away_car = score.away_car
+            away_ave_car = score.away_ave_car
+            away_pass_long = score.away_pass_long
+            away_rush_long = score.away_rush_long
+            away_c_att = score.away_c_att
+            away_ave_att = score.away_ave_att
+            away_total_play = score.away_total_play
+            away_play_yard = score.away_play_yard
+          end
           if away_play_yard != ""
             away_play_yard_index = away_play_yard.index(".")
             away_play_yard = away_play_yard_index ? away_play_yard[0..away_play_yard_index + 2] : ""
@@ -224,7 +229,7 @@
 
           home_att_index = home_c_att.index("/")
           home_att = home_att_index ? home_c_att[home_att_index + 1..-1].to_i : 0
-          home_c = home_att_index ? home_c_att[0 .. home_att_index-1].to_i : 0
+          home_c = home_att_index ? home_c_att[0..home_att_index - 1].to_i : 0
           if home_att > 1 && home_team_rushing && home_pass_long
             home_typa = ((home_team_total.to_i - home_team_rushing.to_i - home_pass_long.to_i).to_f / (home_att - 1))
             home_typa = home_typa.round(2)
@@ -246,7 +251,7 @@
 
           away_att_index = away_c_att.index("/")
           away_att = away_att_index ? away_c_att[away_att_index + 1..-1].to_i : 0
-          away_c = away_att_index ? away_c_att[0 .. away_att_index - 1].to_i : 0
+          away_c = away_att_index ? away_c_att[0..away_att_index - 1].to_i : 0
           if away_att > 1 && away_team_rushing && away_pass_long
             away_typa = ((away_team_total.to_i - away_team_rushing.to_i - away_pass_long.to_i).to_f / (away_att - 1))
             away_typa = away_typa.round(2)
