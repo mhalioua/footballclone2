@@ -332,6 +332,18 @@ namespace :setup do
     end
   end
 
+  task :full_test => [:environment] do |t, args|
+    game_day = Date.new(2019, 8, 1).to_formatted_s(:number)[0..7]
+    Rake::Task["setup:full"].invoke(game_day)
+    Rake::Task["setup:full"].reenable
+
+    Rake::Task["setup:first"].invoke(game_day)
+    Rake::Task["setup:first"].reenable
+
+    Rake::Task["setup:second"].invoke(game_day)
+    Rake::Task["setup:second"].reenable
+  end
+
   task :full, [:game_day] => [:environment] do |t, args|
 
     include Api
