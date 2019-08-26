@@ -29,6 +29,9 @@ namespace :setup do
     Rake::Task["setup:getGameState"].invoke(game_day)
     Rake::Task["setup:getGameState"].reenable
 
+    Rake::Task["setup:full"].invoke(game_day)
+    Rake::Task["setup:full"].reenable
+
     Rake::Task["setup:first"].invoke(game_day)
     Rake::Task["setup:first"].reenable
 
