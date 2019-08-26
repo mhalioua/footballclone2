@@ -15,12 +15,11 @@ namespace :setup do
       Rake::Task["setup:getWeekly"].invoke(url, game_link)
       Rake::Task["setup:getWeekly"].reenable
 
-      if result > -1
-        game_link = "college-football"
-        url = "http://www.espn.com/college-football/schedule/_/week/#{result + 1}"
-        Rake::Task["setup:getWeekly"].invoke(url, game_link)
-        Rake::Task["setup:getWeekly"].reenable
-      end
+      result = 0 if result < 0
+      game_link = "college-football"
+      url = "http://www.espn.com/college-football/schedule/_/week/#{result + 1}"
+      Rake::Task["setup:getWeekly"].invoke(url, game_link)
+      Rake::Task["setup:getWeekly"].reenable
     end
   end
 
