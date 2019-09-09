@@ -383,10 +383,22 @@ namespace :setup do
         away_number = element.children[0].children[3].children[1].text
         home_name = element.children[0].children[5].children[1].text
         away_name = element.children[0].children[5].children[0].text
-        home_full_closer = element.children[0].children[9].children[1].text
-        away_full_closer = element.children[0].children[9].children[0].text
-        home_full_opener = element.children[0].children[7].children[1].text
-        away_full_opener = element.children[0].children[7].children[0].text
+        home_full_opener = element.children[0].children[7].children[1].text.squish
+        away_full_opener = element.children[0].children[7].children[0].text.squish
+        home_full_closer = element.children[0].children[9].children[1].text.squish
+        away_full_closer = element.children[0].children[9].children[0].text.squish
+        if home_full_closer === ""
+          home_full_closer = element.children[0].children[11].children[1].text.squish
+          away_full_closer = element.children[0].children[11].children[0].text.squish
+        end
+        if home_full_closer === ""
+          home_full_closer = element.children[0].children[14].children[1].text.squish
+          away_full_closer = element.children[0].children[14].children[0].text.squish
+        end
+        if home_full_closer === ""
+          home_full_closer = element.children[0].children[10].children[1].text.squish
+          away_full_closer = element.children[0].children[10].children[0].text.squish
+        end
         ind = home_name.index(") ")
         home_name = ind ? home_name[ind + 2..-1] : home_name
         ind = away_name.index(") ")
@@ -458,10 +470,22 @@ namespace :setup do
         end
         home_number = element.children[0].children[3].children[2].text.to_i
         away_number = element.children[0].children[3].children[1].text.to_i
-        home_second_closer = element.children[0].children[9].children[1].text
-        away_second_closer = element.children[0].children[9].children[0].text
-        home_second_opener = element.children[0].children[7].children[1].text
-        away_second_opener = element.children[0].children[7].children[0].text
+        home_second_opener = element.children[0].children[7].children[1].text.squish
+        away_second_opener = element.children[0].children[7].children[0].text.squish
+        home_second_closer = element.children[0].children[9].children[1].text.squish
+        away_second_closer = element.children[0].children[9].children[0].text.squish
+        if home_second_closer === ""
+          home_second_closer = element.children[0].children[11].children[1].text.squish
+          away_second_closer = element.children[0].children[11].children[0].text.squish
+        end
+        if home_second_closer === ""
+          home_second_closer = element.children[0].children[14].children[1].text.squish
+          away_second_closer = element.children[0].children[14].children[0].text.squish
+        end
+        if home_second_closer === ""
+          home_second_closer = element.children[0].children[10].children[1].text.squish
+          away_second_closer = element.children[0].children[10].children[0].text.squish
+        end
         game_time = element.children[0].children[4].text
         ind = game_time.index(":")
         hour = ind ? game_time[0..ind - 1].to_i : 0
@@ -517,10 +541,22 @@ namespace :setup do
         end
         home_number = element.children[0].children[3].children[2].text.to_i
         away_number = element.children[0].children[3].children[1].text.to_i
-        home_first_closer = element.children[0].children[9].children[1].text
-        away_first_closer = element.children[0].children[9].children[0].text
-        home_first_opener = element.children[0].children[7].children[1].text
-        away_first_opener = element.children[0].children[7].children[0].text
+        home_first_opener = element.children[0].children[7].children[1].text.squish
+        away_first_opener = element.children[0].children[7].children[0].text.squish
+        home_first_closer = element.children[0].children[9].children[1].text.squish
+        away_first_closer = element.children[0].children[9].children[0].text.squish
+        if home_first_closer === ""
+          home_first_closer = element.children[0].children[11].children[1].text.squish
+          away_first_closer = element.children[0].children[11].children[0].text.squish
+        end
+        if home_first_closer === ""
+          home_first_closer = element.children[0].children[14].children[1].text.squish
+          away_first_closer = element.children[0].children[14].children[0].text.squish
+        end
+        if home_first_closer === ""
+          home_first_closer = element.children[0].children[10].children[1].text.squish
+          away_first_closer = element.children[0].children[10].children[0].text.squish
+        end
         game_time = element.children[0].children[4].text
         ind = game_time.index(":")
         hour = ind ? game_time[0..ind - 1].to_i : 0
