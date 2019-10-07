@@ -11,12 +11,11 @@
   </select>
 </div>
 <script type="text/javascript">
-  $('#selectedTeam').change(function () {
-      window.location.href = "/welcome/index/" + start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD') + "?teamPicker=" + this.value;
-  });
-
     var start = moment("<%= @game_start_index %>").format('MMM DD, YYYY');
     var end = moment("<%= @game_end_index %>").format('MMM DD, YYYY');
+    $('#selectedTeam').change(function () {
+        window.location.href = "/welcome/index/" + start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD') + "?teamPicker=" + this.value;
+    });
     $('.daterange').daterangepicker({
         showCustomRangeLabel: true,
         showDropdowns: true,
@@ -526,9 +525,9 @@ position: absolute;
 </script>
 
 <div style="
-  position: absolute;
-  top: 20px;
-  left: 100px;
+position: absolute;
+    top: 20px;
+    left: 100px;
 ">
   <input type="checkbox" name="teamPicker" id="teamPicker" <%= @teamPicker ? "checked" : "" %> />
   <label for="teamPicker">Pick a Team</label>
