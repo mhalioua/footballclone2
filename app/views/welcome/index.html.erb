@@ -209,7 +209,7 @@
             home_total_play = score.home_total_play
             home_play_yard = score.home_play_yard
           end
-          if home_play_yard != ""
+          if home_play_yard && home_play_yard != ""
             home_play_yard_index = home_play_yard.index(".")
             home_play_yard = home_play_yard_index ? home_play_yard[0..home_play_yard_index + 2] : ""
           end
@@ -223,7 +223,7 @@
             away_total_play = score.away_total_play
             away_play_yard = score.away_play_yard
           end
-          if away_play_yard != ""
+          if away_play_yard && away_play_yard != ""
             away_play_yard_index = away_play_yard.index(".")
             away_play_yard = away_play_yard_index ? away_play_yard[0..away_play_yard_index + 2] : ""
           end
@@ -238,9 +238,13 @@
           end
 
 
-          home_att_index = home_c_att.index("/")
-          home_att = home_att_index ? home_c_att[home_att_index + 1..-1].to_i : 0
-          home_c = home_att_index ? home_c_att[0..home_att_index - 1].to_i : 0
+          home_att = 0
+          home_c = 0
+          if home_c_att
+            home_att_index = home_c_att.index("/")
+            home_att = home_att_index ? home_c_att[home_att_index + 1..-1].to_i : 0
+            home_c = home_att_index ? home_c_att[0..home_att_index - 1].to_i : 0
+          end
           if home_att > 1 && home_team_rushing && home_pass_long
             home_typa = ((home_team_total.to_i - home_team_rushing.to_i - home_pass_long.to_i).to_f / (home_att - 1))
             home_typa = home_typa.round(2)
@@ -260,9 +264,13 @@
             away_typc = away_typc.round(2)
           end
 
-          away_att_index = away_c_att.index("/")
-          away_att = away_att_index ? away_c_att[away_att_index + 1..-1].to_i : 0
-          away_c = away_att_index ? away_c_att[0..away_att_index - 1].to_i : 0
+          away_att = 0
+          away_c = 0
+          if away_att_index
+            away_att_index = away_c_att.index("/")
+            away_att = away_att_index ? away_c_att[away_att_index + 1..-1].to_i : 0
+            away_c = away_att_index ? away_c_att[0..away_att_index - 1].to_i : 0
+          end
           if away_att > 1 && away_team_rushing && away_pass_long
             away_typa = ((away_team_total.to_i - away_team_rushing.to_i - away_pass_long.to_i).to_f / (away_att - 1))
             away_typa = away_typa.round(2)
@@ -319,9 +327,11 @@
             full_home_typc = full_home_typc.round(2)
           end
 
-
-          full_home_att_index = full_home_c_att.index("/")
-          full_home_att = full_home_att_index ? full_home_c_att[full_home_att_index + 1..-1].to_i : 0
+          full_home_att = 0
+          if full_home_c_att
+            full_home_att_index = full_home_c_att.index("/")
+            full_home_att = full_home_att_index ? full_home_c_att[full_home_att_index + 1..-1].to_i : 0
+          end
           if full_home_att > 1 && full_home_team_rushing && full_home_pass_long
             full_home_typa = ((full_home_team_total.to_i - full_home_team_rushing.to_i - full_home_pass_long.to_i).to_f / (full_home_att - 1))
             full_home_typa = full_home_typa.round(2)
@@ -337,8 +347,11 @@
             full_away_typc = full_away_typc.round(2)
           end
 
-          full_away_att_index = full_away_c_att.index("/")
-          full_away_att = full_away_att_index ? full_away_c_att[full_away_att_index + 1..-1].to_i : 0
+          full_away_att = 0
+          if full_away_c_att
+            full_away_att_index = full_away_c_att.index("/")
+            full_away_att = full_away_att_index ? full_away_c_att[full_away_att_index + 1..-1].to_i : 0
+          end
           if full_away_att > 1 && full_away_team_rushing && full_away_pass_long
             full_away_typa = ((full_away_team_total.to_i - full_away_team_rushing.to_i - full_away_pass_long.to_i).to_f / (full_away_att - 1))
             full_away_typa = full_away_typa.round(2)
