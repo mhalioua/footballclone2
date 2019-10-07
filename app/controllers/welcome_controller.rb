@@ -11,8 +11,8 @@ class WelcomeController < ApplicationController
       params[:id] = Time.now.strftime("%Y-%m-%d") + " - " + Time.now.strftime("%Y-%m-%d")
     end
     @game_index = params[:id]
-    if params[:teamPicker] != false
-			@games = Game.where("home_team = ? AND game_date < ?", @game_index, Date.today).or(Game.where("away_team = ? AND game_date < ?", @game_index, Date.today))
+    if @teamPicker != false
+			@games = Game.where("home_team = ? AND game_date < ?", @teamPicker, Date.today).or(Game.where("away_team = ? AND game_date < ?", @teamPicker, Date.today))
 									 .order("game_date")
     else
 			@game_start_index = @game_index[0..9]
