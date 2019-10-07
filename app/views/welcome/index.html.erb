@@ -1,7 +1,10 @@
-<div class="dateselect" style="text-align: center;">
+<div class="dateselect" style="text-align: center; display: <%= @teamPicker ? "none" : "block" %>">
   <button class="btn btn-primary prevbutton" style="margin:10px; padding: 5px 20px;">Prev Day</button>
   <button class="btn btn-primary nextbutton" style="margin:10px; padding: 5px 20px;">Next Day</button>
   <input type="text" data-toggle="daterangepicker" name="timestamp" data-filter-type="date-range" style="width: 400px; text-align:center; margin: 20px;" class="daterange">
+</div>
+<div class="teamSelect" style="text-align: center; display: <%= @teamPicker ? "block" : "none" %>">
+  Team Picker
 </div>
 <script type="text/javascript">
     var start = moment("<%= @game_start_index %>").format('MMM DD, YYYY');
@@ -26,7 +29,8 @@
     }, cb);
 
     function cb(start, end) {
-        window.location.href = "/welcome/index/" + start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD');
+        var teamPicker = $("#teamPicker").value();
+        window.location.href = "/welcome/index/" + start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD') + "?teamPicker=" + teamPicker;
     }
 
     $('.prevbutton').click(function () {
@@ -511,5 +515,27 @@ position: absolute;
 <script>
     $('.refreshbutton').click(function () {
         window.location.href = window.location.href;
+    });
+</script>
+
+<div style="
+  position: absolute;
+  top: 10px;
+  left: 50px;
+">
+  <label for="teamPicker">Pick a Team</label>
+  <input type="checkbox" name="teamPicker" id="teamPicker" checked="<%= @teamPicker %>" />
+</div>
+
+<script>
+    $('#teamPicker').change(function () {
+        var value = $(this).value();
+        if (value) {
+            $(".dateselect").css("display", "none");
+            $(".teamSelect").css("display", "block");
+        } else {
+            $(".teamSelect").css("display", "none");
+            $(".dateselect").css("display", "block");
+        }
     });
 </script>
