@@ -14,7 +14,7 @@
     var start = moment("<%= @game_start_index %>").format('MMM DD, YYYY');
     var end = moment("<%= @game_end_index %>").format('MMM DD, YYYY');
     $('#selectedTeam').change(function () {
-        window.location.href = "/welcome/index/" + start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD') + "?teamPicker=" + this.value;
+        window.location.href = "/welcome/index/" + moment("<%= @game_start_index %>").format('YYYY-MM-DD') + ' - ' + moment("<%= @game_end_index %>").format('YYYY-MM-DD') + "?teamPicker=" + this.value;
     });
     $('.daterange').daterangepicker({
         showCustomRangeLabel: true,
