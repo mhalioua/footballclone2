@@ -12,7 +12,7 @@ class WelcomeController < ApplicationController
     end
     @game_index = params[:id]
     if params[:teamPicker] != false
-			@games = Game.where("home_team = ?", @game_index).or(Game.where("away_team = ?", @game_index))
+			@games = Game.where("home_team = ? AND game_date < ?", @game_index, Date.today).or(Game.where("away_team = ? AND game_date < ?", @game_index, Date.today))
 									 .order("game_state")
 									 .order("game_status")
 									 .order("game_date")
