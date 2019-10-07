@@ -304,7 +304,7 @@
           full_away_ave_att = full.away_ave_att
           full_away_total_play = full.away_total_play
           full_away_play_yard = full.away_play_yard
-          if full_away_play_yard != ""
+          if full_away_play_yard && full_away_play_yard != ""
             full_away_play_yard_index = full_away_play_yard.index(".")
             full_away_play_yard = full_away_play_yard_index ? full_away_play_yard[0..full_away_play_yard_index + 2] : ""
           end
