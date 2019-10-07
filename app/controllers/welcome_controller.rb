@@ -14,7 +14,7 @@ class WelcomeController < ApplicationController
     @game_start_index = @game_index[0..9]
     @game_end_index = @game_index[13..23]
     if @teamPicker != false
-			@games = Game.where("home_team = ? AND game_date < ?", @teamPicker, Date.today).or(Game.where("away_team = ? AND game_date < ?", @teamPicker, Date.today))
+			@games = Game.where("home_team LIKE ? AND game_date < ?", '%' + @teamPicker, Date.today).or(Game.where("away_team LIKE ? AND game_date < ?", '%' + @teamPicker, Date.today))
 									 .order("game_date")
     else
       @games = Game.where("game_date between ? and ?", Date.strptime(@game_start_index).beginning_of_day, Date.strptime(@game_end_index).end_of_day)
@@ -23,6 +23,6 @@ class WelcomeController < ApplicationController
     end
     @teams = Game.distinct.pluck(:home_team)
 		@away_teams = Game.distinct.pluck(:away_team)
-		@teams.concat(@away_teams).uniq
+		@teams.concat(@away_teams).map { |team| team[0] == '#' ? team.split(' ')[1..-1].join(' ') : team}.uniq
   end
 end
