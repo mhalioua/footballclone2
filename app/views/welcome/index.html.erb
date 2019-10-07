@@ -4,7 +4,7 @@
   <input type="text" data-toggle="daterangepicker" name="timestamp" data-filter-type="date-range" style="width: 400px; text-align:center; margin: 20px;" class="daterange">
 </div>
 <div class="teamSelect" style="text-align: center; display: <%= @teamPicker ? "block" : "none" %>">
-  <select name="selectedTeam" id="selectedTeam">
+  <select name="selectedTeam" id="selectedTeam" style="margin: 22px;">
     <% @teams.each do |team| %>
       <option value="<%= team %>" <%= @game_index == team ? "selected" : '' %>><%= team %></option>
     <% end %>
@@ -12,7 +12,7 @@
 </div>
 <script type="text/javascript">
   $('#selectedTeam').change(function () {
-      window.location.href = "/welcome/index/" + this.value;
+      window.location.href = "/welcome/index/" + this.value + "?teamPicker=true";
   });
 
     var start = moment("<%= @game_start_index %>").format('MMM DD, YYYY');
