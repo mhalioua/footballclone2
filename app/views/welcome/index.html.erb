@@ -12,7 +12,7 @@
 </div>
 <script type="text/javascript">
   $('#selectedTeam').change(function () {
-      window.location.href = "/welcome/index/" + this.value + "?teamPicker=true";
+      window.location.href = "/welcome/index/" + start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD') + "?teamPicker=" + this.value;
   });
 
     var start = moment("<%= @game_start_index %>").format('MMM DD, YYYY');
