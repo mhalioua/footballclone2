@@ -11,7 +11,7 @@ class WelcomeController < ApplicationController
       params[:id] = Time.now.strftime("%Y-%m-%d") + " - " + Time.now.strftime("%Y-%m-%d")
     end
     @game_index = params[:id]
-    if params[:teamPicker]
+    if params[:teamPicker] != false
 			@games = Game.where("home_team = ?", @game_index).or(Game.where("away_team = ?", @game_index))
 									 .order("game_state")
 									 .order("game_status")
