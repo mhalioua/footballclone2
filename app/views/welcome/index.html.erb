@@ -4,6 +4,7 @@
   <input type="text" data-toggle="daterangepicker" name="timestamp" data-filter-type="date-range" style="width: 400px; text-align:center; margin: 20px;" class="daterange">
 </div>
 <div class="teamSelect" style="text-align: center; display: <%= @teamPicker ? "block" : "none" %>">
+  <%= @teamPicker %>
   <select name="selectedTeam" id="selectedTeam" style="margin: 22px;">
     <% @teams.each do |team| %>
       <option value="<%= team %>" <%= @teamPicker == team ? "selected" : '' %>><%= team %></option>
