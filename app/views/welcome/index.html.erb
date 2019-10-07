@@ -293,7 +293,7 @@
           full_home_ave_att = full.home_ave_att
           full_home_total_play = full.home_total_play
           full_home_play_yard = full.home_play_yard
-          if full_home_play_yard != ""
+          if full_home_play_yard && full_home_play_yard != ""
             full_home_play_yard_index = full_home_play_yard.index(".")
             full_home_play_yard = full_home_play_yard_index ? full_home_play_yard[0..full_home_play_yard_index + 2] : ""
           end

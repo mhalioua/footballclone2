@@ -13,15 +13,12 @@ class WelcomeController < ApplicationController
     @game_index = params[:id]
     if params[:teamPicker] != false
 			@games = Game.where("home_team = ? AND game_date < ?", @game_index, Date.today).or(Game.where("away_team = ? AND game_date < ?", @game_index, Date.today))
-									 .order("game_state")
-									 .order("game_status")
 									 .order("game_date")
     else
 			@game_start_index = @game_index[0..9]
 			@game_end_index = @game_index[13..23]
       @games = Game.where("game_date between ? and ?", Date.strptime(@game_start_index).beginning_of_day, Date.strptime(@game_end_index).end_of_day)
                    .order("game_state")
-                   .order("game_status")
                    .order("game_date")
     end
     @teams = Game.distinct.pluck(:home_team)
