@@ -4,9 +4,17 @@
   <input type="text" data-toggle="daterangepicker" name="timestamp" data-filter-type="date-range" style="width: 400px; text-align:center; margin: 20px;" class="daterange">
 </div>
 <div class="teamSelect" style="text-align: center; display: <%= @teamPicker ? "block" : "none" %>">
-  Team Picker
+  <select name="selectedTeam" id="selectedTeam">
+    <% @teams.each do |team| %>
+      <option value="<%= team %>" <%= @game_index == team ? "selected" : '' %>><%= team %></option>
+    <% end %>
+  </select>
 </div>
 <script type="text/javascript">
+  $('#selectedTeam').change(function () {
+      window.location.href = "/welcome/index/" + this.value;
+  });
+
     var start = moment("<%= @game_start_index %>").format('MMM DD, YYYY');
     var end = moment("<%= @game_end_index %>").format('MMM DD, YYYY');
     $('.daterange').daterangepicker({
@@ -29,8 +37,7 @@
     }, cb);
 
     function cb(start, end) {
-        var teamPicker = $("#teamPicker").is(":checked");
-        window.location.href = "/welcome/index/" + start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD') + "?teamPicker=" + teamPicker;
+        window.location.href = "/welcome/index/" + start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD');
     }
 
     $('.prevbutton').click(function () {
