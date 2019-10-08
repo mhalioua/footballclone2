@@ -23,6 +23,6 @@ class WelcomeController < ApplicationController
     end
     @teams = Game.distinct.pluck(:home_team)
 		@away_teams = Game.distinct.pluck(:away_team)
-		@teams = @teams.concat(@away_teams).map{|team| team[0] == '#' ? team.split(' ')[1..-1].join(' ') : team}.uniq
+		@teams = @teams.concat(@away_teams).map{|team| team[0] == '#' ? team.split(' ')[1..-1].join(' ') : team}.uniq.sort
   end
 end
