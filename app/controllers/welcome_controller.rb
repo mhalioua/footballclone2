@@ -19,6 +19,7 @@ class WelcomeController < ApplicationController
     else
       @games = Game.where("game_date between ? and ?", Date.strptime(@game_start_index).beginning_of_day, Date.strptime(@game_end_index).end_of_day)
                    .order("game_state")
+                   .order("game_status")
                    .order("game_date")
     end
     @teams = Game.distinct.pluck(:home_team)
