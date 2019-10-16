@@ -410,6 +410,18 @@
         end
 
         sep_style = "border-left:9px;border-left-style:solid;border-left-color:black;"
+
+        aVisible = game.kicked == "home" && away_typc.to_f < 2 && (away_c.to_f / away_att.to_f) < 0.55 && (home_result.to_i - away_result.to_i) > 10
+        bVisible = game.kicked == "away" && away_typc.to_f < 2 && (away_c.to_f / away_att.to_f) < 0.55 && (home_result.to_i - away_result.to_i) > 10
+        cVisible = home_typc.to_f < 2 && (home_c.to_f / home_att.to_f) < 0.55 && (away_result.to_i - home_result.to_i) > 10
+        dVisible = game.kicked == "home" && home_typc.to_f > 3 && (home_c.to_f / home_att.to_f) > 0.55 && (away_result.to_i - home_result.to_i) > 10
+        eVisible = game.kicked == "away" && away_typc.to_f > 2 && (away_c.to_f / away_att.to_f) > 0.55 && (home_result.to_i - away_result.to_i) > 10
+        fVisible = away_typc.to_f > 3 && away_typai.to_f > 10 && (home_result.to_i - away_result.to_i) > 10
+        gVisible = home_type.to_f > 3 && home_typai.to_f > 10 && (away_result.to_i - home_result.to_i) > 10
+        hVisible = game.kicked == "away" && (away_typc.to_f - home_typc.to_f) > 1 && (away_typai.to_f - home_typai.to_f) > 3 && first_drive < 10
+        iVisible = game.kicked == "home" && home_typc.to_f > 2 && home_typai.to_f > 3 && first_drive < 10
+        jVisible = game.kicked == "away" && away_team_total.to_i < 155 && second_closer_spread < 0 && (home_result.to_i - away_result.to_i) > 10
+        kVisible = home_typc.to_f < 3 && away_typc.to_f < 3
       %>
       <tr style=<%= style %>>
         <td class="borderTop"><%= game.away_number %></td>
@@ -454,57 +466,57 @@
         <td rowspan="2" class="borderTop"><%= first_drive %></td>
         <td rowspan="2" class="borderTop"><%= second_drive %></td>
         <td rowspan="2" class="borderTop">
-          <div style="background-color: #638F39">
+          <div style="background-color: #638F39" class="<%= aVisible ? "" : "hidden" %>">
             A_280ss-u57.3
           </div>
         </td>
         <td rowspan="2" class="borderTop">
-          <div style="background-color: #B2FF69">
+          <div style="background-color: #B2FF69" class="<%= bVisible ? "" : "hidden" %>">
             B_264ss-u61.1
           </div>
         </td>
         <td rowspan="2" class="borderTop">
-          <div style="background-color: #FFC072">
+          <div style="background-color: #FFC072" class="<%= cVisible ? "" : "hidden" %>">
             C_246-ss=v60.9 & u58.2
           </div>
         </td>
         <td rowspan="2" class="borderTop">
-          <div style="background-color: #F7B3FB">
+          <div style="background-color: #F7B3FB" class="<%= dVisible ? "" : "hidden" %>">
             D_95ss-h58.9
           </div>
         </td>
         <td rowspan="2" class="borderTop">
-          <div style="background-color: #64B2DF">
+          <div style="background-color: #64B2DF" class="<%= eVisible ? "" : "hidden" %>">
             E_321ss-v55.8
           </div>
         </td>
         <td rowspan="2" class="borderTop">
-          <div style="background-color: #FFE061">
+          <div style="background-color: #FFE061" class="<%= fVisible ? "" : "hidden" %>">
             F_150ss-v56.7
           </div>
         </td>
         <td rowspan="2" class="borderTop">
-          <div style="background-color: #8AE8FF">
+          <div style="background-color: #8AE8FF" class="<%= gVisible ? "" : "hidden" %>">
             G_87ss-h59.8
           </div>
         </td>
         <td rowspan="2" class="borderTop">
-          <div style="background-color: #09E10D">
+          <div style="background-color: #09E10D" class="<%= hVisible ? "" : "hidden" %>">
             H_92ss-v68.5
           </div>
         </td>
         <td rowspan="2" class="borderTop">
-          <div style="background-color: #FF2D21">
+          <div style="background-color: #FF2D21" class="<%= iVisible ? "" : "hidden" %>">
             I_52ss-h53.8
           </div>
         </td>
         <td rowspan="2" class="borderTop">
-          <div style="background-color: #3B57A7; color: #FF2D21">
+          <div style="background-color: #3B57A7; color: #FF2D21" class="<%= jVisible ? "" : "hidden" %>">
             J_609ss-u58.1
           </div>
         </td>
         <td rowspan="2" class="borderTop">
-          <div style="background-color: #55136C; color: #FF2D21">
+          <div style="background-color: #55136C; color: #FF2D21" class="<%= kVisible ? "" : "hidden" %>">
             K_523ss-u58.1
           </div>
         </td>
