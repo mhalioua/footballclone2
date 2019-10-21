@@ -422,7 +422,7 @@
         iVisible = game.kicked == "home" && (home_typc.to_f - away_typc.to_f) > 2 && (home_typai.to_f - away_typai.to_f) > 2
         jVisible = game.kicked == "away" && away_team_total.to_i < 155 && second_closer_spread && second_closer_spread < 0 && (home_result.to_i - away_result.to_i) > 10
         kVisible = home_typc.to_f < 3 && away_typc.to_f < 3
-        lVisible = game.kicked == "away" && (away_typc.to_f - home_typc.to_f) > 1 && home_typc.to_f < 3 && away_typc.to_f < 3 && away_result.to_i < home_result.to_i
+        lVisible = game.kicked == "away" && (away_typc.to_f - home_typc.to_f) > 1 && away_result.to_i < home_result.to_i
         mVisible = game.kicked == "home" && (home_typc.to_f - away_typc.to_f) > 2 && (home_typai.to_f - away_typai.to_f) > 2 && (home_result.to_i - away_result.to_i) > 11
       %>
       <tr style=<%= style %>>
