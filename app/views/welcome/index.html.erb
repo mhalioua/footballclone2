@@ -71,7 +71,7 @@
       <th width="100"></th>
       <th colspan="12">1st Half</th>
       <th colspan="2">Drives</th>
-      <th colspan="11">Ifs</th>
+      <th colspan="13">Ifs</th>
       <th width="30"></th>
       <th width="50"></th>
       <th width="50"></th>
@@ -104,7 +104,7 @@
       <th>LONGEST <br> RUSH</th>
       <th>1st Half</th>
       <th>2nd Half</th>
-      <th colspan="11">Ifs</th>
+      <th colspan="13">Ifs</th>
       <th width="30">FG score</th>
       <th width="50">2H Total yards</th>
       <th width="50">2H Rushing yards</th>
@@ -419,9 +419,11 @@
         fVisible = away_typc.to_f > 3 && away_typai.to_f > 10 && (home_result.to_i - away_result.to_i) > 10
         gVisible = home_typc.to_f > 3 && home_typai.to_f > 10 && (away_result.to_i - home_result.to_i) > 10
         hVisible = game.kicked == "away" && (away_typc.to_f - home_typc.to_f) > 1 && (away_typai.to_f - home_typai.to_f) > 3
-        iVisible = game.kicked == "home" && home_typc.to_f > 2 && home_typai.to_f > 3
+        iVisible = game.kicked == "home" && (home_typc.to_f - away_typc.to_f) > 2 && (home_typai.to_f - away_typai.to_f) > 2
         jVisible = game.kicked == "away" && away_team_total.to_i < 155 && second_closer_spread && second_closer_spread < 0 && (home_result.to_i - away_result.to_i) > 10
         kVisible = home_typc.to_f < 3 && away_typc.to_f < 3
+        lVisible = game.kicked == "away" && (away_typc.to_f - home_typc.to_f) > 1 && home_typc.to_f < 3 && away_typc.to_f < 3 && away_result.to_i < home_result.to_i
+        mVisible = game.kicked == "home" && (home_typc.to_f - away_typc.to_f) > 2 && (home_typai.to_f - away_typai.to_f) > 2 && (home_result.to_i - away_result.to_i) > 11
       %>
       <tr style=<%= style %>>
         <td class="borderTop"><%= game.away_number %></td>
@@ -518,6 +520,16 @@
         <td rowspan="2" class="borderTop">
           <div style="background-color: #55136C; color: #FF2D21" class="<%= kVisible ? "" : "hidden" %>">
             K_523ss-u58.1
+          </div>
+        </td>
+        <td rowspan="2" class="borderTop">
+          <div style="background-color: #73FDEA;" class="<%= lVisible ? "" : "hidden" %>">
+            L_299ss-v57.9
+          </div>
+        </td>
+        <td rowspan="2" class="borderTop">
+          <div style="background-color: #00A89D;" class="<%= mVisible ? "" : "hidden" %>">
+            M_431ss-h56.5
           </div>
         </td>
         <td class="borderTop"><%= away_full %></td>
