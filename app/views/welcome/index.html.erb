@@ -66,9 +66,9 @@
       <th width="50"></th>
       <th width="50"></th>
       <th width="150"></th>
-      <th width="170"></th>
-      <th width="170"></th>
-      <th width="170"></th>
+      <th width="100"></th>
+      <th width="100"></th>
+      <th width="100"></th>
       <th colspan="12">1st Half</th>
       <th colspan="2">Drives</th>
       <th colspan="11">Ifs</th>
@@ -418,8 +418,8 @@
         eVisible = game.kicked == "away" && away_typc.to_f > 2 && (away_c.to_f / away_att.to_f) > 0.55 && (home_result.to_i - away_result.to_i) > 10
         fVisible = away_typc.to_f > 3 && away_typai.to_f > 10 && (home_result.to_i - away_result.to_i) > 10
         gVisible = home_typc.to_f > 3 && home_typai.to_f > 10 && (away_result.to_i - home_result.to_i) > 10
-        hVisible = game.kicked == "away" && (away_typc.to_f - home_typc.to_f) > 1 && (away_typai.to_f - home_typai.to_f) > 3 && first_drive.to_i < 10
-        iVisible = game.kicked == "home" && home_typc.to_f > 2 && home_typai.to_f > 3 && first_drive.to_i < 10
+        hVisible = game.kicked == "away" && (away_typc.to_f - home_typc.to_f) > 1 && (away_typai.to_f - home_typai.to_f) > 3
+        iVisible = game.kicked == "home" && home_typc.to_f > 2 && home_typai.to_f > 3
         jVisible = game.kicked == "away" && away_team_total.to_i < 155 && second_closer_spread < 0 && (home_result.to_i - away_result.to_i) > 10
         kVisible = home_typc.to_f < 3 && away_typc.to_f < 3
       %>
