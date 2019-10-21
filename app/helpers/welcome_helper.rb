@@ -15,7 +15,7 @@ module WelcomeHelper
   end
 
   def lineToString(home, away)
-    return if home == nil || away == nil || home == '' || away == ''
+    return '', '' if home == nil || away == nil || home == '' || away == ''
     if home[0] == "-"
       spread = stringTofloat(home)
       total = stringTofloat(away)
