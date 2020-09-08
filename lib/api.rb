@@ -23,7 +23,7 @@ module Api
 			if count > 0
 				count -= 1
 				Timeout::timeout(3){
-					doc = Nokogiri::HTML(open(url, allow_redirections: :all))
+					doc = Nokogiri::HTML(open(url, allow_redirections: :false))
 				}
 			end
 		rescue => e

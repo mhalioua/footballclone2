@@ -141,10 +141,12 @@ namespace :setup do
       url = "http://www.espn.com/#{game_link}/game?gameId=#{game_id}"
       doc = download_document(url)
       puts url
-      element = doc.css(".game-date-time").first
-      game_date = element.children[1]['data-date']
+      if doc
+        element = doc.css(".game-date-time").first
+        game_date = element.children[1]['data-date']
 
-      game.update(away_team: away_team, home_team: home_team, game_type: game_type, home_abbr: home_abbr, away_abbr: away_abbr, game_date: game_date)
+        game.update(away_team: away_team, home_team: home_team, game_type: game_type, home_abbr: home_abbr, away_abbr: away_abbr, game_date: game_date)
+      end
     end
   end
 
@@ -165,25 +167,536 @@ namespace :setup do
       url = "http://www.espn.com/#{game_link}/matchup?gameId=#{game_id}"
       doc = download_document(url)
       puts url
-      element = doc.css(".game-time").first
-      game_status = element.text
+      if doc
+        element = doc.css(".game-time").first
+        game_status = element.text
 
-      game_state = 4
-      if game_status.include?("Canceled") || game_status.include?("TBD") || game_status.include?("Postponed") || game_status.include?("Delayed")
-        game_state = 6
-      elsif game_status.include?("Final")
-        game_state = 5
-      elsif game_status.include?("4th") || game_status.include?("3rd")
-        game_state = 3
-      elsif game_status.include?("Half")
-        game_state = 0
-      elsif game_status.include?("2nd")
-        game_state = 1
-      elsif game_status.include?("1st")
-        game_state = 2
+        game_state = 4
+        if game_status.include?("Canceled") || game_status.include?("TBD") || game_status.include?("Postponed") || game_status.include?("Delayed")
+          game_state = 6
+        elsif game_status.include?("Final")
+          game_state = 5
+        elsif game_status.include?("4th") || game_status.include?("3rd")
+          game_state = 3
+        elsif game_status.include?("Half")
+          game_state = 0
+        elsif game_status.include?("2nd")
+          game_state = 1
+        elsif game_status.include?("1st")
+          game_state = 2
+        end
+
+        if game_state < 3 || game_state == 5
+          scores = doc.css(".score")
+          away_result = scores[0].text
+          home_result = scores[1].text
+
+          td_elements = doc.css("#gamepackage-matchup td")
+          home_team_total = ""
+          away_team_total = ""
+          home_team_rushing = ""
+          away_team_rushing = ""
+          td_elements.each_slice(3) do |slice|
+            if slice[0].text.include?("Total Yards")
+              away_team_total = slice[1].text
+              home_team_total = slice[2].text
+            end
+            if slice[0].text.include?("Rushing") && !slice[0].text.include?("Rushing Attempts") && !slice[0].text.include?("Rushing 1st")
+              away_team_rushing = slice[1].text
+              home_team_rushing = slice[2].text
+              break
+            end
+          end
+
+          url = "http://www.espn.com/#{game_link}/boxscore?gameId=#{game_id}"
+          doc = download_document(url)
+          puts url
+          if doc
+            element = doc.css("#gamepackage-rushing .gamepackage-home-wrap .highlight td")
+            home_car = ""
+            home_ave_car = ""
+            home_rush_long = ""
+            if element.size > 5
+              home_car = element[1].text
+              home_ave_car = element[3].text
+              home_rush_long = element[5].text
+            end
+
+            element = doc.css("#gamepackage-rushing .gamepackage-away-wrap .highlight td")
+            away_car = ""
+            away_ave_car = ""
+            away_rush_long = ""
+            if element.size > 5
+              away_car = element[1].text
+              away_ave_car = element[3].text
+              away_rush_long = element[5].text
+            end
+
+            element = doc.css("#gamepackage-receiving .gamepackage-home-wrap .highlight td")
+            home_pass_long = ""
+            if element.size > 5
+              home_pass_long = element[5].text
+            end
+
+            element = doc.css("#gamepackage-receiving .gamepackage-away-wrap .highlight td")
+            away_pass_long = ""
+            if element.size > 5
+              away_pass_long = element[5].text
+            end
+
+            element = doc.css("#gamepackage-passing .gamepackage-home-wrap .highlight td")
+            home_c_att = ""
+            home_ave_att = ""
+            home_total_play = ""
+            home_play_yard = ""
+
+            if element.size > 5
+              home_c_att = element[1].text
+              home_ave_att = element[3].text
+
+              home_att_index = home_c_att.index("/")
+              home_total_play = home_car.to_i + home_c_att[home_att_index + 1..-1].to_i
+              home_play_yard = home_team_total.to_f / home_total_play
+            end
+
+            element = doc.css("#gamepackage-passing .gamepackage-away-wrap .highlight td")
+            away_c_att = ""
+            away_ave_att = ""
+            away_total_play = ""
+            away_play_yard = ""
+            if element.size > 5
+              away_c_att = element[1].text
+              away_ave_att = element[3].text
+
+              away_att_index = away_c_att.index("/")
+              away_total_play = away_car.to_i + away_c_att[away_att_index + 1..-1].to_i
+              away_play_yard = away_team_total.to_f / away_total_play
+            end
+
+            element = doc.css("#gamepackage-defensive .gamepackage-home-wrap .highlight td")
+            home_sacks = ""
+            if element.size > 3
+              home_sacks = element[3].text
+            end
+
+            element = doc.css("#gamepackage-defensive .gamepackage-away-wrap .highlight td")
+            away_sacks = ""
+            if element.size > 3
+              away_sacks = element[3].text
+            end
+
+
+            if game_state == 5
+              unless score = game.scores.find_by(result: "Final")
+                score = game.scores.create(result: "Final")
+              end
+              score.update(game_status: game_status, home_team_total: home_team_total, away_team_total: away_team_total, home_team_rushing: home_team_rushing, away_team_rushing: away_team_rushing, home_result: home_result, away_result: away_result, home_car: home_car, home_ave_car: home_ave_car, home_rush_long: home_rush_long, home_c_att: home_c_att, home_ave_att: home_ave_att, home_total_play: home_total_play, home_play_yard: home_play_yard, home_sacks: home_sacks, away_car: away_car, away_ave_car: away_ave_car, away_rush_long: away_rush_long, away_c_att: away_c_att, away_ave_att: away_ave_att, away_total_play: away_total_play, away_play_yard: away_play_yard, away_sacks: away_sacks, home_pass_long: home_pass_long, away_pass_long: away_pass_long)
+            elsif game_state < 3
+              unless score = game.scores.find_by(result: "Half")
+                score = game.scores.create(result: "Half")
+              end
+              if game_state == 2
+                game_status = "1Q"
+              elsif game_state == 1
+                game_time_index = game_status.index(" ")
+                game_status = game_status[0..game_time_index]
+                if game_status.index(":") == 1
+                  game_status = "0" + game_status
+                end
+              end
+              score.update(game_status: game_status, home_team_total: home_team_total, away_team_total: away_team_total, home_team_rushing: home_team_rushing, away_team_rushing: away_team_rushing, home_result: home_result, away_result: away_result, home_car: home_car, home_ave_car: home_ave_car, home_rush_long: home_rush_long, home_c_att: home_c_att, home_ave_att: home_ave_att, home_total_play: home_total_play, home_play_yard: home_play_yard, home_sacks: home_sacks, away_car: away_car, away_ave_car: away_ave_car, away_rush_long: away_rush_long, away_c_att: away_c_att, away_ave_att: away_ave_att, away_total_play: away_total_play, away_play_yard: away_play_yard, away_sacks: away_sacks, home_pass_long: home_pass_long, away_pass_long: away_pass_long)
+            end
+          end
+        end
+
+        kicked = game.kicked
+        first_drive = game.first_drive
+        second_drive = game.second_drive
+        if game_state < 3 || game_state == 5
+          url = "http://www.espn.com/#{game_link}/playbyplay?gameId=#{game_id}"
+          puts url
+          doc = download_document(url)
+          if doc
+            away_img = doc.css(".away img")
+            if away_img.size > 0
+              away_img = away_img[1]['src'][-20..-1]
+            else
+              away_image = "NoImage"
+            end
+            check_img = doc.css(".accordion-header img")
+            if game_state < 3
+              first_drive = check_img.size
+            elsif game_state == 5
+              second_drive = check_img.size
+              if game.first_drive.to_i == 0
+                check_img_detail = doc.css(".css-accordion .accordion-item")
+                check_img_detail.each_with_index do |element, index|
+                  if element.children.size == 3
+                    first_drive = index
+                    break
+                  end
+                end
+              end
+            end
+            if check_img.size > 0 && away_image != "NoImage"
+              if game_state < 4
+                check_img = check_img[check_img.size - 1]['src'][-20..-1]
+              else
+                check_img = check_img[0]['src'][-20..-1]
+              end
+              kicked = "away"
+              if check_img == away_img
+                kicked = "home"
+              end
+            end
+          end
+        end
+        if game.game_state == 1 && game_state == 0
+          game_status = Time.now
+        elsif game.game_state == 0 && game_state == 0
+          game_status = game.game_status
+        end
+        game.update(kicked: kicked, game_state: game_state, game_status: game_status, first_drive: first_drive, second_drive: second_drive)
       end
+    end
+  end
 
-      if game_state < 3 || game_state == 5
+  task :full, [:game_day] => [:environment] do |t, args|
+    include Api
+    game_day = args[:game_day]
+    games = Game.all
+
+    game_link = "college-football"
+    (0..1).each do |index|
+      puts game_day
+      url = "https://classic.sportsbookreview.com/betting-odds/#{game_link}/merged/?date=#{game_day}"
+      doc = download_document(url)
+      if doc
+        elements = doc.css(".event-holder")
+        elements.each do |element|
+          if element.children[0].children[3].children.size < 3
+            next
+          end
+          if element.children[0].children[5].children.size < 5
+            next
+          end
+          home_number = element.children[0].children[3].children[2].text
+          away_number = element.children[0].children[3].children[1].text
+          home_name = element.children[0].children[5].children[1].text
+          away_name = element.children[0].children[5].children[0].text
+          home_full_opener = element.children[0].children[7].children[1].text
+          away_full_opener = element.children[0].children[7].children[0].text
+          home_full_closer = element.children[0].children[9].children[1].text
+          away_full_closer = element.children[0].children[9].children[0].text
+          if home_full_closer === "" || away_full_closer === ""
+            home_full_closer = element.children[0].children[11].children[1].text
+            away_full_closer = element.children[0].children[11].children[0].text
+          end
+          if home_full_closer === "" || away_full_closer === ""
+            home_full_closer = element.children[0].children[14].children[1].text
+            away_full_closer = element.children[0].children[14].children[0].text
+          end
+          if home_full_closer === "" || away_full_closer === ""
+            home_full_closer = element.children[0].children[10].children[1].text
+            away_full_closer = element.children[0].children[10].children[0].text
+          end
+          if home_full_closer === "" || away_full_closer === ""
+            home_full_closer = element.children[0].children[12].children[1].text
+            away_full_closer = element.children[0].children[12].children[0].text
+          end
+          if home_full_closer === "" || away_full_closer === ""
+            home_full_closer = element.children[0].children[13].children[1].text
+            away_full_closer = element.children[0].children[13].children[0].text
+          end
+          if home_full_closer === "" || away_full_closer === ""
+            home_full_closer = element.children[0].children[15].children[1].text
+            away_full_closer = element.children[0].children[15].children[0].text
+          end
+          if home_full_closer === "" || away_full_closer === ""
+            home_full_closer = element.children[0].children[16].children[1].text
+            away_full_closer = element.children[0].children[16].children[0].text
+          end
+          if home_full_closer === "" || away_full_closer === ""
+            home_full_closer = element.children[0].children[17].children[1].text
+            away_full_closer = element.children[0].children[17].children[0].text
+          end
+          if home_full_closer === "" || away_full_closer === ""
+            home_full_closer = element.children[0].children[18].children[1].text
+            away_full_closer = element.children[0].children[18].children[0].text
+          end
+          ind = home_name.index(") ")
+          home_name = ind ? home_name[ind + 2..-1] : home_name
+          ind = away_name.index(") ")
+          away_name = ind ? away_name[ind + 2..-1] : away_name
+          ind = home_name.index(" (")
+          home_name = ind ? home_name[0..ind - 1] : home_name
+          ind = away_name.index(" (")
+          away_name = ind ? away_name[0..ind - 1] : away_name
+          game_time = element.children[0].children[4].text
+          ind = game_time.index(":")
+          hour = ind ? game_time[0..ind - 1].to_i : 0
+          min = ind ? game_time[ind + 1..ind + 3].to_i : 0
+          ap = game_time[-1]
+          if ap == "p" && hour != 12
+            hour = hour + 12
+          end
+          if ap == "a" && hour == 12
+            hour = 24
+          end
+          if @nicknames[home_name]
+            home_name = @nicknames[home_name]
+          end
+          if @nicknames[away_name]
+            away_name = @nicknames[away_name]
+          end
+          date = Time.new(game_day[0..3], game_day[4..5], game_day[6..7]).change(hour: 0, min: min).in_time_zone('Eastern Time (US & Canada)') + 5.hours + hour.hours
+          matched = games.select {|field| field.home_team.include?(home_name) && field.away_team.include?(away_name) && field.game_date == date}
+          if matched.size > 0
+            update_game = matched.first
+            update_game.update(
+                home_number: home_number,
+                away_number: away_number,
+                home_full_closer: home_full_closer,
+                away_full_closer: away_full_closer,
+                home_full_opener: home_full_opener,
+                away_full_opener: away_full_opener)
+          end
+          matched = games.select {|field| field.home_team.include?(away_name) && field.away_team.include?(home_name) && field.game_date == date}
+          if matched.size > 0
+            update_game = matched.first
+            update_game.update(
+                home_number: away_number,
+                away_number: home_number,
+                home_full_closer: away_full_closer,
+                away_full_closer: home_full_closer,
+                home_full_opener: away_full_opener,
+                away_full_opener: home_full_opener)
+          end
+        end
+      end
+      game_link = "nfl-football"
+    end
+  end
+
+  task :second, [:game_day] => [:environment] do |t, args|
+    include Api
+
+    game_day = args[:game_day]
+    games = Game.all
+
+    game_link = "college-football"
+    (0..1).each do |index|
+      url = "https://classic.sportsbookreview.com/betting-odds/#{game_link}/merged/2nd-half/?date=#{game_day}"
+      doc = download_document(url)
+      puts url
+      if doc
+        elements = doc.css(".event-holder")
+        elements.each do |element|
+          if element.children[0].children[3].children.size < 3
+            next
+          end
+          home_number = element.children[0].children[3].children[2].text.to_i
+          away_number = element.children[0].children[3].children[1].text.to_i
+          home_second_opener = element.children[0].children[7].children[1].text
+          away_second_opener = element.children[0].children[7].children[0].text
+          home_second_closer = element.children[0].children[9].children[1].text
+          away_second_closer = element.children[0].children[9].children[0].text
+          if home_second_closer === "" || away_second_closer === ""
+            home_second_closer = element.children[0].children[11].children[1].text
+            away_second_closer = element.children[0].children[11].children[0].text
+          end
+          if home_second_closer === "" || away_second_closer === ""
+            home_second_closer = element.children[0].children[14].children[1].text
+            away_second_closer = element.children[0].children[14].children[0].text
+          end
+          if home_second_closer === "" || away_second_closer === ""
+            home_second_closer = element.children[0].children[10].children[1].text
+            away_second_closer = element.children[0].children[10].children[0].text
+          end
+          if home_second_closer === "" || away_second_closer === ""
+            home_second_closer = element.children[0].children[12].children[1].text
+            away_second_closer = element.children[0].children[12].children[0].text
+          end
+          if home_second_closer === "" || away_second_closer === ""
+            home_second_closer = element.children[0].children[13].children[1].text
+            away_second_closer = element.children[0].children[13].children[0].text
+          end
+          if home_second_closer === "" || away_second_closer === ""
+            home_second_closer = element.children[0].children[15].children[1].text
+            away_second_closer = element.children[0].children[15].children[0].text
+          end
+          if home_second_closer === "" || away_second_closer === ""
+            home_second_closer = element.children[0].children[16].children[1].text
+            away_second_closer = element.children[0].children[16].children[0].text
+          end
+          if home_second_closer === "" || away_second_closer === ""
+            home_second_closer = element.children[0].children[17].children[1].text
+            away_second_closer = element.children[0].children[17].children[0].text
+          end
+          if home_second_closer === "" || away_second_closer === ""
+            home_second_closer = element.children[0].children[18].children[1].text
+            away_second_closer = element.children[0].children[18].children[0].text
+          end
+          game_time = element.children[0].children[4].text
+          ind = game_time.index(":")
+          hour = ind ? game_time[0..ind - 1].to_i : 0
+          min = ind ? game_time[ind + 1..ind + 3].to_i : 0
+          ap = game_time[-1]
+          if ap == "p" && hour != 12
+            hour = hour + 12
+          end
+          if ap == "a" && hour == 12
+            hour = 24
+          end
+          date = Time.new(game_day[0..3], game_day[4..5], game_day[6..7]).change(hour: 0, min: min).in_time_zone('Eastern Time (US & Canada)') + 5.hours + hour.hours
+          matched = games.select {|field| (field.home_number == home_number && field.away_number == away_number && field.game_date == date)}
+          if matched.size > 0
+            update_game = matched.first
+            update_game.update(
+                home_second_closer: home_second_closer,
+                away_second_closer: away_second_closer,
+                home_second_opener: home_second_opener,
+                away_second_opener: away_second_opener
+            )
+          end
+          matched = games.select {|field| (field.home_number == away_number && field.away_number == home_number && field.game_date == date)}
+          if matched.size > 0
+            update_game = matched.first
+            update_game.update(
+                home_second_closer: away_second_closer,
+                away_second_closer: home_second_closer,
+                home_second_opener: away_second_opener,
+                away_second_opener: home_second_opener
+            )
+          end
+        end
+      end
+      game_link = "nfl-football"
+    end
+  end
+
+  task :first, [:game_day] => [:environment] do |t, args|
+    include Api
+
+    game_day = args[:game_day]
+    games = Game.all
+
+    game_link = "college-football"
+    (0..1).each do |index|
+      url = "https://classic.sportsbookreview.com/betting-odds/#{game_link}/merged/1st-half/?date=#{game_day}"
+      doc = download_document(url)
+      puts url
+      if doc
+        elements = doc.css(".event-holder")
+        elements.each do |element|
+          if element.children[0].children[3].children.size < 3
+            next
+          end
+          home_number = element.children[0].children[3].children[2].text.to_i
+          away_number = element.children[0].children[3].children[1].text.to_i
+          home_first_opener = element.children[0].children[7].children[1].text
+          away_first_opener = element.children[0].children[7].children[0].text
+          home_first_closer = element.children[0].children[9].children[1].text
+          away_first_closer = element.children[0].children[9].children[0].text
+          if home_first_closer === "" || away_first_closer === ""
+            home_first_closer = element.children[0].children[11].children[1].text
+            away_first_closer = element.children[0].children[11].children[0].text
+          end
+          if home_first_closer === "" || away_first_closer === ""
+            home_first_closer = element.children[0].children[14].children[1].text
+            away_first_closer = element.children[0].children[14].children[0].text
+          end
+          if home_first_closer === "" || away_first_closer === ""
+            home_first_closer = element.children[0].children[10].children[1].text
+            away_first_closer = element.children[0].children[10].children[0].text
+          end
+          if home_first_closer === "" || away_first_closer === ""
+            home_first_closer = element.children[0].children[12].children[1].text
+            away_first_closer = element.children[0].children[12].children[0].text
+          end
+          if home_first_closer === "" || away_first_closer === ""
+            home_first_closer = element.children[0].children[13].children[1].text
+            away_first_closer = element.children[0].children[13].children[0].text
+          end
+          if home_first_closer === "" || away_first_closer === ""
+            home_first_closer = element.children[0].children[15].children[1].text
+            away_first_closer = element.children[0].children[15].children[0].text
+          end
+          if home_first_closer === "" || away_first_closer === ""
+            home_first_closer = element.children[0].children[16].children[1].text
+            away_first_closer = element.children[0].children[16].children[0].text
+          end
+          if home_first_closer === "" || away_first_closer === ""
+            home_first_closer = element.children[0].children[17].children[1].text
+            away_first_closer = element.children[0].children[17].children[0].text
+          end
+          if home_first_closer === "" || away_first_closer === ""
+            home_first_closer = element.children[0].children[18].children[1].text
+            away_first_closer = element.children[0].children[18].children[0].text
+          end
+          game_time = element.children[0].children[4].text
+          ind = game_time.index(":")
+          hour = ind ? game_time[0..ind - 1].to_i : 0
+          min = ind ? game_time[ind + 1..ind + 3].to_i : 0
+          ap = game_time[-1]
+          if ap == "p" && hour != 12
+            hour = hour + 12
+          end
+          if ap == "a" && hour == 12
+            hour = 24
+          end
+          date = Time.new(game_day[0..3], game_day[4..5], game_day[6..7]).change(hour: 0, min: min).in_time_zone('Eastern Time (US & Canada)') + 5.hours + hour.hours
+          matched = games.select {|field| (field.home_number == home_number && field.away_number == away_number && field.game_date == date)}
+          if matched.size > 0
+            update_game = matched.first
+            update_game.update(
+                home_first_closer: home_first_closer,
+                away_first_closer: away_first_closer,
+                home_first_opener: home_first_opener,
+                away_first_opener: away_first_opener
+            )
+          end
+          matched = games.select {|field| (field.home_number == away_number && field.away_number == home_number && field.game_date == date)}
+          if matched.size > 0
+            update_game = matched.first
+            update_game.update(
+                home_first_closer: away_first_closer,
+                away_first_closer: home_first_closer,
+                home_first_opener: away_first_opener,
+                away_first_opener: home_first_opener
+            )
+          end
+        end
+      end
+      game_link = "nfl-football"
+    end
+  end
+
+  task :tensecond => :environment do
+    include Api
+    games = Game.where(game_state: "1")
+    puts "10secs - #{games.size}"
+
+    games.each do |game|
+      game_link = "college-football"
+      game_type = game.game_type
+      if game_type == "NFL"
+        game_link = "nfl"
+      end
+      game_id = game.game_id
+
+      url = "http://www.espn.com/#{game_link}/matchup?gameId=#{game_id}"
+      doc = download_document(url)
+      if doc
+        puts url
+        element = doc.css(".game-time").first
+        game_status = element.text
+
+        game_state = 0
+        if game_status.include?("2nd")
+          game_state = 1
+        end
+
         scores = doc.css(".score")
         away_result = scores[0].text
         home_result = scores[1].text
@@ -204,10 +717,11 @@ namespace :setup do
             break
           end
         end
-
-        url = "http://www.espn.com/#{game_link}/boxscore?gameId=#{game_id}"
-        doc = download_document(url)
-        puts url
+      end
+      url = "http://www.espn.com/#{game_link}/boxscore?gameId=#{game_id}"
+      doc = download_document(url)
+      puts url
+      if doc
         element = doc.css("#gamepackage-rushing .gamepackage-home-wrap .highlight td")
         home_car = ""
         home_ave_car = ""
@@ -281,526 +795,30 @@ namespace :setup do
           away_sacks = element[3].text
         end
 
-
-        if game_state == 5
-          unless score = game.scores.find_by(result: "Final")
-            score = game.scores.create(result: "Final")
-          end
-          score.update(game_status: game_status, home_team_total: home_team_total, away_team_total: away_team_total, home_team_rushing: home_team_rushing, away_team_rushing: away_team_rushing, home_result: home_result, away_result: away_result, home_car: home_car, home_ave_car: home_ave_car, home_rush_long: home_rush_long, home_c_att: home_c_att, home_ave_att: home_ave_att, home_total_play: home_total_play, home_play_yard: home_play_yard, home_sacks: home_sacks, away_car: away_car, away_ave_car: away_ave_car, away_rush_long: away_rush_long, away_c_att: away_c_att, away_ave_att: away_ave_att, away_total_play: away_total_play, away_play_yard: away_play_yard, away_sacks: away_sacks, home_pass_long: home_pass_long, away_pass_long: away_pass_long)
-        elsif game_state < 3
-          unless score = game.scores.find_by(result: "Half")
-            score = game.scores.create(result: "Half")
-          end
-          if game_state == 2
-            game_status = "1Q"
-          elsif game_state == 1
-            game_time_index = game_status.index(" ")
-            game_status = game_status[0..game_time_index]
-            if game_status.index(":") == 1
-              game_status = "0" + game_status
-            end
-          end
-          score.update(game_status: game_status, home_team_total: home_team_total, away_team_total: away_team_total, home_team_rushing: home_team_rushing, away_team_rushing: away_team_rushing, home_result: home_result, away_result: away_result, home_car: home_car, home_ave_car: home_ave_car, home_rush_long: home_rush_long, home_c_att: home_c_att, home_ave_att: home_ave_att, home_total_play: home_total_play, home_play_yard: home_play_yard, home_sacks: home_sacks, away_car: away_car, away_ave_car: away_ave_car, away_rush_long: away_rush_long, away_c_att: away_c_att, away_ave_att: away_ave_att, away_total_play: away_total_play, away_play_yard: away_play_yard, away_sacks: away_sacks, home_pass_long: home_pass_long, away_pass_long: away_pass_long)
+        unless score = game.scores.find_by(result: "Half")
+          score = game.scores.create(result: "Half")
         end
-      end
 
-      kicked = game.kicked
-      first_drive = game.first_drive
-      second_drive = game.second_drive
-      if game_state < 3 || game_state == 5
-        url = "http://www.espn.com/#{game_link}/playbyplay?gameId=#{game_id}"
-        puts url
-        doc = download_document(url)
-        away_img = doc.css(".away img")
-        if away_img.size > 0
-          away_img = away_img[1]['src'][-20..-1]
-        else
-          away_image = "NoImage"
-        end
-        check_img = doc.css(".accordion-header img")
-        if game_state < 3
-          first_drive = check_img.size
-        elsif game_state == 5
-          second_drive = check_img.size
-          if game.first_drive.to_i == 0
-            check_img_detail = doc.css(".css-accordion .accordion-item")
-            check_img_detail.each_with_index do |element, index|
-              if element.children.size == 3
-                first_drive = index
-                break
-              end
-            end
+        if game_state == 1
+          game_time_index = game_status.index(" ")
+          game_status = game_status[0..game_time_index]
+          if game_status.index(":") == 1
+            game_status = "0" + game_status
           end
         end
-        if check_img.size > 0 && away_image != "NoImage"
-          if game_state < 4
-            check_img = check_img[check_img.size - 1]['src'][-20..-1]
-          else
-            check_img = check_img[0]['src'][-20..-1]
-          end
-          kicked = "away"
-          if check_img == away_img
-            kicked = "home"
-          end
-        end
+        score.update(game_status: game_status, home_team_total: home_team_total, away_team_total: away_team_total, home_team_rushing: home_team_rushing, away_team_rushing: away_team_rushing, home_result: home_result, away_result: away_result, home_car: home_car, home_ave_car: home_ave_car, home_rush_long: home_rush_long, home_c_att: home_c_att, home_ave_att: home_ave_att, home_total_play: home_total_play, home_play_yard: home_play_yard, home_sacks: home_sacks, away_car: away_car, away_ave_car: away_ave_car, away_rush_long: away_rush_long, away_c_att: away_c_att, away_ave_att: away_ave_att, away_total_play: away_total_play, away_play_yard: away_play_yard, away_sacks: away_sacks, home_pass_long: home_pass_long, away_pass_long: away_pass_long)
       end
-      if game.game_state == 1 && game_state == 0
-        game_status = Time.now
-      elsif game.game_state == 0 && game_state == 0
-        game_status = game.game_status
-      end
-      game.update(kicked: kicked, game_state: game_state, game_status: game_status, first_drive: first_drive, second_drive: second_drive)
-    end
-  end
-
-  task :full, [:game_day] => [:environment] do |t, args|
-    include Api
-    game_day = args[:game_day]
-    games = Game.all
-
-    game_link = "college-football"
-    (0..1).each do |index|
-      puts game_day
-      url = "https://classic.sportsbookreview.com/betting-odds/#{game_link}/merged/?date=#{game_day}"
-      doc = download_document(url)
-      elements = doc.css(".event-holder")
-      elements.each do |element|
-        if element.children[0].children[3].children.size < 3
-          next
-        end
-        if element.children[0].children[5].children.size < 5
-          next
-        end
-        home_number = element.children[0].children[3].children[2].text
-        away_number = element.children[0].children[3].children[1].text
-        home_name = element.children[0].children[5].children[1].text
-        away_name = element.children[0].children[5].children[0].text
-        home_full_opener = element.children[0].children[7].children[1].text
-        away_full_opener = element.children[0].children[7].children[0].text
-        home_full_closer = element.children[0].children[9].children[1].text
-        away_full_closer = element.children[0].children[9].children[0].text
-        if home_full_closer === "" || away_full_closer === ""
-          home_full_closer = element.children[0].children[11].children[1].text
-          away_full_closer = element.children[0].children[11].children[0].text
-        end
-        if home_full_closer === "" || away_full_closer === ""
-          home_full_closer = element.children[0].children[14].children[1].text
-          away_full_closer = element.children[0].children[14].children[0].text
-        end
-        if home_full_closer === "" || away_full_closer === ""
-          home_full_closer = element.children[0].children[10].children[1].text
-          away_full_closer = element.children[0].children[10].children[0].text
-        end
-        if home_full_closer === "" || away_full_closer === ""
-          home_full_closer = element.children[0].children[12].children[1].text
-          away_full_closer = element.children[0].children[12].children[0].text
-        end
-        if home_full_closer === "" || away_full_closer === ""
-          home_full_closer = element.children[0].children[13].children[1].text
-          away_full_closer = element.children[0].children[13].children[0].text
-        end
-        if home_full_closer === "" || away_full_closer === ""
-          home_full_closer = element.children[0].children[15].children[1].text
-          away_full_closer = element.children[0].children[15].children[0].text
-        end
-        if home_full_closer === "" || away_full_closer === ""
-          home_full_closer = element.children[0].children[16].children[1].text
-          away_full_closer = element.children[0].children[16].children[0].text
-        end
-        if home_full_closer === "" || away_full_closer === ""
-          home_full_closer = element.children[0].children[17].children[1].text
-          away_full_closer = element.children[0].children[17].children[0].text
-        end
-        if home_full_closer === "" || away_full_closer === ""
-          home_full_closer = element.children[0].children[18].children[1].text
-          away_full_closer = element.children[0].children[18].children[0].text
-        end
-        ind = home_name.index(") ")
-        home_name = ind ? home_name[ind + 2..-1] : home_name
-        ind = away_name.index(") ")
-        away_name = ind ? away_name[ind + 2..-1] : away_name
-        ind = home_name.index(" (")
-        home_name = ind ? home_name[0..ind - 1] : home_name
-        ind = away_name.index(" (")
-        away_name = ind ? away_name[0..ind - 1] : away_name
-        game_time = element.children[0].children[4].text
-        ind = game_time.index(":")
-        hour = ind ? game_time[0..ind - 1].to_i : 0
-        min = ind ? game_time[ind + 1..ind + 3].to_i : 0
-        ap = game_time[-1]
-        if ap == "p" && hour != 12
-          hour = hour + 12
-        end
-        if ap == "a" && hour == 12
-          hour = 24
-        end
-        if @nicknames[home_name]
-          home_name = @nicknames[home_name]
-        end
-        if @nicknames[away_name]
-          away_name = @nicknames[away_name]
-        end
-        date = Time.new(game_day[0..3], game_day[4..5], game_day[6..7]).change(hour: 0, min: min).in_time_zone('Eastern Time (US & Canada)') + 5.hours + hour.hours
-        matched = games.select {|field| field.home_team.include?(home_name) && field.away_team.include?(away_name) && field.game_date == date}
-        if matched.size > 0
-          update_game = matched.first
-          update_game.update(
-              home_number: home_number,
-              away_number: away_number,
-              home_full_closer: home_full_closer,
-              away_full_closer: away_full_closer,
-              home_full_opener: home_full_opener,
-              away_full_opener: away_full_opener)
-        end
-        matched = games.select {|field| field.home_team.include?(away_name) && field.away_team.include?(home_name) && field.game_date == date}
-        if matched.size > 0
-          update_game = matched.first
-          update_game.update(
-              home_number: away_number,
-              away_number: home_number,
-              home_full_closer: away_full_closer,
-              away_full_closer: home_full_closer,
-              home_full_opener: away_full_opener,
-              away_full_opener: home_full_opener)
-        end
-      end
-      game_link = "nfl-football"
-    end
-  end
-
-  task :second, [:game_day] => [:environment] do |t, args|
-    include Api
-
-    game_day = args[:game_day]
-    games = Game.all
-
-    game_link = "college-football"
-    (0..1).each do |index|
-      url = "https://classic.sportsbookreview.com/betting-odds/#{game_link}/merged/2nd-half/?date=#{game_day}"
-      doc = download_document(url)
-      puts url
-      elements = doc.css(".event-holder")
-      elements.each do |element|
-        if element.children[0].children[3].children.size < 3
-          next
-        end
-        home_number = element.children[0].children[3].children[2].text.to_i
-        away_number = element.children[0].children[3].children[1].text.to_i
-        home_second_opener = element.children[0].children[7].children[1].text
-        away_second_opener = element.children[0].children[7].children[0].text
-        home_second_closer = element.children[0].children[9].children[1].text
-        away_second_closer = element.children[0].children[9].children[0].text
-        if home_second_closer === "" || away_second_closer === ""
-          home_second_closer = element.children[0].children[11].children[1].text
-          away_second_closer = element.children[0].children[11].children[0].text
-        end
-        if home_second_closer === "" || away_second_closer === ""
-          home_second_closer = element.children[0].children[14].children[1].text
-          away_second_closer = element.children[0].children[14].children[0].text
-        end
-        if home_second_closer === "" || away_second_closer === ""
-          home_second_closer = element.children[0].children[10].children[1].text
-          away_second_closer = element.children[0].children[10].children[0].text
-        end
-        if home_second_closer === "" || away_second_closer === ""
-          home_second_closer = element.children[0].children[12].children[1].text
-          away_second_closer = element.children[0].children[12].children[0].text
-        end
-        if home_second_closer === "" || away_second_closer === ""
-          home_second_closer = element.children[0].children[13].children[1].text
-          away_second_closer = element.children[0].children[13].children[0].text
-        end
-        if home_second_closer === "" || away_second_closer === ""
-          home_second_closer = element.children[0].children[15].children[1].text
-          away_second_closer = element.children[0].children[15].children[0].text
-        end
-        if home_second_closer === "" || away_second_closer === ""
-          home_second_closer = element.children[0].children[16].children[1].text
-          away_second_closer = element.children[0].children[16].children[0].text
-        end
-        if home_second_closer === "" || away_second_closer === ""
-          home_second_closer = element.children[0].children[17].children[1].text
-          away_second_closer = element.children[0].children[17].children[0].text
-        end
-        if home_second_closer === "" || away_second_closer === ""
-          home_second_closer = element.children[0].children[18].children[1].text
-          away_second_closer = element.children[0].children[18].children[0].text
-        end
-        game_time = element.children[0].children[4].text
-        ind = game_time.index(":")
-        hour = ind ? game_time[0..ind - 1].to_i : 0
-        min = ind ? game_time[ind + 1..ind + 3].to_i : 0
-        ap = game_time[-1]
-        if ap == "p" && hour != 12
-          hour = hour + 12
-        end
-        if ap == "a" && hour == 12
-          hour = 24
-        end
-        date = Time.new(game_day[0..3], game_day[4..5], game_day[6..7]).change(hour: 0, min: min).in_time_zone('Eastern Time (US & Canada)') + 5.hours + hour.hours
-        matched = games.select {|field| (field.home_number == home_number && field.away_number == away_number && field.game_date == date)}
-        if matched.size > 0
-          update_game = matched.first
-          update_game.update(
-              home_second_closer: home_second_closer,
-              away_second_closer: away_second_closer,
-              home_second_opener: home_second_opener,
-              away_second_opener: away_second_opener
-          )
-        end
-        matched = games.select {|field| (field.home_number == away_number && field.away_number == home_number && field.game_date == date)}
-        if matched.size > 0
-          update_game = matched.first
-          update_game.update(
-              home_second_closer: away_second_closer,
-              away_second_closer: home_second_closer,
-              home_second_opener: away_second_opener,
-              away_second_opener: home_second_opener
-          )
-        end
-      end
-      game_link = "nfl-football"
-    end
-  end
-
-  task :first, [:game_day] => [:environment] do |t, args|
-    include Api
-
-    game_day = args[:game_day]
-    games = Game.all
-
-    game_link = "college-football"
-    (0..1).each do |index|
-      url = "https://classic.sportsbookreview.com/betting-odds/#{game_link}/merged/1st-half/?date=#{game_day}"
-      doc = download_document(url)
-      puts url
-      elements = doc.css(".event-holder")
-      elements.each do |element|
-        if element.children[0].children[3].children.size < 3
-          next
-        end
-        home_number = element.children[0].children[3].children[2].text.to_i
-        away_number = element.children[0].children[3].children[1].text.to_i
-        home_first_opener = element.children[0].children[7].children[1].text
-        away_first_opener = element.children[0].children[7].children[0].text
-        home_first_closer = element.children[0].children[9].children[1].text
-        away_first_closer = element.children[0].children[9].children[0].text
-        if home_first_closer === "" || away_first_closer === ""
-          home_first_closer = element.children[0].children[11].children[1].text
-          away_first_closer = element.children[0].children[11].children[0].text
-        end
-        if home_first_closer === "" || away_first_closer === ""
-          home_first_closer = element.children[0].children[14].children[1].text
-          away_first_closer = element.children[0].children[14].children[0].text
-        end
-        if home_first_closer === "" || away_first_closer === ""
-          home_first_closer = element.children[0].children[10].children[1].text
-          away_first_closer = element.children[0].children[10].children[0].text
-        end
-        if home_first_closer === "" || away_first_closer === ""
-          home_first_closer = element.children[0].children[12].children[1].text
-          away_first_closer = element.children[0].children[12].children[0].text
-        end
-        if home_first_closer === "" || away_first_closer === ""
-          home_first_closer = element.children[0].children[13].children[1].text
-          away_first_closer = element.children[0].children[13].children[0].text
-        end
-        if home_first_closer === "" || away_first_closer === ""
-          home_first_closer = element.children[0].children[15].children[1].text
-          away_first_closer = element.children[0].children[15].children[0].text
-        end
-        if home_first_closer === "" || away_first_closer === ""
-          home_first_closer = element.children[0].children[16].children[1].text
-          away_first_closer = element.children[0].children[16].children[0].text
-        end
-        if home_first_closer === "" || away_first_closer === ""
-          home_first_closer = element.children[0].children[17].children[1].text
-          away_first_closer = element.children[0].children[17].children[0].text
-        end
-        if home_first_closer === "" || away_first_closer === ""
-          home_first_closer = element.children[0].children[18].children[1].text
-          away_first_closer = element.children[0].children[18].children[0].text
-        end
-        game_time = element.children[0].children[4].text
-        ind = game_time.index(":")
-        hour = ind ? game_time[0..ind - 1].to_i : 0
-        min = ind ? game_time[ind + 1..ind + 3].to_i : 0
-        ap = game_time[-1]
-        if ap == "p" && hour != 12
-          hour = hour + 12
-        end
-        if ap == "a" && hour == 12
-          hour = 24
-        end
-        date = Time.new(game_day[0..3], game_day[4..5], game_day[6..7]).change(hour: 0, min: min).in_time_zone('Eastern Time (US & Canada)') + 5.hours + hour.hours
-        matched = games.select {|field| (field.home_number == home_number && field.away_number == away_number && field.game_date == date)}
-        if matched.size > 0
-          update_game = matched.first
-          update_game.update(
-              home_first_closer: home_first_closer,
-              away_first_closer: away_first_closer,
-              home_first_opener: home_first_opener,
-              away_first_opener: away_first_opener
-          )
-        end
-        matched = games.select {|field| (field.home_number == away_number && field.away_number == home_number && field.game_date == date)}
-        if matched.size > 0
-          update_game = matched.first
-          update_game.update(
-              home_first_closer: away_first_closer,
-              away_first_closer: home_first_closer,
-              home_first_opener: away_first_opener,
-              away_first_opener: home_first_opener
-          )
-        end
-      end
-      game_link = "nfl-football"
-    end
-  end
-
-  task :tensecond => :environment do
-    include Api
-    games = Game.where(game_state: "1")
-    puts "10secs - #{games.size}"
-
-    games.each do |game|
-      game_link = "college-football"
-      game_type = game.game_type
-      if game_type == "NFL"
-        game_link = "nfl"
-      end
-      game_id = game.game_id
-
-      url = "http://www.espn.com/#{game_link}/matchup?gameId=#{game_id}"
-      doc = download_document(url)
-      puts url
-      element = doc.css(".game-time").first
-      game_status = element.text
-
-      game_state = 0
-      if game_status.include?("2nd")
-        game_state = 1
-      end
-
-      scores = doc.css(".score")
-      away_result = scores[0].text
-      home_result = scores[1].text
-
-      td_elements = doc.css("#gamepackage-matchup td")
-      home_team_total = ""
-      away_team_total = ""
-      home_team_rushing = ""
-      away_team_rushing = ""
-      td_elements.each_slice(3) do |slice|
-        if slice[0].text.include?("Total Yards")
-          away_team_total = slice[1].text
-          home_team_total = slice[2].text
-        end
-        if slice[0].text.include?("Rushing") && !slice[0].text.include?("Rushing Attempts") && !slice[0].text.include?("Rushing 1st")
-          away_team_rushing = slice[1].text
-          home_team_rushing = slice[2].text
-          break
-        end
-      end
-
-      url = "http://www.espn.com/#{game_link}/boxscore?gameId=#{game_id}"
-      doc = download_document(url)
-      puts url
-      element = doc.css("#gamepackage-rushing .gamepackage-home-wrap .highlight td")
-      home_car = ""
-      home_ave_car = ""
-      home_rush_long = ""
-      if element.size > 5
-        home_car = element[1].text
-        home_ave_car = element[3].text
-        home_rush_long = element[5].text
-      end
-
-      element = doc.css("#gamepackage-rushing .gamepackage-away-wrap .highlight td")
-      away_car = ""
-      away_ave_car = ""
-      away_rush_long = ""
-      if element.size > 5
-        away_car = element[1].text
-        away_ave_car = element[3].text
-        away_rush_long = element[5].text
-      end
-
-      element = doc.css("#gamepackage-receiving .gamepackage-home-wrap .highlight td")
-      home_pass_long = ""
-      if element.size > 5
-        home_pass_long = element[5].text
-      end
-
-      element = doc.css("#gamepackage-receiving .gamepackage-away-wrap .highlight td")
-      away_pass_long = ""
-      if element.size > 5
-        away_pass_long = element[5].text
-      end
-
-      element = doc.css("#gamepackage-passing .gamepackage-home-wrap .highlight td")
-      home_c_att = ""
-      home_ave_att = ""
-      home_total_play = ""
-      home_play_yard = ""
-
-      if element.size > 5
-        home_c_att = element[1].text
-        home_ave_att = element[3].text
-
-        home_att_index = home_c_att.index("/")
-        home_total_play = home_car.to_i + home_c_att[home_att_index + 1..-1].to_i
-        home_play_yard = home_team_total.to_f / home_total_play
-      end
-
-      element = doc.css("#gamepackage-passing .gamepackage-away-wrap .highlight td")
-      away_c_att = ""
-      away_ave_att = ""
-      away_total_play = ""
-      away_play_yard = ""
-      if element.size > 5
-        away_c_att = element[1].text
-        away_ave_att = element[3].text
-
-        away_att_index = away_c_att.index("/")
-        away_total_play = away_car.to_i + away_c_att[away_att_index + 1..-1].to_i
-        away_play_yard = away_team_total.to_f / away_total_play
-      end
-
-      element = doc.css("#gamepackage-defensive .gamepackage-home-wrap .highlight td")
-      home_sacks = ""
-      if element.size > 3
-        home_sacks = element[3].text
-      end
-
-      element = doc.css("#gamepackage-defensive .gamepackage-away-wrap .highlight td")
-      away_sacks = ""
-      if element.size > 3
-        away_sacks = element[3].text
-      end
-
-      unless score = game.scores.find_by(result: "Half")
-        score = game.scores.create(result: "Half")
-      end
-
-      if game_state == 1
-        game_time_index = game_status.index(" ")
-        game_status = game_status[0..game_time_index]
-        if game_status.index(":") == 1
-          game_status = "0" + game_status
-        end
-      end
-      score.update(game_status: game_status, home_team_total: home_team_total, away_team_total: away_team_total, home_team_rushing: home_team_rushing, away_team_rushing: away_team_rushing, home_result: home_result, away_result: away_result, home_car: home_car, home_ave_car: home_ave_car, home_rush_long: home_rush_long, home_c_att: home_c_att, home_ave_att: home_ave_att, home_total_play: home_total_play, home_play_yard: home_play_yard, home_sacks: home_sacks, away_car: away_car, away_ave_car: away_ave_car, away_rush_long: away_rush_long, away_c_att: away_c_att, away_ave_att: away_ave_att, away_total_play: away_total_play, away_play_yard: away_play_yard, away_sacks: away_sacks, home_pass_long: home_pass_long, away_pass_long: away_pass_long)
-
       url = "http://www.espn.com/#{game_link}/playbyplay?gameId=#{game_id}"
       doc = download_document(url)
-      check_img = doc.css(".accordion-header img")
-      first_drive = check_img.size
+      if doc
+        check_img = doc.css(".accordion-header img")
+        first_drive = check_img.size
 
-      if game.game_state == 1 && game_state == 0
-        game_status = Time.now
+        if game.game_state == 1 && game_state == 0
+          game_status = Time.now
+        end
+        game.update(game_state: game_state, game_status: game_status, first_drive: first_drive)
       end
-      game.update(game_state: game_state, game_status: game_status, first_drive: first_drive)
     end
   end
 
