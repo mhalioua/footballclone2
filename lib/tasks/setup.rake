@@ -2991,7 +2991,7 @@ namespace :setup do
           home_play_yard: home_play_yard)
     end
   end
-
+ 
   @nicknames = {
       "Hawaii" => "Hawai'i",
       "Brigham Young" => "BYU",
